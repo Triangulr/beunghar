@@ -2,9 +2,31 @@ import { useUser } from '@clerk/nextjs';
 import styles from '../styles/MembersPage.module.css';
 import Head from 'next/head';
 import { SignInButton, UserButton } from '@clerk/nextjs';
+import { useState, useEffect } from 'react';
 
 export default function MembersPage() {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
+  const [loading, setLoading] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFadeOut(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!isLoaded || loading) {
+    return (
+      <div className={`${styles.loaderContainer} ${fadeOut ? styles.fadeOut : ''}`}>
+        <span className={styles.loader}></span>
+      </div>
+    );
+  }
 
   if (!isSignedIn) {
     return (
