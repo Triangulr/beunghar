@@ -57,7 +57,6 @@ export default function Home() {
       <header>
         <div className="container">
           <div className="header-left">
-            <a id="userEmail" className="email-link" href="mailto:user@example.com">User's Email</a>
           </div>
           <nav1>
                 <div className="nav-container">

@@ -1,9 +1,7 @@
 // Ensure the DOM is fully loaded before running scripts
+const videoSection = document.getElementById('video-section');
+const video = document.getElementById('dynamic-video');
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Video scaling on scroll
-    const videoSection = document.getElementById('video-section');
-    const video = document.getElementById('dynamic-video');
     if (videoSection && video) {
         window.addEventListener('scroll', () => {
             const sectionRect = videoSection.getBoundingClientRect();
@@ -46,7 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         showTestimonial(currentIndex); // Show the first testimonial
     }
-});
+
+    // Set the user's email address dynamically
+    const userEmail = 'user@example.com';
+    const userEmailElement = document.getElementById('userEmail');
+    if (userEmailElement) {
+        userEmailElement.href = `mailto:${userEmail}`;
+        userEmailElement.textContent = userEmail;
+    }
 
 
 // Function to show a specific section
@@ -81,10 +86,6 @@ function navigateToModule(moduleId) {
     }
   }
 
-// Set the user's email address dynamically
-const userEmail = 'user@example.com';
-document.getElementById('userEmail').href = `mailto:${userEmail}`;
-document.getElementById('userEmail').textContent = userEmail;
 
 // Smooth scrolling
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -93,10 +94,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
     });
 });
-
-// Video scaling on scroll
-const videoSection = document.getElementById('video-section');
-const video = document.getElementById('dynamic-video');
 
 window.addEventListener('scroll', () => {
 const sectionRect = videoSection.getBoundingClientRect();
