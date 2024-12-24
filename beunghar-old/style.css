@@ -100,12 +100,6 @@ nav {
     background-color: #f0f0f0; 
 }  
 
-.logo {
-    font-size: 2em;
-    font-weight: bold;
-    color: #fff;
-}
-
 .hamburger {
     display: inline-block;
     cursor: pointer;
@@ -168,19 +162,6 @@ nav {
     opacity: 0;
 }
 
-.hamburger.active .hamburger-inner {
-    transform: rotate(45deg);
-}
-
-.hamburger.active .hamburger-inner::before {
-    transform: rotate(-90deg);
-    top: 0;
-}
-
-.hamburger.active .hamburger-inner::after {
-    opacity: 0;
-}
-
 
 .fullscreen-menu {
     display: none; 
@@ -189,8 +170,8 @@ nav {
     width: 100%;
     height: 100vh; 
     background: rgba(0, 0, 0, 0.985);
-    z-index: 1200;
-    text-align: center;
+    z-index: 1000; 
+    text-align: center; 
     justify-content: center; 
     align-items: center;
     flex-direction: column; 
@@ -257,6 +238,46 @@ nav {
 .btn:hover {
     background-color: #e09424;
     transform: translateY(-2px);
+}
+
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6); /* Black with opacity */
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;
+    position: relative;
+}
+
+.close-button {
+    color: black;
+    float: right;
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal {
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;
+}
+
+.modal.show {
+    display: block;
+    opacity: 1;
 }
 
 .hero-section {
@@ -518,18 +539,29 @@ nav {
 }
 
 .faq-section {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    flex-wrap: wrap;
+    background-color: #fff;
+    padding: 80px 20px;
+    border-radius: 15px;
+    margin: 50px auto;
+    max-width: 1200px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.faq-container{
+.faq-section h2 {
+    font-size: 2.8em;
+    font-weight: bold;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.faq-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 10px 30px;
+    gap: 30px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0 20px;
 }
 
 .faq-item {
@@ -538,7 +570,6 @@ nav {
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    margin-bottom: 30px;
 }
 
 .faq-item h3 {
@@ -553,7 +584,239 @@ nav {
     line-height: 1.6;
 }
 
-/* Footer */
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .about-us-section, .faq-section {
+        padding: 50px 15px;
+    }
+
+    .about-us-section h2, .faq-section h2 {
+        font-size: 2em;
+    }
+
+    .faq-container {
+        gap: 20px;
+    }
+
+    .faq-item h3 {
+        font-size: 1.2em;
+    }
+
+    .faq-item p {
+        font-size: 1em;
+    }
+}
+
+.about-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 20px;
+    text-align: center;
+    background-color: var(--light-color);
+    border-radius: 15px;
+    margin: 50px auto;
+    max-width: 1200px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.about-section-h2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 3em;
+    font-weight: bold;
+    color: black;
+    margin: 50px auto;
+}
+
+.about-section p {
+    font-size: 1.2em;
+    color: #444;
+    margin: 20px 0;
+    line-height: 1.8;
+    max-width: 800px;
+}
+
+.about-section img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    margin: 30px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.about-section .btn {
+    margin-top: 30px;
+    padding: 12px 24px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.about-section .btn:hover {
+    background-color: #e09424;
+    transform: translateY(-2px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .about-section {
+        padding: 50px 15px;
+    }
+
+    .about-section h2 {
+        font-size: 2.5em;
+    }
+
+    .about-section p {
+        font-size: 1em;
+        margin: 15px 0;
+    }
+
+    .about-section img {
+        max-width: 300px;
+    }
+
+    .about-section .btn {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+}
+
+/* General Section Styling */
+.team-section {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: var(--light-color);
+}
+
+.team-section h2 {
+    font-size: 2.8rem;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* Card Layout */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.column {
+    flex: 1 1 calc(33.333% - 20px);
+    max-width: 300px;
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* Card Content Styling */
+.container2 {
+    padding: 20px;
+}
+
+.container2 h2 {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.container2 .title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.container2 p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* Button Styling */
+.button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.button:hover {
+    background-color: #e09424;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .row {
+        gap: 15px;
+    }
+
+    .column {
+        flex: 1 1 calc(50% - 15px);
+    }
+
+    .team-section h2 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .column {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .team-section h2 {
+        font-size: 2rem;
+    }
+
+    .container2 h2 {
+        font-size: 1.4rem;
+    }
+
+    .button {
+        font-size: 0.9rem;
+    }
+}
+
 footer {
     background-color: black; 
     color: white;
@@ -584,52 +847,95 @@ footer {
     }
 }
 
+/* Modal Styling */
 .modal {
-    display: none; 
+    display: none; /* Hidden by default */
     position: fixed;
-    z-index: 10;
+    z-index: 1000; /* Ensure it appears above other content */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.6); /* Black with opacity */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
 }
 
+/* Modal Content Box */
 .modal-content {
-    background-color: white;
-    margin: 10% auto;
+    background-color: #fff;
+    margin: 10% auto; /* Center the modal */
     padding: 20px;
     border-radius: 10px;
-    width: 80%;
-    max-width: 400px;
-    position: relative;
+    width: 90%; /* Responsive width */
+    max-width: 500px; /* Maximum width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    animation: fadeIn 0.3s ease-in-out; /* Add animation */
 }
 
-.close-button {
-    color: black;
+/* Close Button */
+.modal-content .close {
+    color: #aaa;
     float: right;
-    font-size: 1.5em;
+    font-size: 28px;
     font-weight: bold;
     cursor: pointer;
 }
 
-.modal {
-    transition: opacity 0.3s ease-in-out;
-    opacity: 1;
+.modal-content .close:hover,
+.modal-content .close:focus {
+    color: #000;
+    text-decoration: none;
 }
 
-.modal.show {
-    display: block;
-    opacity: 1;
+/* Form Elements in Modal */
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-body {
-    margin: 0;
-    padding: 0;
+.modal-content label {
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
-/* Override Clerk button styles if needed */
-.cl-userButtonBox {
-    scale: 1.2;
+.modal-content input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modal-content button {
+    background-color: var(--primary-color, #007bff);
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: var(--secondary-color, #0056b3);
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%; /* Adjust for smaller screens */
+    }
 }

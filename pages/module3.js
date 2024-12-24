@@ -34,9 +34,9 @@ export default function Module3() {
       </header>
 
       <main className="module-content">
-        <h1 className="module-title">Module 3 Master the skills</h1>
+        <h1 className="module-title">Module 3: Master the skills</h1>
         <p className="module-summary">
-          Master the leasons and perfect your skills
+          Master the lessons and perfect your skills
         </p>
       </main>
 
@@ -52,9 +52,9 @@ export default function Module3() {
             <div className="progress-fill"></div>
           </div>
           <ul className="progress-details">
-            <li>Lesson 1</li>
-            <li>Lesson 2</li>
-            <li>Lesson 3</li>
+            <li>Lesson 1: In-Depth review</li>
+            <li>Lesson 2: The thought</li>
+            <li>Lesson 3: Test your skill</li>
           </ul>
           <button className="progress-button">Mark Step as Complete</button>
         </div>
@@ -63,18 +63,16 @@ export default function Module3() {
       <section className="lesson-details">
         <h2>Lesson Details</h2>
         <article>
-          <h3>Lesson 1: Advanced Topic Overview</h3>
-          <p>This lesson provides an introduction to advanced topics, setting the stage for in-depth exploration.</p>
+          <h3>Lesson 1: In-Depth review</h3>
+          <p>A callback to the previous lessons...</p>
         </article>
-
         <article>
-          <h3>Lesson 2: Deep Dive into Methods</h3>
-          <p>We explore advanced methods and techniques to tackle complex challenges efficiently.</p>
+          <h3>Lesson 2: The thought</h3>
+          <p>Grab the ideas that gather in your mind...</p>
         </article>
-
         <article>
-          <h3>Lesson 3: Practical Applications</h3>
-          <p>Concluding the module, this lesson demonstrates how to apply advanced concepts in real-world scenarios.</p>
+          <h3>Lesson 3: Practical Example</h3>
+          <p>Test the limits of your capability...</p>
         </article>
       </section>
 
@@ -83,7 +81,7 @@ export default function Module3() {
       </div>
 
       <footer>
-        <p>&copy; 2024 Your Learning Platform</p>
+        <p>© 2024 Learning Platform</p>
       </footer>
     </>
   );

@@ -59,9 +59,15 @@ export default function Home() {
           <div className="header-left">
             <a id="userEmail" className="email-link" href="mailto:user@example.com">User's Email</a>
           </div>
-          <h1 className="logo">Beunghar.com</h1>
+          <nav1>
+                <div className="nav-container">
+                  <div className="logo">
+                    <img src="/logo/Beunghar-FINAL4.png" alt="Logo" />
+                  </div>
+                </div>
+            </nav1>              
           <nav>
-            <button className="hamburger js-menu-toggle" type="button" aria-label="Menu" aria-controls="nav-container" onClick={toggleMenu}>
+            <button className="hamburger hamburger--elastic hamburger--squeeze js-menu-toggle" type="button" aria-label="Menu" aria-controls="nav-container" onClick={toggleMenu}>
               <span className="d-none d-md-inline"></span>
               <span className="hamburger-box">
                 <span className="hamburger-inner"></span>
@@ -187,7 +193,7 @@ export default function Home() {
       </section>
 
       <section id="faq" className="faq-section">
-          <div className="container">
+          <div className="container1">
               <h2>Frequently Asked Questions</h2>
               <div className="faq-item">
                   <h3>How long is the course?</h3>
@@ -222,13 +228,15 @@ export default function Home() {
           <h1>About Us Page</h1>
           <p> What we do </p>
         </div>
-
-        <h2 style={{ textAlign: 'center' }}>Our Team</h2>
+      
+      <div className="about-section-h2">
+        <h2>Our Team</h2>
+      </div>
         <div className="row">
           <div className="column">
             <div className="card">
               <img src="/img/big.jpg" alt="Jane" style={{ width: '100%' }} />
-              <div className="container">
+              <div className="container2">
                 <h2>Jane Doe</h2>
                 <p className="title">CEO & Founder</p>
                 <p>Some text that describes me lorem ipsum ipsum lorem.</p>
@@ -241,7 +249,7 @@ export default function Home() {
           <div className="column">
             <div className="card">
               <img src="/img/mike-ross.jpg" alt="Mike" style={{ width: '100%' }} />
-              <div className="container">
+              <div className="container2">
                 <h2>Mike Ross</h2>
                 <p className="title">Art Director</p>
                 <p>Some text that describes me lorem ipsum ipsum lorem.</p>
@@ -254,7 +262,7 @@ export default function Home() {
           <div className="column">
             <div className="card">
               <img src="/img/big.jpg" alt="John" style={{ width: '100%' }} />
-              <div className="container">
+              <div className="container2">
                 <h2>John Doe</h2>
                 <p className="title">Designer</p>
                 <p>Some text that describes me lorem ipsum ipsum lorem.</p>
@@ -271,14 +279,12 @@ export default function Home() {
           <p>Register now and we’ll show you some ‘magic’.</p>
           <button className="btn hero-btn">Get Started</button>
         </div>
-        <nav>
           <ul className="nav-menu">
             <li><a href="#home">Home</a></li>
             <li><a href="#reviews">Reviews</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#sign-in">Login</a></li>
           </ul>
-        </nav>
       </footer>
 
       <Script src="/script.js" defer />
