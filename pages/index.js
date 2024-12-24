@@ -5,20 +5,6 @@ import { useEffect, useState } from 'react';
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
-  const openModal = (modalId) => {
-    const modal = document.getElementById('userModal');
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
-
-    if (modalId === 'login') {
-      loginForm.style.display = 'block';
-      registerForm.style.display = 'none';
-    } else if (modalId === 'register') {
-      registerForm.style.display = 'block';
-      loginForm.style.display = 'none';
-    }
-    modal.style.display = 'block';
-  };
 
   const toggleMenu = () => {
     const navbar = document.getElementById('nav-container');
@@ -86,50 +72,11 @@ export default function Home() {
                       <li><a href="#home" onClick={toggleMenu}>Home</a></li>
                       <li><a href="reviews.html" onClick={toggleMenu}>Reviews</a></li>
                       <li><a href="#faq" onClick={toggleMenu}>FAQ</a></li>
-                      <li><a href="#login" onClick={() => openModal('login')}>Login</a></li>
-                      <li><a href="#register" onClick={() => openModal('register')}>Register</a></li>
                   </ul>
               </nav>
           </nav>
         </div>
       </header>
-
-      {/* Login/Register Modal */}
-      <div id="userModal" className="modal" style={{ display: 'none' }}>
-        <div className="modal-content">
-          <span className="close" onClick={() => document.getElementById('userModal').style.display = 'none'}>&times;</span>
-          <div id="loginForm">
-            <h2>Login</h2>
-            <form>
-              <label htmlFor="loginEmail">Email:</label>
-              <input type="email" id="loginEmail" name="loginEmail" placeholder="Enter your email" required />
-
-              <label htmlFor="loginPassword">Password:</label>
-              <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter your password" required />
-
-              <button type="submit">Login</button>
-            </form>
-            <p>Don't have an account? <a href="#" id="showRegisterForm" onClick={() => openModal('register')}>Register here</a></p>
-          </div>
-
-          <div id="registerForm" style={{ display: 'none' }}>
-            <h2>Register</h2>
-            <form>
-              <label htmlFor="registerName">Name:</label>
-              <input type="text" id="registerName" name="registerName" placeholder="Enter your name" required />
-
-              <label htmlFor="registerEmail">Email:</label>
-              <input type="email" id="registerEmail" name="registerEmail" placeholder="Enter your email" required />
-
-              <label htmlFor="registerPassword">Password:</label>
-              <input type="password" id="registerPassword" name="registerPassword" placeholder="Create a password" required />
-
-              <button type="submit">Register</button>
-            </form>
-            <p>Already have an account? <a href="#" id="showLoginForm" onClick={() => openModal('login')}>Login here</a></p>
-          </div>
-        </div>
-      </div>
 
       <section id="home" className="hero-section">
         <div className="background-image-container">
@@ -143,7 +90,7 @@ export default function Home() {
           <h1>Entrepreneurship on Steroids</h1>
           <h2>How I made $ 83,498.62 in a Year</h2>
           <p>Starting a business is difficult. It doesn't need to be. We have the System, Education, Mentorship, Community all in a box</p>
-          <button className="btn hero-btn" onClick={() => openModal('register')}>Get Started</button>
+          <button className="btn hero-btn">Get Started</button>
         </div>
       </section>
 

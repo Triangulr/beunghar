@@ -66,13 +66,6 @@ function showSection(id) {
     }
 }
 
-// Function to check membership status
-function checkMembership() {
-    const hasMembership = confirm("Do you have a membership? Click 'OK' for Yes and 'Cancel' for No.");
-    showSection(hasMembership ? 'members-area' : 'sign-in');
-}
-
-
 // Navigation to specific modules
 function navigateToModule(moduleId) {
     const moduleRoutes = {
@@ -86,7 +79,7 @@ function navigateToModule(moduleId) {
     } else {
         console.error('Module not found');
     }
-}
+  }
 
 // Set the user's email address dynamically
 const userEmail = 'user@example.com';
@@ -138,34 +131,6 @@ document.querySelectorAll('details').forEach((faq) => {
         }
     });
 });
-
-function openModal(modalId) {
-    const modal = document.getElementById(modalId + 'Modal');
-    if (modal) {
-        modal.style.display = 'block';
-    } else {
-        console.error('Modal with ID ' + modalId + ' not found.');
-    }
-}
-
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = 'none';
-    } else {
-        console.error('Modal with ID ' + modalId + ' not found.');
-    }
-}
-
-// Optional: Close modal when clicking outside
-window.onclick = function(event) {
-    const modals = document.getElementsByClassName('modal');
-    Array.from(modals).forEach((modal) => {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-};
 
 document.addEventListener("DOMContentLoaded", () => {
     const progressTrackers = document.querySelectorAll(".progress-tracker");
