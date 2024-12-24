@@ -90,7 +90,7 @@ export default function Home() {
           <h1>Entrepreneurship on Steroids</h1>
           <h2>How I made $ 83,498.62 in a Year</h2>
           <p>Starting a business is difficult. It doesn't need to be. We have the System, Education, Mentorship, Community all in a box</p>
-          <button className="btn hero-btn">Get Started</button>
+          <button className="btn hero-btn" onClick={() => window.location.href = '/members'}>Get Started</button>
         </div>
       </section>
 

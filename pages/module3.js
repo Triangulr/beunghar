@@ -1,6 +1,23 @@
 import Head from 'next/head';
+import { useUser } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
 
 export default function Module3() {
+  const { isLoaded, isSignedIn } = useUser();
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      window.location.href = '/members';
+    } else if (isLoaded && isSignedIn) {
+      setIsAuthorized(true);
+    }
+  }, [isLoaded, isSignedIn]);
+
+  if (!isAuthorized) {
+    return null;
+  }
+
   return (
     <>
       <Head>
