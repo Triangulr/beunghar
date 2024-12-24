@@ -1,7 +1,7 @@
 import { useUser } from '@clerk/nextjs';
 import styles from '../styles/MembersPage.module.css';
 import Head from 'next/head';
-import { UserButton } from '@clerk/nextjs';
+import { SignInButton, UserButton } from '@clerk/nextjs';
 
 export default function MembersPage() {
   const { isSignedIn } = useUser();
@@ -12,9 +12,11 @@ export default function MembersPage() {
         <div className={styles.signInContainer}>
           <h1>Members Area</h1>
           <p>Please sign in to access exclusive content</p>
-          <button className={styles.signInButton} onClick={() => window.location.href = '/sign-in'}>
-            Sign In to Continue
-          </button>
+          <SignInButton mode="modal">
+            <button className={styles.signInButton}>
+              Sign In to Continue
+            </button>
+          </SignInButton>
         </div>
       </div>
     );
