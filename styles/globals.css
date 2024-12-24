@@ -614,3 +614,13 @@ footer {
         width: 95%; /* Adjust for smaller screens */
     }
 }
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Override Clerk button styles if needed */
+.cl-userButtonBox {
+    scale: 1.2;
+}
