@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import '../styles/module2.css';
 
 export default function Module2() {
   return (
