@@ -42,18 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Load the default section
-    showSection('home');
-
-    // Event listener for login form submission
-    const loginForm = document.getElementById('login-form');
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            handleLogin(email, password);
-        });
-    }
+    showSection('home')
 
     // Testimonial slider
     const testimonials = document.querySelectorAll('.testimonial-item');
@@ -101,55 +90,6 @@ function checkMembership() {
     showSection(hasMembership ? 'members-area' : 'sign-in');
 }
 
-// Function to handle login logic
-function handleLogin(email, password) {
-    if (!email || !password) {
-        displayError('Please enter both email and password.');
-        return;
-    }
-
-    fetch('http://localhost:5000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Invalid email or password');
-            }
-            return response.json();
-        })
-        .then(() => {
-            alert('Login successful!');
-            showSection('members-area');
-        })
-        .catch(error => displayError(error.message));
-}
-
-// Function to handle registration logic
-function handleRegistration(email, password) {
-    if (!email || !password) {
-        displayError('Please enter both email and password.');
-        return;
-    }
-
-    fetch('http://localhost:5000/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('User already exists');
-            }
-            return response.json();
-        })
-        .then(() => {
-            alert('Registration successful! You can now log in.');
-            showSection('sign-in');
-        })
-        .catch(error => displayError(error.message));
-}
 
 // Navigation to specific modules
 function navigateToModule(moduleId) {
