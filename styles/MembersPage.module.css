@@ -146,7 +146,26 @@
   .signInContainer {
     padding: 2rem;
   }
-} 
+}
+
+.payButton {
+  display: inline-block;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #ffab40, #ff8000);
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 500;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.payButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 171, 64, 0.4);
+}
 
 .loaderContainer {
   position: fixed;
@@ -225,4 +244,181 @@
     box-shadow: 0 0 0 1rem #fff;
     opacity: 1;
   }
-} 
+}
+
+.premiumStatus {
+  background: rgba(26, 26, 26, 0.7);
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 2px solid #FFD700;
+  margin: 2rem 0;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.premiumStatus p:first-child {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.premiumStatus p:last-child {
+  margin: 0.5rem 0 0;
+  color: #ccc;
+  font-size: 1rem;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.2);
+  }
+  to {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+  }
+}
+
+.premiumStatus:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+.membershipContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.membershipContainer p {
+  margin: 0.5rem 0;
+}
+
+.payButton {
+  margin-top: 1rem;
+  padding: 0.8rem 2rem;
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.payButton:hover {
+  background-color: #f57c00;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(26, 26, 26, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal {
+  background: #1a1a1a;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  animation: slideIn 0.5s ease-out;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  color: white;
+  border: 1px solid #333;
+}
+
+.successIcon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: #4CAF50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: scaleIn 0.5s ease-out;
+}
+
+.checkmark {
+  width: 40px;
+  height: 40px;
+  animation: checkmark 0.5s ease-out 0.5s both;
+}
+
+.modal h2 {
+  color: #fff;
+  margin: 1rem 0;
+}
+
+.modal p {
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes checkmark {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.upgradingText {
+  margin-top: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
