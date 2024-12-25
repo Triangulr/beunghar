@@ -45,8 +45,8 @@ const SuccessModal = ({ onClose }) => {
   );
 };
 
-const MAX_RETRIES = 5;
-const RETRY_DELAY = 2000; // 2 seconds
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 3000;
 
 export default function MembersPage() {
   const { isSignedIn, isLoaded } = useUser();
@@ -57,33 +57,30 @@ export default function MembersPage() {
   const [fadeOut, setFadeOut] = useState(false);
 
   const syncUserData = async (retries = 0) => {
-    if (user) {
-      try {
-        const response = await fetch('https://beunghar-api.onrender.com/api/sync-user', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ userId: user.id, email: user.emailAddresses[0].emailAddress }),
-        });
-        if (response.ok) {
-          const data = await response.json();
-          if (data.membershipStatus === 'premium' || retries >= MAX_RETRIES) {
-            setMembershipStatus(data.membershipStatus);
-            return true;
-          } else if (retries < MAX_RETRIES) {
-            // If still not premium, wait and retry
-            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
-            return syncUserData(retries + 1);
-          }
-        } else {
-          console.error('Failed to sync user data');
-          return false;
+    if (!user || retries >= MAX_RETRIES) return false;
+
+    try {
+      const response = await fetch('https://beunghar-api.onrender.com/api/sync-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId: user.id, email: user.emailAddresses[0].emailAddress }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setMembershipStatus(data.membershipStatus);
+        
+        // Only continue retrying if not premium
+        if (data.membershipStatus !== 'premium' && retries < MAX_RETRIES) {
+          await new Promise(resolve => setTimeout(resolve, RETRY_DELAY * (retries + 1))); // Exponential backoff
+          return syncUserData(retries + 1);
         }
-      } catch (error) {
-        console.error('Error syncing user data:', error);
-        return false;
+        return data.membershipStatus === 'premium';
       }
+    } catch (error) {
+      console.error('Error syncing user data:', error);
     }
     return false;
   };
@@ -150,13 +147,13 @@ export default function MembersPage() {
             console.log('success', result);
             setShowSuccessModal(true);
             
-            // Start polling for status update
+            // More controlled polling with maximum 3 attempts
             let retryCount = 0;
             const pollStatus = async () => {
               const updated = await syncUserData();
-              if (!updated && retryCount < MAX_RETRIES) {
+              if (!updated && retryCount < 2) { // Only retry twice after initial attempt
                 retryCount++;
-                setTimeout(pollStatus, RETRY_DELAY);
+                setTimeout(pollStatus, RETRY_DELAY * (retryCount + 1)); // Exponential backoff
               }
             };
             
@@ -201,7 +198,7 @@ export default function MembersPage() {
       />
       <div className={styles.membersPage}>
         <div className={styles.userButtonContainer}>
-          <UserButton afterSignOutUrl="/" />
+          <UserButton signOutUrl="/members" />
         </div>
         <div className={styles.content}>
           <h1>Welcome to Your Course</h1>
@@ -209,12 +206,13 @@ export default function MembersPage() {
           
           <div className={styles.membershipContainer}>
             {membershipStatus === 'free' ? (
-              <>
-                <p>Current Membership: Free</p>
+              <div className={styles.freeStatus}>
+                <p>🔓 Free Member</p>
+                <p>Upgrade to unlock all course modules!</p>
                 <button className={styles.payButton} onClick={handlePayment}>
                   Upgrade to Premium
                 </button>
-              </>
+              </div>
             ) : membershipStatus === 'premium' ? (
               <div className={styles.premiumStatus}>
                 <p>✨ Premium Member ✨</p>

@@ -422,3 +422,45 @@
     opacity: 1;
   }
 }
+
+.freeStatus {
+  background: rgba(26, 26, 26, 0.7);
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 2px solid #ccc;
+  margin: 2rem 0;
+  transition: transform 0.2s ease;
+}
+
+.freeStatus p:first-child {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.freeStatus p:last-child {
+  margin: 0.5rem 0 0;
+  color: #ccc;
+  font-size: 1rem;
+}
+
+.freeStatus:hover {
+  transform: translateY(-2px);
+}
+
+.freeStatus .payButton {
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #ffab40, #ff8000);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.freeStatus .payButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 171, 64, 0.4);
+}
