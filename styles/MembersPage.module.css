@@ -464,3 +464,14 @@
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(255, 171, 64, 0.4);
 }
+
+:global(.cl-modalBackdrop) {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+:global(.cl-card) {
+  margin: 0 !important;
+  transform: none !important;
+}

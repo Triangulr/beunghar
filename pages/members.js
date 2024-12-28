@@ -114,11 +114,13 @@ export default function MembersPage() {
         <div className={styles.signInContainer}>
           <h1>Members Area</h1>
           <p>Please sign in to access exclusive content</p>
-          <SignInButton mode="modal">
-            <button className={styles.signInButton}>
-              Sign In to Continue
-            </button>
-          </SignInButton>
+          <div className={styles.signInButtonWrapper}>
+            <SignInButton mode="modal">
+              <button className={styles.signInButton}>
+                Sign In to Continue
+              </button>
+            </SignInButton>
+          </div>
         </div>
       </div>
     );
