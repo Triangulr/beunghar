@@ -125,11 +125,11 @@ const AffiliateModal = ({ isOpen, onClose }) => {
       >
         <div className={styles.affiliateModalContent}>
           <div className={styles.affiliateModalHeader}>
-            <h2 className={styles.affiliateModalTitle}>Affiliate Program</h2>
+            <h2 className={styles.affiliateModalTitle}>Affiliate Settings</h2>
             <button className={styles.closeButton} onClick={onClose}>×</button>
           </div>
           <div className={styles.affiliateContent}>
-            <p>Join our affiliate program and earn commissions by sharing our courses!</p>
+            <p>Set your affiliate settings here!</p>
             
             <div className={styles.imageUploadSection}>
               {imageUrl ? (
@@ -334,7 +334,7 @@ export default function MembersPage() {
                 className={styles.pillButton}
                 onClick={() => setShowAffiliateModal(true)}
               >
-                Affiliate Program
+                Affiliate Settings
               </button>
               <UserButton signOutUrl="/members" />
             </div>
