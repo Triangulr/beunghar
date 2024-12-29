@@ -637,7 +637,6 @@ nav {
     }
 }
 
-/* General Section Styling */
 .team-section {
     padding: 60px 20px;
     text-align: center;
@@ -652,7 +651,6 @@ nav {
     letter-spacing: 1.5px;
 }
 
-/* Card Layout */
 .row {
     display: flex;
     flex-wrap: wrap;
@@ -687,7 +685,6 @@ nav {
     border-bottom: 2px solid var(--primary-color);
 }
 
-/* Card Content Styling */
 .container2 {
     padding: 20px;
 }
@@ -712,7 +709,6 @@ nav {
     margin-bottom: 10px;
 }
 
-/* Button Styling */
 .button {
     background-color: var(--primary-color);
     color: white;
