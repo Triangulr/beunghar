@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Script from 'next/script';
 import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 
@@ -22,6 +23,10 @@ export default function Module1() {
     <>
       <Head>
         <title>Module 1 - In-Depth Lessons</title>
+        <link 
+          href="https://assets.calendly.com/assets/external/widget.css" 
+          rel="stylesheet"
+        />
       </Head>
       <header>
         <nav>
@@ -84,6 +89,19 @@ export default function Module1() {
       <footer>
         <p>© 2024 Learning Platform</p>
       </footer>
+
+      <Script
+        src="https://assets.calendly.com/assets/external/widget.js"
+        strategy="lazyOnload"
+        onLoad={() => {
+          window.Calendly.initBadgeWidget({
+            url: 'https://calendly.com/beunghar/meet-the-man?hide_gdpr_banner=1&primary_color=f2630d',
+            text: 'Schedule a Meeting',
+            color: '#f2630d',
+            textColor: '#ffffff'
+          });
+        }}
+      />
     </>
   );
 }
