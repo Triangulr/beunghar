@@ -30,7 +30,8 @@ body {
     transition: background-color 0.5s ease;
 }
 
-header {
+/* Only target the header on the main landing page */
+body:not(.members-page) header {
     position: fixed;
     top: 0;
     width: 100%;
@@ -40,7 +41,11 @@ header {
     z-index: 1000;
     transition: background-color 0.3s ease, padding 0.3s ease;
     padding: 15px 0;
-    
+}
+
+/* Add this class to your members page */
+.members-page header {
+    display: none;
 }
 
 .container {
