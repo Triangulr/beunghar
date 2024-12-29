@@ -553,7 +553,216 @@ nav {
     line-height: 1.6;
 }
 
-/* Footer */
+.about-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 20px;
+    text-align: center;
+    background-color: var(--light-color);
+    border-radius: 15px;
+    margin: 50px auto;
+    max-width: 1200px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.about-section-h2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 3em;
+    font-weight: bold;
+    color: black;
+    margin: 50px auto;
+}
+
+.about-section p {
+    font-size: 1.2em;
+    color: #444;
+    margin: 20px 0;
+    line-height: 1.8;
+    max-width: 800px;
+}
+
+.about-section img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    margin: 30px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.about-section .btn {
+    margin-top: 30px;
+    padding: 12px 24px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.about-section .btn:hover {
+    background-color: #e09424;
+    transform: translateY(-2px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .about-section {
+        padding: 50px 15px;
+    }
+
+    .about-section h2 {
+        font-size: 2.5em;
+    }
+
+    .about-section p {
+        font-size: 1em;
+        margin: 15px 0;
+    }
+
+    .about-section img {
+        max-width: 300px;
+    }
+
+    .about-section .btn {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+}
+
+/* General Section Styling */
+.team-section {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: var(--light-color);
+}
+
+.team-section h2 {
+    font-size: 2.8rem;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* Card Layout */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.column {
+    flex: 1 1 calc(33.333% - 20px);
+    max-width: 300px;
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* Card Content Styling */
+.container2 {
+    padding: 20px;
+}
+
+.container2 h2 {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.container2 .title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.container2 p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* Button Styling */
+.button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.button:hover {
+    background-color: #e09424;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .row {
+        gap: 15px;
+    }
+
+    .column {
+        flex: 1 1 calc(50% - 15px);
+    }
+
+    .team-section h2 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .column {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .team-section h2 {
+        font-size: 2rem;
+    }
+
+    .container2 h2 {
+        font-size: 1.4rem;
+    }
+
+    .button {
+        font-size: 0.9rem;
+    }
+}
+
 footer {
     background-color: black; 
     color: white;
