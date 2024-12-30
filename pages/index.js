@@ -119,88 +119,125 @@ export default function Home() {
         </video>
       </section>
 
-      <section className="py-24 px-6 bg-slate-50 dark:bg-slate-900">
-        <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 text-slate-900 dark:text-white">
+      <section className="py-24 px-6 bg-slate-50 dark:bg-slate-900 overflow-hidden">
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          <h2 className="text-4xl font-bold text-slate-900 dark:text-white">
             What Our Students Say
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200">
+        </div>
+        
+        {/* First Row - Scrolling Left */}
+        <div className="relative">
+          <div className="flex space-x-6 animate-scroll-left">
+            {/* First set of cards */}
+            <Card className="min-w-[500px] bg-white dark:bg-slate-800">
               <CardHeader>
                 <CardTitle>John Doe</CardTitle>
                 <CardDescription>Business Owner</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-slate-600 dark:text-slate-300 italic">
-                  "This course changed my life! The knowledge I gained has been invaluable 
-                  to my business journey. I've seen a 3x increase in my revenue since 
-                  implementing these strategies."
+                  "This course changed my life! The knowledge I gained has been invaluable to my business journey. 
+                  I've seen a 3x increase in my revenue since implementing these strategies."
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200">
+            <Card className="min-w-[500px] bg-white dark:bg-slate-800">
               <CardHeader>
                 <CardTitle>Jane Smith</CardTitle>
                 <CardDescription>Startup Founder</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-slate-600 dark:text-slate-300 italic">
-                  "I gained practical skills that I use every day. The mentorship and 
-                  community support made all the difference. This was one of the best 
-                  investments in myself."
+                  "I gained practical skills that I use every day. The mentorship and community support made all the difference. 
+                  This was one of the best investments in myself."
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200">
+            <Card className="min-w-[500px] bg-white dark:bg-slate-800">
               <CardHeader>
                 <CardTitle>Alex Brown</CardTitle>
                 <CardDescription>Digital Entrepreneur</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-slate-600 dark:text-slate-300 italic">
-                  "The mentorship provided has been a game changer for me. The step-by-step 
-                  guidance helped me launch my first successful online business."
+                  "The mentorship provided has been a game changer for me. The step-by-step guidance helped me 
+                  launch my first successful online business."
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200">
+            {/* Duplicate first set for seamless loop */}
+            <Card className="min-w-[500px] bg-white dark:bg-slate-800">
+              <CardHeader>
+                <CardTitle>John Doe</CardTitle>
+                <CardDescription>Business Owner</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300 italic">
+                  "This course changed my life! The knowledge I gained has been invaluable to my business journey. 
+                  I've seen a 3x increase in my revenue since implementing these strategies."
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Second Row - Scrolling Right */}
+        <div className="relative mt-6">
+          <div className="flex space-x-6 animate-scroll-right">
+            {/* Second set of cards */}
+            <Card className="min-w-[500px] bg-white dark:bg-slate-800">
               <CardHeader>
                 <CardTitle>Sarah Davis</CardTitle>
                 <CardDescription>E-commerce Expert</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-slate-600 dark:text-slate-300 italic">
-                  "I appreciated the community support and resources available throughout 
-                  the course. The networking opportunities alone were worth the investment."
+                  "I appreciated the community support and resources available throughout the course. 
+                  The networking opportunities alone were worth the investment."
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200">
+            <Card className="min-w-[500px] bg-white dark:bg-slate-800">
               <CardHeader>
                 <CardTitle>Michael Chen</CardTitle>
                 <CardDescription>Tech Startup CEO</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-slate-600 dark:text-slate-300 italic">
-                  "The course provided actionable insights that helped me scale my 
-                  business from $0 to $50k in just 6 months. The ROI was incredible."
+                  "The course provided actionable insights that helped me scale my business from $0 to $50k 
+                  in just 6 months. The ROI was incredible."
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200">
+            <Card className="min-w-[500px] bg-white dark:bg-slate-800">
               <CardHeader>
                 <CardTitle>Emma Wilson</CardTitle>
                 <CardDescription>Marketing Consultant</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-slate-600 dark:text-slate-300 italic">
-                  "The strategies taught in this course revolutionized my approach to 
-                  business. I've been able to help my clients achieve amazing results."
+                  "The strategies taught in this course revolutionized my approach to business. 
+                  I've been able to help my clients achieve amazing results."
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Duplicate second set for seamless loop */}
+            <Card className="min-w-[500px] bg-white dark:bg-slate-800">
+              <CardHeader>
+                <CardTitle>Sarah Davis</CardTitle>
+                <CardDescription>E-commerce Expert</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300 italic">
+                  "I appreciated the community support and resources available throughout the course. 
+                  The networking opportunities alone were worth the investment."
                 </p>
               </CardContent>
             </Card>
