@@ -16,10 +16,11 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-
+  const router = useRouter();
 
   const toggleMenu = () => {
     const navbar = document.getElementById('nav-container');
@@ -27,7 +28,6 @@ export default function Home() {
     const hamburger = document.querySelector('.hamburger');
     hamburger.classList.toggle('active');
   };
-
 
   useEffect(() => {
     const testimonials = document.querySelectorAll('.testimonial-item');
@@ -62,6 +62,11 @@ export default function Home() {
   };
 
   useEffect(() => {
+    // Only add custom cursor if we're on the home page
+    if (window.location.pathname !== '/') {
+      return;
+    }
+
     const cursor = document.createElement('div');
     const glow = document.createElement('div');
     
@@ -115,13 +120,17 @@ export default function Home() {
             element.removeEventListener('mouseenter', handleElementHover);
             element.removeEventListener('mouseleave', handleElementLeave);
         });
-        document.body.removeChild(cursor);
-        document.body.removeChild(glow);
+        if (cursor.parentNode) document.body.removeChild(cursor);
+        if (glow.parentNode) document.body.removeChild(glow);
     };
   }, []);
 
+  const handleGetStarted = () => {
+    router.push('/members');
+  };
+
   return (
-    <>
+    <div className="home-page">
       <Head>
         <title>Beunghar Business Course</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -187,6 +196,7 @@ export default function Home() {
             border-2 border-orange-300/30 shadow-[0_0_15px_rgba(255,171,64,0.3)]
             hover:shadow-[0_0_25px_rgba(255,171,64,0.5)]
             group"
+            onClick={handleGetStarted}
           >
             <span className="relative z-10 flex items-center gap-2">
               Get Started Now
@@ -640,7 +650,7 @@ export default function Home() {
                 border-2 border-orange-300/30 shadow-[0_0_15px_rgba(255,171,64,0.3)]
                 hover:shadow-[0_0_25px_rgba(255,171,64,0.5)]
                 group"
-                onClick={() => window.location.href = '/members'}
+                onClick={handleGetStarted}
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Get Started Now
@@ -727,6 +737,6 @@ export default function Home() {
       </footer>
 
       <Script src="/script.js" defer />
-    </>
+    </div>
   );
 }

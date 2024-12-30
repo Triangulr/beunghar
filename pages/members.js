@@ -323,7 +323,7 @@ export default function MembersPage() {
         data-client-key="Mid-client-k_Fm2h3BtREGEwMe"
         strategy="afterInteractive"
       />
-      <div className={styles.membersPage}>
+      <div className={`${styles.membersPage} members-page`}>
         <header className={styles.header}>
           <div className={styles.headerContent}>
             <Link href="/" className={styles.logo}>

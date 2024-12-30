@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
+import styles from '../styles/ModuleOne.module.css';
 
 export default function Module1() {
   const { isLoaded, isSignedIn } = useUser();
@@ -20,7 +21,7 @@ export default function Module1() {
   }
 
   return (
-    <>
+    <div className={styles.moduleContainer}>
       <Head>
         <title>Module 1 - In-Depth Lessons</title>
         <link 
@@ -28,9 +29,9 @@ export default function Module1() {
           rel="stylesheet"
         />
       </Head>
-      <header>
+      <header className={styles.header}>
         <nav>
-          <ul className="nav-menu">
+          <ul className={styles.navMenu}>
             <li><a href="/module1">Module 1</a></li>
             <li><a href="/module2">Module 2</a></li>
             <li><a href="/module3">Module 3</a></li>
@@ -38,34 +39,34 @@ export default function Module1() {
         </nav>
       </header>
 
-      <main className="module-content">
-        <h1 className="module-title">Module 1: Introduction to Basics</h1>
-        <p className="module-summary">
+      <main className={styles.moduleContent}>
+        <h1 className={styles.moduleTitle}>Module 1: Introduction to Basics</h1>
+        <p className={styles.moduleSummary}>
           Learn the fundamentals of this subject with hands-on lessons and examples.
         </p>
 
-        <section className="module-video-container">
-          <div className="video-box">
-            <video className="module-video" controls>
+        <section className={styles.moduleVideoContainer}>
+          <div className={styles.videoBox}>
+            <video className={styles.moduleVideo} controls>
               <source src="/video/3141320-uhd_3840_2160_25fps.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
-          <div className="progress-tracker">
+          <div className={styles.progressTracker}>
             <h2>Progress Tracker</h2>
-            <div className="progress-bar">
-              <div className="progress-fill"></div>
+            <div className={styles.progressBar}>
+              <div className={styles.progressFill}></div>
             </div>
-            <ul className="progress-details">
+            <ul className={styles.progressDetails}>
               <li>Lesson 1: Overview</li>
               <li>Lesson 2: Key Concepts</li>
               <li>Lesson 3: Practical Example</li>
             </ul>
-            <button className="progress-button">Mark Step as Completed</button>
+            <button className={styles.progressButton}>Mark Step as Completed</button>
           </div>
         </section>
 
-        <section className="lesson-details">
+        <section className={styles.lessonDetails}>
           <h2>Lesson Details</h2>
           <article>
             <h3>Lesson 1: Overview</h3>
@@ -82,11 +83,13 @@ export default function Module1() {
         </section>
       </main>
 
-      <div className="back-button-container">
-        <button className="back-button" onClick={() => window.location.href = '/'}>Back to Main Page</button>
+      <div className={styles.backButtonContainer}>
+        <button className={styles.backButton} onClick={() => window.location.href = '/'}>
+          Back to Main Page
+        </button>
       </div>
 
-      <footer>
+      <footer className={styles.footer}>
         <p>© 2024 Learning Platform</p>
       </footer>
 
@@ -102,6 +105,6 @@ export default function Module1() {
           });
         }}
       />
-    </>
+    </div>
   );
 }

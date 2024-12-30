@@ -49,9 +49,17 @@ body:not(.members-page) header {
     padding: 15px 0;
 }
 
-/* Add this class to your members page */
+/* Remove or modify this rule that's hiding the header */
 .members-page header {
-    display: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: rgb(0, 0, 0);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: background-color 0.3s ease, padding 0.3s ease;
+    padding: 15px 0;
 }
 
 .container {
@@ -203,48 +211,47 @@ nav {
     opacity: 0;
 }
 
-
 .fullscreen-menu {
-    display: none; 
     position: fixed;
+    top: 0;
     left: 0;
     width: 100%;
-    height: 100vh; 
-    background: rgba(0, 0, 0, 0.985);
-    z-index: 1200;
-    text-align: center;
-    justify-content: center; 
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.985);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    flex-direction: column; 
-    overflow: hidden; 
+    z-index: 1000;
+    overflow: hidden;
 }
 
 .fullscreen-menu.active {
-    display: flex; 
+    display: flex;
 }
 
 .fullscreen-menu ul {
     list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    text-align: center;
 }
 
 .fullscreen-menu li {
-    margin: 25px 0;
+    margin: 20px 0;
 }
 
 .fullscreen-menu a {
-    color: #fff;
     text-decoration: none;
-    font-size: 50px;
+    color: white;
+    font-size: 2rem;
     font-weight: bold;
     transition: color 0.3s ease;
 }
 
 .fullscreen-menu a:hover {
-    color: #f39c12;
+    color: var(--primary-color);
 }
-
 
 .nav-menu {
     display: flex;
@@ -992,7 +999,28 @@ a, button, .accordion-trigger, [role="button"] {
     cursor: none !important;
 }
 
-/* Add class for elements that should trigger dark cursor */
-.trigger-dark-cursor {
-    /* Add this class to white elements */
+/* Only hide cursor on home page */
+.home-page {
+  cursor: none;
+}
+
+/* Show cursor on members page */
+.members-page {
+  cursor: default !important;
+}
+
+/* Ensure all clickable elements in members page show cursor */
+.members-page a,
+.members-page button,
+.members-page .logo,
+.members-page [role="button"],
+.members-page .cl-userButtonTrigger {
+  cursor: pointer !important;
+}
+
+/* Keep custom cursor styles for home page only */
+.home-page a,
+.home-page button,
+.home-page [role="button"] {
+  cursor: none !important;
 }
