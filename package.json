@@ -26,6 +26,7 @@
     "midtrans-client": "^1.4.2",
     "next": "^15.1.3",
     "react": "^19.0.0",
+    "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"

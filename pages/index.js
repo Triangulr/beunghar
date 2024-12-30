@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
+import CountUp from 'react-countup';
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -24,9 +25,23 @@ export default function Home() {
 
   const toggleMenu = () => {
     const navbar = document.getElementById('nav-container');
-    navbar.classList.toggle('active');
     const hamburger = document.querySelector('.hamburger');
-    hamburger.classList.toggle('active');
+    
+    if (!navbar.classList.contains('active')) {
+      // Opening menu
+      navbar.classList.add('active');
+      hamburger.classList.add('active');
+      document.body.classList.add('no-scroll'); // Add no-scroll class instead
+    } else {
+      // Closing menu
+      hamburger.classList.remove('active');
+      navbar.classList.remove('active');
+      
+      // Remove no-scroll class after animation
+      setTimeout(() => {
+        document.body.classList.remove('no-scroll');
+      }, 600);
+    }
   };
 
   useEffect(() => {
@@ -181,8 +196,19 @@ export default function Home() {
           <source src="/video/testing-vid_24fps (1) (1).mp4" type="video/mp4" />
         </video>
         <div className="hero-content">
-          <h1>Entrepreneurship on Steroids</h1>
-          <h2>How I made $ 83,498.62 in a Year</h2>
+          <h1>
+            Entrepreneurship on <span className="gradient-text">Steroids</span>
+          </h1>
+          <h2>How I made $<CountUp
+            start={0}
+            end={83498.62}
+            duration={2.5}
+            decimals={2}
+            decimal="."
+            prefix=""
+            suffix=""
+            separator=","
+          /> in a Year</h2>
           <p>Starting a business is difficult. It doesn't need to be. We have the System, Education, Mentorship, Community all in a box</p>
           <Button 
             className="relative overflow-hidden bg-gradient-to-r from-orange-400 to-orange-600 

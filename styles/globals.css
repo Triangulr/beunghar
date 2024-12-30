@@ -24,6 +24,18 @@ body, html {
     box-sizing: border-box;
 }
 
+/* Hide scrollbar globally */
+html {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+  overflow: -moz-scrollbars-none;  /* Old Firefox */
+}
+
+html::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+  width: 0 !important;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -34,6 +46,15 @@ body {
     padding-top: 80px;
     transition: background-color 0.5s ease;
     cursor: none !important;
+    overflow: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+    overflow: -moz-scrollbars-none;  /* Old Firefox */
+}
+
+body::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+    width: 0 !important;
 }
 
 /* Only target the header on the main landing page */
@@ -215,19 +236,52 @@ nav {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.985);
-    display: none;
-    flex-direction: column;
-    justify-content: center;
+    visibility: hidden;
+    z-index: 50;
+    display: flex;
     align-items: center;
-    z-index: 1000;
-    overflow: hidden;
+    justify-content: center;
+    transition: visibility 0s 0.6s;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.fullscreen-menu::before {
+    content: '';
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    width: 400vmax;
+    height: 400vmax;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.95);
+    transform: translate(50%, -50%) scale(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+.menu-items {
+    position: relative;
+    z-index: 51;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .fullscreen-menu.active {
-    display: flex;
+    visibility: visible;
+    transition: visibility 0s;
+}
+
+.fullscreen-menu.active::before {
+    transform: translate(50%, -50%) scale(1);
+}
+
+.fullscreen-menu.active .menu-items {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.3s;
 }
 
 .fullscreen-menu ul {
@@ -273,12 +327,13 @@ nav {
 }
 
 .btn {
-    padding: 10px 20px;
+    padding: 15px 30px;
     background-color: var(--primary-color);
     color: #fff;
     border: none;
     border-radius: 25px;
     font-weight: 600;
+    font-size: 1.2em;
     text-decoration: none;
     transition: background-color 0.3s ease, transform 0.2s;
 }
@@ -316,9 +371,28 @@ nav {
     position: relative;
     z-index: 1; 
     color: white;
-    font-size: 1.5em ;
+    font-size: 1.5em;
 }
 
+.hero-content h1, .hero-content h2 {
+    margin: 10px 0;
+}
+
+.hero-content p {
+    margin: 10px 0 40px 0;
+    font-weight: 600;
+}
+
+.hero-content h1 {
+    font-size: 3.3em;
+    margin: 30px;
+    font-weight: 800;
+}
+
+.hero-content h2 {
+    margin: 30px;
+    font-weight: 700;
+}
 
 .background-overlay {
     position: absolute;
@@ -331,28 +405,15 @@ nav {
     z-index: 1;
 }
 
-
-.hero-content h1, .hero-content h2, .hero-content p {
-    margin: 10px 0;
-}
-
-.hero-content h1 {
-    font-size: 3.3em;
-    margin: 30px
-}
-
-.hero-content h2 {
-    margin: 30px;
-}
-
 .hero-btn {
     margin-top: 20px;
-    padding: 12px 24px;
+    padding: 15px 35px;
     background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 1.3em;
     transition: background-color 0.3s ease, transform 0.2s;
 }
 
@@ -1023,4 +1084,51 @@ a, button, .accordion-trigger, [role="button"] {
 .home-page button,
 .home-page [role="button"] {
   cursor: none !important;
+}
+
+/* Add these styles */
+
+/* When menu is active, hide scrollbar but maintain padding */
+body.no-scroll {
+  padding-right: calc(100vw - 100%); /* Compensate for scrollbar width */
+  overflow: hidden !important;
+}
+
+/* Hide scrollbar for the menu itself */
+.fullscreen-menu {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.fullscreen-menu::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    #ffab40 0%,
+    #ff8f00 25%,
+    #ff6d00 50%,
+    #ff8f00 75%,
+    #ffab40 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 3s linear infinite;
+  display: inline-block;
 }
