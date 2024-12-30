@@ -139,29 +139,41 @@ export default function Home() {
           </div>
       </section>
 
-      <section className="course-overview">
-          <div className="container">
-              <h2>Why Join Our Course?</h2>
-              <p>Our course covers everything from business fundamentals to practical real-world strategies. Whether you're starting a new venture or improving an existing one, this course is for you.</p>
-              <div className="benefits">
-                  <div className="benefit">
-                      <h3>Expert Instructors</h3>
-                      <p>Learn from experienced professionals with years of business experience.</p>
+      <section class="course-overview">
+        <h2>Why Join Our Course?</h2>
+          <div class="benefits">
+            <div class="benefit">
+              <h3 class="benefit-title">Comprehensive Curriculum</h3>
+                <div class="benefit-content">
+                  <p>Our curriculum covers all essential topics to ensure you master the subject.</p>
                   </div>
-                  <div className="benefit">
-                      <h3>Hands-On Projects</h3>
-                      <p>Work on real-life business cases and receive valuable feedback.</p>
-                  </div>
-                  <div className="benefit">
-                      <h3>Flexible Learning</h3>
-                      <p>Access course materials anytime, anywhere on your own schedule.</p>
-                  </div>
-              </div>
+                </div>
+        <div class="benefit">
+            <h3 class="benefit-title">Expert Instructors</h3>
+              <div class="benefit-content">
+                <p>Learn from experienced professionals who are leaders in their fields.</p>
+            </div>
           </div>
+        <div class="benefit">
+            <h3 class="benefit-title">Flexible Learning</h3>
+              <div class="benefit-content">
+                <p>Study at your own pace with 24/7 access to course materials.</p>
+              </div>
+            </div>
+        <div class="benefit">
+            <h3 class="benefit-title">Community Support</h3>
+              <div class="benefit-content">
+                <p>Join a vibrant community of learners and get support from peers and mentors.</p>
+            </div>
+          </div>
+        </div>
       </section>
 
+
       <section id="testimonials" className="testimonials">
+          <section class="testimonial-title">
           <h2>What Our Students Say</h2>
+          </section>
           <div className="testimonial-slider">
               <div className="testimonial-item">
                   <p>"This course changed my life! The knowledge I gained has been invaluable to my business journey." - John Doe</p>

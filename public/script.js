@@ -24,6 +24,20 @@ const video = document.getElementById('dynamic-video');
     // Load the default section
     showSection('home')
 
+    document.querySelectorAll('.benefit').forEach((benefit) => {
+        benefit.addEventListener('click', () => {
+          // Toggle the open class on the clicked benefit
+          benefit.classList.toggle('open');
+          
+          // Optionally close other benefits
+          document.querySelectorAll('.benefit').forEach((otherBenefit) => {
+            if (otherBenefit !== benefit) {
+              otherBenefit.classList.remove('open');
+            }
+          });
+        });
+      });
+
     // Testimonial slider
     const testimonials = document.querySelectorAll('.testimonial-item');
     if (testimonials.length > 0) {
