@@ -285,7 +285,7 @@ export default function Home() {
         </div>
 
       <footer>
-        <div className="container">
+        <div className="container3">
           <h2>Ready to Get Started?</h2>
           <p>Register now and we’ll show you some ‘magic’.</p>
           <button className="btn hero-btn">Get Started</button>
