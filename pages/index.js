@@ -76,7 +76,7 @@ export default function Home() {
           <nav1>
                 <div className="nav-container">
                   <div className="logo">
-                    <img src="/logo/Beunghar-FINAL4.png" alt="Logo" />
+                    <img src="/logo/Beunghar-FINAL6.png" alt="Logo" />
                   </div>
                 </div>
             </nav1>              
