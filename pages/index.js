@@ -446,28 +446,32 @@ export default function Home() {
 
       <footer className="bg-slate-900 text-white">
         {/* CTA Section */}
-        <div className="bg-gradient-to-r from-primary/90 to-primary py-20">
-          <div className="container mx-auto px-6 text-center">
-            <h2 className="text-4xl font-bold mb-4">Ready to Get Started?</h2>
-            <p className="text-xl mb-8 text-white/90">
-              Register now and we'll show you some 'magic'.
-            </p>
-            <Button 
-              className="bg-white text-primary hover:bg-white/90 text-lg px-8 py-6 rounded-full font-semibold"
-              onClick={() => window.location.href = '/members'}
-            >
-              Get Started Now
-            </Button>
+        <div className="bg-gradient-to-r from-primary/90 to-primary py-12">
+          <div className="container mx-auto px-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="text-left">
+                <h2 className="text-3xl font-bold mb-2">Ready to Get Started?</h2>
+                <p className="text-lg text-white/90">
+                  Register now and we'll show you some 'magic'.
+                </p>
+              </div>
+              <Button 
+                className="bg-white text-primary hover:bg-white/90 px-8 py-3 rounded-full font-semibold"
+                onClick={() => window.location.href = '/members'}
+              >
+                Get Started Now
+              </Button>
+            </div>
           </div>
         </div>
 
         {/* Main Footer Content */}
-        <div className="container mx-auto px-6 py-24">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24">
+        <div className="container mx-auto px-6 py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {/* Quick Links */}
             <div className="flex flex-col">
-              <h3 className="font-semibold text-lg mb-8 mt-12">Quick Links</h3>
-              <ul className="space-y-6">
+              <h3 className="font-semibold text-lg mb-6 mt-6">Quick Links</h3>
+              <ul className="space-y-4">
                 <li>
                   <a href="#home" className="text-slate-300 hover:text-white transition-colors">
                     Home
@@ -488,8 +492,8 @@ export default function Home() {
 
             {/* Resources */}
             <div className="flex flex-col">
-              <h3 className="font-semibold text-lg mb-8 mt-12">Resources</h3>
-              <ul className="space-y-6">
+              <h3 className="font-semibold text-lg mb-6 mt-6">Resources</h3>
+              <ul className="space-y-4">
                 <li>
                   <a href="#blog" className="text-slate-300 hover:text-white transition-colors">
                     Blog
@@ -510,8 +514,8 @@ export default function Home() {
 
             {/* Company */}
             <div className="flex flex-col">
-              <h3 className="font-semibold text-lg mb-8 mt-12">Company</h3>
-              <ul className="space-y-6">
+              <h3 className="font-semibold text-lg mb-6 mt-6">Company</h3>
+              <ul className="space-y-4">
                 <li>
                   <a href="#about" className="text-slate-300 hover:text-white transition-colors">
                     About Us
@@ -532,8 +536,8 @@ export default function Home() {
 
             {/* Legal */}
             <div className="flex flex-col">
-              <h3 className="font-semibold text-lg mb-8 mt-12">Legal</h3>
-              <ul className="space-y-6">
+              <h3 className="font-semibold text-lg mb-6 mt-6">Legal</h3>
+              <ul className="space-y-4">
                 <li>
                   <a href="#privacy" className="text-slate-300 hover:text-white transition-colors">
                     Privacy Policy
@@ -554,7 +558,7 @@ export default function Home() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="border-t border-slate-800 pt-8">
+          <div className="border-t border-slate-800 pt-6">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="mb-4 md:mb-0">
                 <img 
@@ -578,7 +582,7 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="text-center mt-8 text-slate-400">
+            <div className="text-center mt-6 text-slate-400">
               <p>© {new Date().getFullYear()} Beunghar Business Course. All rights reserved.</p>
             </div>
           </div>
