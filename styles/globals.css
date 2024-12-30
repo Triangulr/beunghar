@@ -590,18 +590,21 @@ nav {
 .faq-section {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    margin: 100px;
-    max-width: fit-content;
-    padding: 50px 20px ;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-sizing: border-box; 
 }
+
 
 .faq-container{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     text-align: center;
-    padding: 10px 30px;
+    padding: 50px 20px;
     margin: 50px;
 }
 
