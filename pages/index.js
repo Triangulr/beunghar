@@ -295,65 +295,63 @@ export default function Home() {
         </Accordion>
       </section>
 
-      <section className="py-24 px-6 bg-white dark:bg-slate-800">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-4xl font-bold text-center mb-12 text-slate-900 dark:text-white">
-            Frequently Asked Questions
-          </h2>
-          <Accordion type="single" collapsible className="w-full space-y-4">
-            <AccordionItem value="item-1" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
-              <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
-                How long is the course?
-              </AccordionTrigger>
-              <AccordionContent className="text-lg pb-6">
-                The course lasts for 6 weeks, with new modules released each week. You'll have lifetime access to all materials, so you can learn at your own pace.
-              </AccordionContent>
-            </AccordionItem>
+      <section className="w-full max-w-3xl mx-auto px-4 py-16">
+        <h2 className="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+        <Accordion type="single" collapsible className="w-full space-y-4">
+          <AccordionItem value="item-1" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+              How long is the course?
+            </AccordionTrigger>
+            <AccordionContent className="text-lg pb-6">
+              The course lasts for 6 weeks, with new modules released each week. You'll have lifetime access to all materials, so you can learn at your own pace.
+            </AccordionContent>
+          </AccordionItem>
 
-            <AccordionItem value="item-2" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
-              <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
-                What if I fall behind?
-              </AccordionTrigger>
-              <AccordionContent className="text-lg pb-6">
-                No problem! You can access all materials at any time and complete the course at your own pace. Our community and support team are always here to help you catch up.
-              </AccordionContent>
-            </AccordionItem>
+          <AccordionItem value="item-2" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+              What if I fall behind?
+            </AccordionTrigger>
+            <AccordionContent className="text-lg pb-6">
+              No problem! You can access all materials at any time and complete the course at your own pace. Our community and support team are always here to help you catch up.
+            </AccordionContent>
+          </AccordionItem>
 
-            <AccordionItem value="item-3" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
-              <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
-                Is there a money-back guarantee?
-              </AccordionTrigger>
-              <AccordionContent className="text-lg pb-6">
-                Yes! We offer a 30-day money-back guarantee. If you're not completely satisfied with the course, we'll refund your investment with no questions asked.
-              </AccordionContent>
-            </AccordionItem>
+          <AccordionItem value="item-3" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+              Is there a money-back guarantee?
+            </AccordionTrigger>
+            <AccordionContent className="text-lg pb-6">
+              Yes! We offer a 30-day money-back guarantee. If you're not completely satisfied with the course, we'll refund your investment with no questions asked.
+            </AccordionContent>
+          </AccordionItem>
 
-            <AccordionItem value="item-4" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
-              <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
-                Do I get lifetime access?
-              </AccordionTrigger>
-              <AccordionContent className="text-lg pb-6">
-                Absolutely! Once you enroll, you'll have lifetime access to all course materials, including future updates and improvements to the curriculum.
-              </AccordionContent>
-            </AccordionItem>
+          <AccordionItem value="item-4" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+              Do I get lifetime access?
+            </AccordionTrigger>
+            <AccordionContent className="text-lg pb-6">
+              Absolutely! Once you enroll, you'll have lifetime access to all course materials, including future updates and improvements to the curriculum.
+            </AccordionContent>
+          </AccordionItem>
 
-            <AccordionItem value="item-5" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
-              <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
-                Is there live support available?
-              </AccordionTrigger>
-              <AccordionContent className="text-lg pb-6">
-                Yes! We provide live support through our community platform, weekly Q&A sessions, and dedicated mentorship calls to ensure you get the help you need.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
+          <AccordionItem value="item-5" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+              Is there live support available?
+            </AccordionTrigger>
+            <AccordionContent className="text-lg pb-6">
+              Yes! We provide live support through our community platform, weekly Q&A sessions, and dedicated mentorship calls to ensure you get the help you need.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </section>
 
       <section className="py-24 px-6 bg-slate-50 dark:bg-slate-900">
-        <div className="container mx-auto">
+        <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-center mb-12 text-slate-900 dark:text-white">
             Our Modules
           </h2>
+        </div>
+        <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200" 
                   onClick={() => navigateToModule('module1')}>
@@ -398,10 +396,12 @@ export default function Home() {
       </section>
 
       <section className="py-24 px-6 bg-white dark:bg-slate-800">
-        <div className="container mx-auto">
+        <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-center mb-12 text-slate-900 dark:text-white">
             About Us
           </h2>
+        </div>
+        <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="bg-white dark:bg-slate-800">
               <CardHeader>
