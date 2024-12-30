@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Backend directory
 /backend/
+
+# code sandbox
+/.codesandbox/
