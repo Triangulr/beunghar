@@ -26,21 +26,22 @@ export default function Home() {
   const toggleMenu = () => {
     const navbar = document.getElementById('nav-container');
     const hamburger = document.querySelector('.hamburger');
+    const menuItems = document.querySelector('.menu-items');
     
     if (!navbar.classList.contains('active')) {
       // Opening menu
       navbar.classList.add('active');
       hamburger.classList.add('active');
-      document.body.classList.add('no-scroll'); // Add no-scroll class instead
+      menuItems.classList.add('active');
+      document.body.classList.add('no-scroll');
     } else {
       // Closing menu
       hamburger.classList.remove('active');
-      navbar.classList.remove('active');
-      
-      // Remove no-scroll class after animation
+      menuItems.classList.remove('active');
       setTimeout(() => {
+        navbar.classList.remove('active');
         document.body.classList.remove('no-scroll');
-      }, 600);
+      }, 300);
     }
   };
 
@@ -155,14 +156,13 @@ export default function Home() {
       <header>
         <div className="container">
           <div className="header-left">
+            <a href="mailto:support@beunghar.com" className="support-email">support@beunghar.com</a>
           </div>
-          <nav1>
-                <div className="nav-container">
-                  <div className="logo">
-                    <img src="/logo/Beunghar-FINAL6.png" alt="Logo" />
-                  </div>
-                </div>
-            </nav1>              
+          <div className="nav-container">
+            <div className="logo">
+              <img src="/logo/Beunghar-FINAL6.png" alt="Logo" />
+            </div>
+          </div>
           <nav>
             <button className="hamburger hamburger--elastic hamburger--squeeze js-menu-toggle" type="button" aria-label="Menu" aria-controls="nav-container" onClick={toggleMenu}>
               <span className="d-none d-md-inline"></span>
@@ -170,13 +170,13 @@ export default function Home() {
                 <span className="hamburger-inner"></span>
               </span>
             </button>
-              <nav id="nav-container" className="fullscreen-menu">
-                  <ul className="menu-items">
-                      <li><a href="#home" onClick={toggleMenu}>Home</a></li>
-                      <li><a href="reviews.html" onClick={toggleMenu}>Reviews</a></li>
-                      <li><a href="#faq" onClick={toggleMenu}>FAQ</a></li>
-                  </ul>
-              </nav>
+            <nav id="nav-container" className="fullscreen-menu">
+              <ul className="menu-items">
+                <li><a href="#home" onClick={toggleMenu}>Home</a></li>
+                <li><a href="reviews.html" onClick={toggleMenu}>Reviews</a></li>
+                <li><a href="#faq" onClick={toggleMenu}>FAQ</a></li>
+              </ul>
+            </nav>
           </nav>
         </div>
       </header>
