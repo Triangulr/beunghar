@@ -7,6 +7,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -111,38 +118,93 @@ export default function Home() {
         </video>
       </section>
 
-      <section className="testimonials-section">
-          <h2>Don't trust what I say</h2>
-          <h3>Here's what our students have to say</h3>
-          <div className="testimonials-grid">
-              <div className="testimonial-card">
-                  <video className="testimonial-video" controls>
-                      <source src="/video/3141320-uhd_3840_2160_25fps.mp4" type="video/mp4" />
-                  </video>
-                  <div className="testimonial-content">
-                      <p className="testimonial-text">"Amazing experience! Highly recommend."</p>
-                      <p className="testimonial-name">- John Doe</p>
-                  </div>
-              </div>
-              <div className="testimonial-card">
-                  <video className="testimonial-video" controls>
-                      <source src="/video/3253862-uhd_3840_2160_25fps.mp4" type="video/mp4" />
-                  </video>
-                  <div className="testimonial-content">
-                      <p className="testimonial-text">"A truly transformative service."</p>
-                      <p className="testimonial-name">- Jane Smith</p>
-                  </div>
-              </div>
-              <div className="testimonial-card">
-                  <video className="testimonial-video" controls>
-                      <source src="/video/852179-hd_1920_1080_30fps.mp4" type="video/mp4" />
-                  </video>
-                  <div className="testimonial-content">
-                      <p className="testimonial-text">"Exceeded my expectations in every way!"</p>
-                      <p className="testimonial-name">- Alex Brown</p>
-                  </div>
-              </div>
+      <section className="py-24 px-6 bg-slate-50 dark:bg-slate-900">
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-12 text-slate-900 dark:text-white">
+            What Our Students Say
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200">
+              <CardHeader>
+                <CardTitle>John Doe</CardTitle>
+                <CardDescription>Business Owner</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300 italic">
+                  "This course changed my life! The knowledge I gained has been invaluable 
+                  to my business journey. I've seen a 3x increase in my revenue since 
+                  implementing these strategies."
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200">
+              <CardHeader>
+                <CardTitle>Jane Smith</CardTitle>
+                <CardDescription>Startup Founder</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300 italic">
+                  "I gained practical skills that I use every day. The mentorship and 
+                  community support made all the difference. This was one of the best 
+                  investments in myself."
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200">
+              <CardHeader>
+                <CardTitle>Alex Brown</CardTitle>
+                <CardDescription>Digital Entrepreneur</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300 italic">
+                  "The mentorship provided has been a game changer for me. The step-by-step 
+                  guidance helped me launch my first successful online business."
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200">
+              <CardHeader>
+                <CardTitle>Sarah Davis</CardTitle>
+                <CardDescription>E-commerce Expert</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300 italic">
+                  "I appreciated the community support and resources available throughout 
+                  the course. The networking opportunities alone were worth the investment."
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200">
+              <CardHeader>
+                <CardTitle>Michael Chen</CardTitle>
+                <CardDescription>Tech Startup CEO</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300 italic">
+                  "The course provided actionable insights that helped me scale my 
+                  business from $0 to $50k in just 6 months. The ROI was incredible."
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200">
+              <CardHeader>
+                <CardTitle>Emma Wilson</CardTitle>
+                <CardDescription>Marketing Consultant</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300 italic">
+                  "The strategies taught in this course revolutionized my approach to 
+                  business. I've been able to help my clients achieve amazing results."
+                </p>
+              </CardContent>
+            </Card>
           </div>
+        </div>
       </section>
 
       <section className="w-full max-w-3xl mx-auto px-4 py-16">
@@ -178,120 +240,160 @@ export default function Home() {
         </Accordion>
       </section>
 
-
-      <section id="testimonials" className="testimonials">
-          <section class="testimonial-title">
-          <h2>What Our Students Say</h2>
-          </section>
-          <div className="testimonial-slider">
-              <div className="testimonial-item">
-                  <p>"This course changed my life! The knowledge I gained has been invaluable to my business journey." - John Doe</p>
-              </div>
-              <div className="testimonial-item">
-                  <p>"I gained practical skills that I use every day. This was one of the best decisions I’ve made!" - Jane Smith</p>
-              </div>
-              <div className="testimonial-item">
-                  <p>"The mentorship provided has been a game changer for me. Highly recommend!" - Alex Brown</p>
-              </div>
-              <div className="testimonial-item">
-                  <p>"I appreciated the community support and resources available throughout the course." - Sarah Davis</p>
-              </div>
-              {/* --Duplicate-- */}
-              <div className="testimonial-item">
-                  <p>"This course changed my life! The knowledge I gained has been invaluable to my business journey." - John Doe</p>
-              </div>
-              <div className="testimonial-item">
-                  <p>"I gained practical skills that I use every day. This was one of the best decisions I’ve made!" - Jane Smith</p>
-              </div>
-              <div className="testimonial-item">
-                  <p>"The mentorship provided has been a game changer for me. Highly recommend!" - Alex Brown</p>
-              </div>
-              <div className="testimonial-item">
-                  <p>"I appreciated the community support and resources available throughout the course." - Sarah Davis</p>
-              </div>
-          </div>
-      </section>
-
-      <section id="faq" className="faq-section">
-          <div className="container1">
-              <h2>Frequently Asked Questions</h2>
-              <div className="faq-item">
-                  <h3>How long is the course?</h3>
-                  <p>The course lasts for 6 weeks, with new modules released each week.</p>
-              </div>
-              <div className="faq-item">
-                  <h3>What if I fall behind?</h3>
-                  <p>No problem! You can access all materials at any time and complete the course at your own pace.</p>
-              </div>
-          </div>
-      </section>
-
-      <section id="modules" className="modules">
-          <h2>Our Modules</h2>
-          <div className="module-container">
-              <div className="module-box" onClick={() => navigateToModule('module1')}>
-                  <h3>Module 1</h3>
-                  <p>Introduction to Basics</p>
-              </div>
-              <div className="module-box" onClick={() => navigateToModule('module2')}>
-                  <h3>Module 2</h3>
-                  <p>Intermediate Concepts</p>
-              </div>
-              <div className="module-box" onClick={() => navigateToModule('module3')}>
-                  <h3>Module 3</h3>
-                  <p>Advanced Topics</p>
-              </div>
-          </div>
-      </section>
-
-      <div className="about-section">
-          <h1>About Us Page</h1>
-          <p> What we do </p>
+      <section className="py-24 px-6 bg-white dark:bg-slate-800">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-4xl font-bold text-center mb-12 text-slate-900 dark:text-white">
+            Frequently Asked Questions
+          </h2>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger>How long is the course?</AccordionTrigger>
+              <AccordionContent>
+                The course lasts for 6 weeks, with new modules released each week.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>What if I fall behind?</AccordionTrigger>
+              <AccordionContent>
+                No problem! You can access all materials at any time and complete the course at your own pace.
+              </AccordionContent>
+            </AccordionItem>
+            {/* Add more FAQ items as needed */}
+          </Accordion>
         </div>
-      
-      <div className="about-section-h2">
-        <h2>Our Team</h2>
-      </div>
-        <div className="row">
-          <div className="column">
-            <div className="card">
-              <img src="/img/big.jpg" alt="Jane" style={{ width: '100%' }} />
-              <div className="container2">
-                <h2>Jane Doe</h2>
-                <p className="title">CEO & Founder</p>
-                <p>Some text that describes me lorem ipsum ipsum lorem.</p>
-                <p>jane@example.com</p>
-                <button className="button">Contact</button>
-              </div>
-            </div>
-          </div>
+      </section>
 
-          <div className="column">
-            <div className="card">
-              <img src="/img/mike-ross.jpg" alt="Mike" style={{ width: '100%' }} />
-              <div className="container2">
-                <h2>Mike Ross</h2>
-                <p className="title">Art Director</p>
-                <p>Some text that describes me lorem ipsum ipsum lorem.</p>
-                <p>mike@example.com</p>
-                <button className="button">Contact</button>
-              </div>
-            </div>
-          </div>
+      <section className="py-24 px-6 bg-slate-50 dark:bg-slate-900">
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-12 text-slate-900 dark:text-white">
+            Our Modules
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200" 
+                  onClick={() => navigateToModule('module1')}>
+              <CardHeader>
+                <CardTitle>Module 1</CardTitle>
+                <CardDescription>Introduction to Basics</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300">
+                  Learn the fundamental concepts and principles to build a strong foundation.
+                </p>
+              </CardContent>
+            </Card>
 
-          <div className="column">
-            <div className="card">
-              <img src="/img/big.jpg" alt="John" style={{ width: '100%' }} />
-              <div className="container2">
-                <h2>John Doe</h2>
-                <p className="title">Designer</p>
-                <p>Some text that describes me lorem ipsum ipsum lorem.</p>
-                <p>john@example.com</p>
-                <button className="button">Contact</button>
-              </div>
-            </div>
+            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200"
+                  onClick={() => navigateToModule('module2')}>
+              <CardHeader>
+                <CardTitle>Module 2</CardTitle>
+                <CardDescription>Intermediate Concepts</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300">
+                  Dive deeper into advanced strategies and practical applications.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200"
+                  onClick={() => navigateToModule('module3')}>
+              <CardHeader>
+                <CardTitle>Module 3</CardTitle>
+                <CardDescription>Advanced Topics</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300">
+                  Master complex techniques and real-world business scenarios.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
+      </section>
+
+      <section className="py-24 px-6 bg-white dark:bg-slate-800">
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-12 text-slate-900 dark:text-white">
+            About Us
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="bg-white dark:bg-slate-800">
+              <CardHeader>
+                <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
+                  <img 
+                    src="/img/big.jpg" 
+                    alt="Jane Doe" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <CardTitle>Jane Doe</CardTitle>
+                <CardDescription>CEO & Founder</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300 mb-4">
+                  Some text that describes me lorem ipsum ipsum lorem.
+                </p>
+                <p className="text-slate-600 dark:text-slate-300 mb-4">
+                  jane@example.com
+                </p>
+                <button className="w-full bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 py-2 rounded-md hover:opacity-90 transition-opacity">
+                  Contact
+                </button>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white dark:bg-slate-800">
+              <CardHeader>
+                <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
+                  <img 
+                    src="/img/mike-ross.jpg" 
+                    alt="Mike Ross" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <CardTitle>Mike Ross</CardTitle>
+                <CardDescription>Art Director</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300 mb-4">
+                  Some text that describes me lorem ipsum ipsum lorem.
+                </p>
+                <p className="text-slate-600 dark:text-slate-300 mb-4">
+                  mike@example.com
+                </p>
+                <button className="w-full bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 py-2 rounded-md hover:opacity-90 transition-opacity">
+                  Contact
+                </button>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white dark:bg-slate-800">
+              <CardHeader>
+                <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
+                  <img 
+                    src="/img/big.jpg" 
+                    alt="John Doe" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <CardTitle>John Doe</CardTitle>
+                <CardDescription>Designer</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 dark:text-slate-300 mb-4">
+                  Some text that describes me lorem ipsum ipsum lorem.
+                </p>
+                <p className="text-slate-600 dark:text-slate-300 mb-4">
+                  john@example.com
+                </p>
+                <button className="w-full bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 py-2 rounded-md hover:opacity-90 transition-opacity">
+                  Contact
+                </button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
 
       <footer>
         <div className="container3">
