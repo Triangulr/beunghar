@@ -15,6 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { motion } from 'framer-motion';
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -97,7 +98,13 @@ export default function Home() {
         </div>
       </header>
 
-      <section id="home" className="hero-section">
+      <motion.section 
+        id="home" 
+        className="hero-section"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
         <div className="background-image-container">
           <div style={{ backgroundColor: '#333' }}></div>
         </div>
@@ -111,24 +118,40 @@ export default function Home() {
           <p>Starting a business is difficult. It doesn't need to be. We have the System, Education, Mentorship, Community all in a box</p>
           <button className="btn hero-btn" onClick={() => window.location.href = '/members'}>Get Started</button>
         </div>
-      </section>
+      </motion.section>
 
-      <section id="video-section" className="video-section">
+      <motion.section 
+        id="video-section" 
+        className="video-section"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <video id="dynamic-video" className="dynamic-video" autoPlay muted loop>
           <source src="/video/testing2_30fps.mp4" type="video/mp4" />
         </video>
-      </section>
+      </motion.section>
 
       <section className="py-24 px-6 bg-slate-50 dark:bg-slate-900 overflow-hidden">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <h2 className="text-4xl font-bold text-slate-900 dark:text-white">
+          <motion.h2
+            className="text-4xl font-bold text-slate-900 dark:text-white"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             What Our Students Say
-          </h2>
+          </motion.h2>
         </div>
         
         {/* First Row - Scrolling Left */}
         <div className="relative">
-          <div className="flex space-x-6 animate-scroll-left">
+          <motion.div 
+            className="flex space-x-6 animate-scroll-left"
+            initial={{ x: "100%" }}
+            whileInView={{ x: "0%" }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+          >
             {/* First set of cards */}
             <Card className="min-w-[500px] bg-white dark:bg-slate-800">
               <CardHeader>
@@ -182,12 +205,17 @@ export default function Home() {
                 </p>
               </CardContent>
             </Card>
-          </div>
+          </motion.div>
         </div>
 
         {/* Second Row - Scrolling Right */}
         <div className="relative mt-6">
-          <div className="flex space-x-6 animate-scroll-right">
+          <motion.div 
+            className="flex space-x-6 animate-scroll-right"
+            initial={{ x: "-100%" }}
+            whileInView={{ x: "0%" }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+          >
             {/* Second set of cards */}
             <Card className="min-w-[500px] bg-white dark:bg-slate-800">
               <CardHeader>
@@ -241,11 +269,16 @@ export default function Home() {
                 </p>
               </CardContent>
             </Card>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      <section className="w-full max-w-3xl mx-auto px-4 py-16">
+      <motion.section 
+        className="w-full max-w-3xl mx-auto px-4 py-16"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
         <h2 className="text-3xl font-bold text-center mb-8">Why Join Our Course?</h2>
         <Accordion type="single" collapsible className="w-full space-y-4">
           <AccordionItem value="item-1" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
@@ -293,9 +326,14 @@ export default function Home() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-      </section>
+      </motion.section>
 
-      <section className="w-full max-w-3xl mx-auto px-4 py-16">
+      <motion.section 
+        className="w-full max-w-3xl mx-auto px-4 py-16"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
         <h2 className="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
         <Accordion type="single" collapsible className="w-full space-y-4">
           <AccordionItem value="item-1" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
@@ -343,9 +381,14 @@ export default function Home() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-      </section>
+      </motion.section>
 
-      <section className="py-24 px-6 bg-slate-50 dark:bg-slate-900">
+      <motion.section 
+        className="py-24 px-6 bg-slate-50 dark:bg-slate-900"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-center mb-12 text-slate-900 dark:text-white">
             Our Modules
@@ -393,9 +436,14 @@ export default function Home() {
             </Card>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="py-24 px-6 bg-white dark:bg-slate-800">
+      <motion.section 
+        className="py-24 px-6 bg-white dark:bg-slate-800"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-center mb-12 text-slate-900 dark:text-white">
             About Us
@@ -479,7 +527,7 @@ export default function Home() {
             </Card>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       <footer className="bg-slate-900 text-white">
         {/* CTA Section */}
