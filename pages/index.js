@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -443,18 +444,145 @@ export default function Home() {
         </div>
       </section>
 
-      <footer>
-        <div className="container3">
-          <h2>Ready to Get Started?</h2>
-          <p>Register now and we’ll show you some ‘magic’.</p>
-          <button className="btn hero-btn">Get Started</button>
+      <footer className="bg-slate-900 text-white">
+        {/* CTA Section */}
+        <div className="bg-gradient-to-r from-primary/90 to-primary py-20">
+          <div className="container mx-auto px-6 text-center">
+            <h2 className="text-4xl font-bold mb-4">Ready to Get Started?</h2>
+            <p className="text-xl mb-8 text-white/90">
+              Register now and we'll show you some 'magic'.
+            </p>
+            <Button 
+              className="bg-white text-primary hover:bg-white/90 text-lg px-8 py-6 rounded-full font-semibold"
+              onClick={() => window.location.href = '/members'}
+            >
+              Get Started Now
+            </Button>
+          </div>
         </div>
-          <ul className="nav-menu">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#reviews">Reviews</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#sign-in">Login</a></li>
-          </ul>
+
+        {/* Main Footer Content */}
+        <div className="container mx-auto px-6 py-24">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24">
+            {/* Quick Links */}
+            <div className="flex flex-col">
+              <h3 className="font-semibold text-lg mb-8 mt-12">Quick Links</h3>
+              <ul className="space-y-6">
+                <li>
+                  <a href="#home" className="text-slate-300 hover:text-white transition-colors">
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a href="#reviews" className="text-slate-300 hover:text-white transition-colors">
+                    Reviews
+                  </a>
+                </li>
+                <li>
+                  <a href="#faq" className="text-slate-300 hover:text-white transition-colors">
+                    FAQ
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Resources */}
+            <div className="flex flex-col">
+              <h3 className="font-semibold text-lg mb-8 mt-12">Resources</h3>
+              <ul className="space-y-6">
+                <li>
+                  <a href="#blog" className="text-slate-300 hover:text-white transition-colors">
+                    Blog
+                  </a>
+                </li>
+                <li>
+                  <a href="#tutorials" className="text-slate-300 hover:text-white transition-colors">
+                    Tutorials
+                  </a>
+                </li>
+                <li>
+                  <a href="#guides" className="text-slate-300 hover:text-white transition-colors">
+                    Guides
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div className="flex flex-col">
+              <h3 className="font-semibold text-lg mb-8 mt-12">Company</h3>
+              <ul className="space-y-6">
+                <li>
+                  <a href="#about" className="text-slate-300 hover:text-white transition-colors">
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a href="#careers" className="text-slate-300 hover:text-white transition-colors">
+                    Careers
+                  </a>
+                </li>
+                <li>
+                  <a href="#contact" className="text-slate-300 hover:text-white transition-colors">
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div className="flex flex-col">
+              <h3 className="font-semibold text-lg mb-8 mt-12">Legal</h3>
+              <ul className="space-y-6">
+                <li>
+                  <a href="#privacy" className="text-slate-300 hover:text-white transition-colors">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="#terms" className="text-slate-300 hover:text-white transition-colors">
+                    Terms of Service
+                  </a>
+                </li>
+                <li>
+                  <a href="#cookies" className="text-slate-300 hover:text-white transition-colors">
+                    Cookie Policy
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="border-t border-slate-800 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <div className="mb-4 md:mb-0">
+                <img 
+                  src="/logo/Beunghar-FINAL4.png" 
+                  alt="Beunghar Logo" 
+                  className="h-8 w-auto"
+                />
+              </div>
+              <div className="flex space-x-6">
+                <a href="#twitter" className="text-slate-300 hover:text-white">
+                  Twitter
+                </a>
+                <a href="#linkedin" className="text-slate-300 hover:text-white">
+                  LinkedIn
+                </a>
+                <a href="#facebook" className="text-slate-300 hover:text-white">
+                  Facebook
+                </a>
+                <a href="#instagram" className="text-slate-300 hover:text-white">
+                  Instagram
+                </a>
+              </div>
+            </div>
+            <div className="text-center mt-8 text-slate-400">
+              <p>© {new Date().getFullYear()} Beunghar Business Course. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
       </footer>
 
       <Script src="/script.js" defer />
