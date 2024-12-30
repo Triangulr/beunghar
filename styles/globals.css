@@ -57,7 +57,11 @@ body:not(.members-page) header {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 30px;
+    width: 100%;
+    max-width: none;
+    padding: 10px;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 .container1 {
