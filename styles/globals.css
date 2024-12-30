@@ -84,13 +84,15 @@ body:not(.members-page) header {
 }
 
 .container {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    height: 60px; /* Reduced from 80px */
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center;
+    width: 100%;
+    max-width: none;
+    padding: 10px;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 .container1 {
@@ -119,24 +121,16 @@ nav {
 }
   
 .nav-container {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-}
-  
-.logo {
-    display: flex;
-    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
 }
   
 .logo img {
-    height: 55px; /* Reduced from 35px to maintain proportions */
+    height: 50px; 
     width: auto;
-    display: block;
 }
   
 .nav-links {
@@ -164,12 +158,13 @@ nav {
 }
 
 .hamburger {
-    position: absolute;
-    right: 40px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 100;
+    display: inline-block;
     cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    z-index: 1100;
+    position: relative;
 }
 
 .hamburger-box {
@@ -183,7 +178,7 @@ nav {
     display: block;
     width: 30px;
     height: 2px;
-    background-color: white !important;
+    background-color: #fff;
     position: absolute;
     top: 50%;
     left: 0;
@@ -197,7 +192,7 @@ nav {
     display: block;
     width: 30px;
     height: 2px;
-    background-color: white !important;
+    background-color: #fff;
     position: absolute;
     left: 0;
     transition: all 0.3s ease;
@@ -226,7 +221,6 @@ nav {
 
 .hamburger.active .hamburger-inner {
     transform: rotate(45deg);
-    z-index: 100;
 }
 
 .hamburger.active .hamburger-inner::before {
@@ -265,12 +259,11 @@ nav {
     background-color: rgba(0, 0, 0, 0.95);
     transform: translate(50%, -50%) scale(0);
     transition: transform 0.6s ease-in-out;
-    z-index: 51;
 }
 
 .menu-items {
     position: relative;
-    z-index: 52;
+    z-index: 51;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease-in-out;
@@ -1137,27 +1130,5 @@ body.no-scroll {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient-shift 3s linear infinite;
-  display: inline-block;
-}
-
-.header-left {
-  position: absolute;
-  left: 40px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-}
-
-.support-email {
-  color: white;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-}
-
-.support-email:hover {
-  color: #ffab40;
-  text-shadow: 0 0 10px rgba(255, 171, 64, 0.5);
-  transform: scale(1.05);
   display: inline-block;
 }
