@@ -209,32 +209,49 @@ export default function Home() {
 
       <section className="w-full max-w-3xl mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold text-center mb-8">Why Join Our Course?</h2>
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="item-1">
-            <AccordionTrigger>Comprehensive Curriculum</AccordionTrigger>
-            <AccordionContent>
-              Our curriculum covers all essential topics to ensure you master the subject.
+        <Accordion type="single" collapsible className="w-full space-y-4">
+          <AccordionItem value="item-1" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+              Comprehensive Curriculum
+            </AccordionTrigger>
+            <AccordionContent className="text-lg pb-6">
+              Our curriculum is carefully designed to cover all essential aspects of business success. From foundational principles to advanced strategies, 
+              you'll learn everything you need to build and scale your business. Each module builds upon the previous one, 
+              ensuring a structured and thorough learning experience.
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-2">
-            <AccordionTrigger>Expert Instructors</AccordionTrigger>
-            <AccordionContent>
-              Learn from experienced professionals who are leaders in their fields.
+          <AccordionItem value="item-2" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+              Expert Instructors
+            </AccordionTrigger>
+            <AccordionContent className="text-lg pb-6">
+              Learn from successful entrepreneurs and industry leaders who have built multiple seven-figure businesses. 
+              Our instructors don't just teach theory – they share real-world experiences, strategies, and lessons 
+              learned from their own entrepreneurial journeys.
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-3">
-            <AccordionTrigger>Flexible Learning</AccordionTrigger>
-            <AccordionContent>
-              Study at your own pace with 24/7 access to course materials.
+          <AccordionItem value="item-3" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+              Flexible Learning
+            </AccordionTrigger>
+            <AccordionContent className="text-lg pb-6">
+              Study at your own pace with 24/7 access to course materials. Whether you're a full-time entrepreneur 
+              or building your business on the side, our platform allows you to learn whenever and wherever it's 
+              convenient for you. All content is available on-demand and can be accessed from any device.
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-4">
-            <AccordionTrigger>Community Support</AccordionTrigger>
-            <AccordionContent>
-              Join a vibrant community of learners and get support from peers and mentors.
+          <AccordionItem value="item-4" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+              Community Support
+            </AccordionTrigger>
+            <AccordionContent className="text-lg pb-6">
+              Join a vibrant community of like-minded entrepreneurs. Network with peers, find accountability partners, 
+              and get support from mentors. Our active community forum and regular networking events ensure you're 
+              never alone on your entrepreneurial journey. Plus, gain access to exclusive resources and opportunities 
+              shared only within our community.
             </AccordionContent>
           </AccordionItem>
         </Accordion>
@@ -245,20 +262,51 @@ export default function Home() {
           <h2 className="text-4xl font-bold text-center mb-12 text-slate-900 dark:text-white">
             Frequently Asked Questions
           </h2>
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1">
-              <AccordionTrigger>How long is the course?</AccordionTrigger>
-              <AccordionContent>
-                The course lasts for 6 weeks, with new modules released each week.
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            <AccordionItem value="item-1" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+              <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+                How long is the course?
+              </AccordionTrigger>
+              <AccordionContent className="text-lg pb-6">
+                The course lasts for 6 weeks, with new modules released each week. You'll have lifetime access to all materials, so you can learn at your own pace.
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>What if I fall behind?</AccordionTrigger>
-              <AccordionContent>
-                No problem! You can access all materials at any time and complete the course at your own pace.
+
+            <AccordionItem value="item-2" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+              <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+                What if I fall behind?
+              </AccordionTrigger>
+              <AccordionContent className="text-lg pb-6">
+                No problem! You can access all materials at any time and complete the course at your own pace. Our community and support team are always here to help you catch up.
               </AccordionContent>
             </AccordionItem>
-            {/* Add more FAQ items as needed */}
+
+            <AccordionItem value="item-3" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+              <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+                Is there a money-back guarantee?
+              </AccordionTrigger>
+              <AccordionContent className="text-lg pb-6">
+                Yes! We offer a 30-day money-back guarantee. If you're not completely satisfied with the course, we'll refund your investment with no questions asked.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-4" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+              <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+                Do I get lifetime access?
+              </AccordionTrigger>
+              <AccordionContent className="text-lg pb-6">
+                Absolutely! Once you enroll, you'll have lifetime access to all course materials, including future updates and improvements to the curriculum.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-5" className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6">
+              <AccordionTrigger className="text-xl py-6 hover:no-underline hover:text-primary">
+                Is there live support available?
+              </AccordionTrigger>
+              <AccordionContent className="text-lg pb-6">
+                Yes! We provide live support through our community platform, weekly Q&A sessions, and dedicated mentorship calls to ensure you get the help you need.
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
         </div>
       </section>
