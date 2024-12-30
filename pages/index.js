@@ -1,6 +1,12 @@
 import Head from 'next/head';
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -139,34 +145,37 @@ export default function Home() {
           </div>
       </section>
 
-      <section class="course-overview">
-        <h2>Why Join Our Course?</h2>
-          <div class="benefits">
-            <div class="benefit">
-              <h3 class="benefit-title">Comprehensive Curriculum</h3>
-                <div class="benefit-content">
-                  <p>Our curriculum covers all essential topics to ensure you master the subject.</p>
-                  </div>
-                </div>
-        <div class="benefit">
-            <h3 class="benefit-title">Expert Instructors</h3>
-              <div class="benefit-content">
-                <p>Learn from experienced professionals who are leaders in their fields.</p>
-            </div>
-          </div>
-        <div class="benefit">
-            <h3 class="benefit-title">Flexible Learning</h3>
-              <div class="benefit-content">
-                <p>Study at your own pace with 24/7 access to course materials.</p>
-              </div>
-            </div>
-        <div class="benefit">
-            <h3 class="benefit-title">Community Support</h3>
-              <div class="benefit-content">
-                <p>Join a vibrant community of learners and get support from peers and mentors.</p>
-            </div>
-          </div>
-        </div>
+      <section className="w-full max-w-3xl mx-auto px-4 py-16">
+        <h2 className="text-3xl font-bold text-center mb-8">Why Join Our Course?</h2>
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Comprehensive Curriculum</AccordionTrigger>
+            <AccordionContent>
+              Our curriculum covers all essential topics to ensure you master the subject.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Expert Instructors</AccordionTrigger>
+            <AccordionContent>
+              Learn from experienced professionals who are leaders in their fields.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-3">
+            <AccordionTrigger>Flexible Learning</AccordionTrigger>
+            <AccordionContent>
+              Study at your own pace with 24/7 access to course materials.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-4">
+            <AccordionTrigger>Community Support</AccordionTrigger>
+            <AccordionContent>
+              Join a vibrant community of learners and get support from peers and mentors.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </section>
 
 
