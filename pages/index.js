@@ -144,6 +144,22 @@ export default function Home() {
     router.push('/members');
   };
 
+  const scrollToSection = (sectionId, event) => {
+    event.preventDefault();
+    const section = document.querySelector(sectionId);
+    if (section) {
+      const offset = 100; 
+      const elementPosition = section.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      toggleMenu(); // Close the menu after clicking
+    }
+  };
+
   return (
     <div className="home-page">
       <Head>
@@ -176,8 +192,8 @@ export default function Home() {
             <nav id="nav-container" className="fullscreen-menu">
               <ul className="menu-items">
                 <li><a href="#home" onClick={toggleMenu}>Home</a></li>
-                <li><a href="reviews.html" onClick={toggleMenu}>Reviews</a></li>
-                <li><a href="#faq" onClick={toggleMenu}>FAQ</a></li>
+                <li><a href="#reviews" onClick={(e) => scrollToSection('#reviews', e)}>Reviews</a></li>
+                <li><a href="#faq" onClick={(e) => scrollToSection('#faq', e)}>FAQ</a></li>
               </ul>
             </nav>
           </nav>
@@ -259,7 +275,7 @@ export default function Home() {
         </video>
       </motion.section>
 
-      <section className="py-24 px-6 bg-black dark:bg-black overflow-hidden">
+      <section id="reviews" className="py-24 px-6 bg-black dark:bg-black overflow-hidden">
         <div className="max-w-4xl mx-auto text-center mb-16">
           <motion.h2
             className="text-4xl font-bold text-white"
@@ -456,6 +472,7 @@ export default function Home() {
       </motion.section>
 
       <motion.section 
+        id="faq"
         className="w-full max-w-3xl mx-auto px-4 py-16 bg-black"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
