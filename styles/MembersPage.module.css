@@ -516,7 +516,7 @@
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 14px;
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -542,12 +542,15 @@
   border-radius: 20px;
   width: 90%;
   max-width: 600px;
+  max-height: 80vh;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   z-index: 1100;
+  display: flex;
+  flex-direction: column;
 }
 
 .affiliateModalOpen {
@@ -578,6 +581,27 @@
 .affiliateModalContent {
   animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   color: white;
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 10px;
+}
+
+.affiliateModalContent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.affiliateModalContent::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.affiliateModalContent::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.affiliateModalContent::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .affiliateModalContent p {
@@ -592,6 +616,11 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+  position: sticky;
+  top: 0;
+  background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+  padding-bottom: 1.5rem;
+  z-index: 1;
 }
 
 .affiliateModalTitle {
@@ -642,10 +671,12 @@
 }
 
 .currentImage {
-  margin-bottom: 1rem;
+  margin: 1rem 0;
+  width: 100%;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.1);
 }
 
 .currentImage img {
@@ -655,10 +686,12 @@
 }
 
 .uploadPlaceholder {
-  border: 2px dashed rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
+  margin: 1rem 0;
   padding: 2rem;
-  margin-bottom: 1rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
 }
 
 .uploadButton {
@@ -680,4 +713,208 @@
 .uploadButton:disabled {
   background: #666;
   cursor: not-allowed;
+}
+
+.membersPage * {
+  cursor: default !important;
+}
+
+.membersPage button,
+.membersPage a,
+.membersPage .userButtonContainer *,
+.membersPage input[type="file"] {
+  cursor: pointer !important;
+}
+
+.closeButton {
+  cursor: pointer !important;
+}
+
+/* Make cursor visible everywhere, including third-party components */
+.membersPage *,
+.cl-component *,
+.affiliateModal *,
+.modalOverlay *,
+#clerk-frontend * {
+  cursor: default !important;
+}
+
+/* Override for clickable elements */
+.membersPage button,
+.membersPage a,
+.membersPage .userButtonContainer *,
+.membersPage input[type="file"],
+.cl-component button,
+.cl-component a,
+.cl-component input,
+.affiliateModal button,
+.affiliateModal a,
+.modalOverlay button,
+.modalOverlay a,
+#clerk-frontend button,
+#clerk-frontend a,
+#clerk-frontend input {
+  cursor: pointer !important;
+}
+
+/* Ensure text inputs show text cursor */
+.membersPage input[type="text"],
+.membersPage input[type="email"],
+.membersPage input[type="password"],
+.membersPage textarea,
+.cl-component input[type="text"],
+.cl-component input[type="email"],
+.cl-component input[type="password"],
+.cl-component textarea {
+  cursor: text !important;
+}
+
+.membersPage h1,
+.membersPage h2 {
+  font-weight: 600;
+}
+
+.membersPage p {
+  font-weight: 500;
+}
+
+.freeStatus p:first-child,
+.premiumStatus p:first-child {
+  font-weight: 600;
+}
+
+.uploadDescription {
+  color: #999;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+.affiliateLinkSection {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.affiliateLinkSection h3 {
+  color: #ffab40;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.linkContainer {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.linkInput {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-family: monospace;
+  font-size: 0.9rem;
+  cursor: text !important;
+}
+
+.copyButton {
+  padding: 0 1.5rem;
+  background: #ffab40;
+  color: #1e1e1e;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.copyButton:hover {
+  background: #ff8000;
+  transform: translateY(-1px);
+}
+
+.linkDescription {
+  color: #999;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.drawerContainer {
+  padding: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.drawerBody {
+  padding: 1rem 0;
+  overflow-y: auto;
+}
+
+.closeButton {
+  background-color: #2a2a2a;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.closeButton:hover {
+  background-color: #3a3a3a;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.sectionHeader {
+  margin-bottom: 1rem;
+}
+
+.sectionHeader h3 {
+  color: #ffab40;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.uploadDescription {
+  color: #999;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.pillButton:hover,
+.uploadButton:hover,
+.closeButton:hover {
+  cursor: pointer !important;
+}
+
+.copyButton,
+.copyButton:hover {
+  cursor: pointer !important;
+}
+
+.linkInput {
+  cursor: text !important;
+}
+
+/* Add these styles for the toast if you want to customize it */
+.toastTitle {
+  color: #ffab40;
+  font-weight: 600;
+}
+
+.toastDescription {
+  color: #ccc;
 }

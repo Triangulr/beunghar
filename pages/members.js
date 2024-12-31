@@ -5,6 +5,17 @@ import { SignInButton, UserButton } from '@clerk/nextjs';
 import { useState, useEffect, useRef } from 'react';
 import Script from 'next/script';
 import Link from 'next/link';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { useToast } from "@/hooks/use-toast"
 
 const SuccessModal = ({ onClose }) => {
   const [showUpgrading, setShowUpgrading] = useState(false);
@@ -49,92 +60,199 @@ const SuccessModal = ({ onClose }) => {
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 3000;
 
-const AffiliateModal = ({ isOpen, onClose }) => {
+const AffiliateDrawer = () => {
   const { user } = useUser();
   const [uploading, setUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
   const fileInputRef = useRef(null);
+  const { toast } = useToast()
 
-  // Fetch existing image on modal open
+  // Fetch existing image on component mount
   useEffect(() => {
-    const fetchUserImage = async () => {
-      if (user?.id) {
-        try {
-          const response = await fetch(`https://beunghar-api.onrender.com/api/user-asset/${user.id}`);
+    const fetchUserAsset = async () => {
+      try {
+        const response = await fetch(`https://beunghar-api.onrender.com/api/user-asset/${user.id}`);
+        if (response.ok) {
           const data = await response.json();
           if (data.imageUrl) {
             setImageUrl(data.imageUrl);
           }
-        } catch (error) {
-          console.error('Error fetching user image:', error);
         }
+      } catch (error) {
+        console.error('Error fetching user asset:', error);
       }
     };
-    
-    if (isOpen) {
-      fetchUserImage();
+
+    if (user?.id) {
+      fetchUserAsset();
     }
-  }, [isOpen, user]);
+  }, [user]);
 
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
-    if (!file) return;
+    console.log('File selected:', file); // Debug log
+    console.log('Current user ID:', user?.id); // Debug user ID
 
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      alert('Please upload an image file');
+    if (!file) {
+      toast({
+        title: "Error",
+        description: "No file selected",
+        variant: "destructive",
+        duration: 2000,
+      });
       return;
     }
 
-    // Validate file size (e.g., 5MB limit)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('File size must be less than 5MB');
+    if (!user?.id) {
+      toast({
+        title: "Error",
+        description: "User ID not found. Please try again.",
+        variant: "destructive",
+        duration: 2000,
+      });
       return;
     }
 
     setUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
-      const response = await fetch(`https://beunghar-api.onrender.com/api/upload-affiliate-image?user_id=${user.id}`, {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      // Send the request with the user_id as a URL parameter
+      const url = `https://beunghar-api.onrender.com/api/upload-affiliate-image?user_id=${encodeURIComponent(user.id)}`;
+      
+      console.log('Uploading file...'); // Debug log
+      const response = await fetch(url, {
         method: 'POST',
         body: formData,
       });
 
+      console.log('Response status:', response.status); // Debug log
+
+      if (!response.ok) {
+        const errorData = await response.text();
+        console.error('Upload error:', errorData); // Debug log
+        throw new Error(`Upload failed: ${errorData}`);
+      }
+
       const data = await response.json();
-      if (data.imageUrl) {
+      console.log('Response data:', data); // Debug log
+
+      if (data.status === 'success' && data.imageUrl) {
         setImageUrl(data.imageUrl);
+        toast({
+          title: "Success",
+          description: "Image uploaded successfully",
+          duration: 2000,
+        });
+      } else {
+        throw new Error('Invalid response format');
       }
     } catch (error) {
       console.error('Error uploading image:', error);
-      alert('Failed to upload image. Please try again.');
+      toast({
+        title: "Upload Failed",
+        description: error.message || "Failed to upload image. Please try again.",
+        variant: "destructive",
+        duration: 2000,
+      });
     } finally {
       setUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
+  // Keep existing helper functions
+  const getAffiliateLink = () => {
+    const firstName = user?.firstName?.toLowerCase() || '';
+    const lastName = user?.lastName?.toLowerCase() || '';
+    const baseUrl = 'https://beunghar.com';
+    return `${baseUrl}/?ref=${firstName}${lastName}`;
+  };
+
+  const handleCopyLink = async (link) => {
+    try {
+      await navigator.clipboard.writeText(link)
+      toast({
+        title: "Link Copied!",
+        description: "The affiliate link has been copied to your clipboard.",
+        className: styles.toast,
+        duration: 2000,
+      })
+    } catch (err) {
+      toast({
+        title: "Failed to copy",
+        description: "Please try copying the link manually.",
+        variant: "destructive",
+        duration: 2000,
+      })
+    }
+  }
+
   return (
-    <div 
-      className={`${styles.affiliateModalOverlay} ${isOpen ? styles.affiliateModalOverlayOpen : ''}`}
-      onClick={onClose}
-    >
-      <div 
-        className={`${styles.affiliateModal} ${isOpen ? styles.affiliateModalOpen : ''}`}
-        onClick={e => e.stopPropagation()}
-      >
-        <div className={styles.affiliateModalContent}>
-          <div className={styles.affiliateModalHeader}>
-            <h2 className={styles.affiliateModalTitle}>Affiliate Settings</h2>
-            <button className={styles.closeButton} onClick={onClose}>×</button>
-          </div>
-          <div className={styles.affiliateContent}>
-            <p>Set your affiliate settings here!</p>
+    <Drawer>
+      <DrawerTrigger asChild>
+        <button className={styles.pillButton}>
+          Affiliate Settings
+        </button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <div className={styles.drawerContainer}>
+          <DrawerHeader>
+            <DrawerTitle>Affiliate Settings</DrawerTitle>
+            <DrawerDescription>
+              Manage your affiliate settings and banner image
+            </DrawerDescription>
+          </DrawerHeader>
+
+          <div className={styles.drawerBody}>
+            <div className={styles.affiliateLinkSection}>
+              <div className={styles.sectionHeader}>
+                <h3>Affiliate Link</h3>
+                <p className={styles.uploadDescription}>
+                  Share this link to earn commissions when people sign up through it.
+                </p>
+              </div>
+              <div className={styles.linkContainer}>
+                <input 
+                  type="text" 
+                  value={getAffiliateLink()} 
+                  readOnly 
+                  className={styles.linkInput}
+                />
+                <button 
+                  className={styles.copyButton}
+                  onClick={() => handleCopyLink(getAffiliateLink())}
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
             
             <div className={styles.imageUploadSection}>
+              <div className={styles.sectionHeader}>
+                <h3>Affiliate Banner</h3>
+                <p className={styles.uploadDescription}>
+                  This banner will be shown to users who sign up using your affiliate link. 
+                  Recommended size: 1200x300 pixels
+                </p>
+              </div>
+              
               {imageUrl ? (
                 <div className={styles.currentImage}>
-                  <img src={imageUrl} alt="Affiliate banner" />
+                  <img 
+                    src={imageUrl} 
+                    alt="Affiliate banner" 
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      maxHeight: '200px',
+                      objectFit: 'contain',
+                      borderRadius: '8px',
+                    }}
+                  />
                 </div>
               ) : (
                 <div className={styles.uploadPlaceholder}>
@@ -148,20 +266,26 @@ const AffiliateModal = ({ isOpen, onClose }) => {
                 onChange={handleImageUpload}
                 accept="image/*"
                 style={{ display: 'none' }}
+                id="affiliate-image-upload"
               />
-              
-              <button 
-                className={styles.uploadButton}
-                onClick={() => fileInputRef.current.click()}
-                disabled={uploading}
-              >
-                {uploading ? 'Uploading...' : imageUrl ? 'Change Image' : 'Upload Image'}
-              </button>
             </div>
           </div>
+
+          <DrawerFooter>
+            <button 
+              className={styles.uploadButton}
+              onClick={() => fileInputRef.current.click()}
+              disabled={uploading}
+            >
+              {uploading ? 'Uploading...' : imageUrl ? 'Change Image' : 'Upload Image'}
+            </button>
+            <DrawerClose asChild>
+              <button className={styles.closeButton}>Close</button>
+            </DrawerClose>
+          </DrawerFooter>
         </div>
-      </div>
-    </div>
+      </DrawerContent>
+    </Drawer>
   );
 };
 
@@ -173,6 +297,16 @@ export default function MembersPage() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [showAffiliateModal, setShowAffiliateModal] = useState(false);
+
+  useEffect(() => {
+    // Force cursor to always show
+    document.body.style.cursor = 'default';
+    
+    // Cleanup function
+    return () => {
+      document.body.style.cursor = 'default';
+    };
+  }, []);
 
   const syncUserData = async (retries = 0) => {
     if (!user || retries >= MAX_RETRIES) return false;
@@ -306,10 +440,7 @@ export default function MembersPage() {
         <title>Members Area - Course Modules</title>
       </Head>
       
-      <AffiliateModal 
-        isOpen={showAffiliateModal} 
-        onClose={() => setShowAffiliateModal(false)} 
-      />
+      <AffiliateDrawer />
       
       {showSuccessModal && (
         <SuccessModal onClose={() => {
@@ -330,43 +461,40 @@ export default function MembersPage() {
               <img src="/logo/Beunghar-FINAL1.png" alt="Beunghar Logo" />
             </Link>
             <div className={styles.userButtonContainer}>
-              <button 
-                className={styles.pillButton}
-                onClick={() => setShowAffiliateModal(true)}
-              >
-                Affiliate Settings
-              </button>
+              <AffiliateDrawer />
               <UserButton signOutUrl="/members" />
             </div>
           </div>
         </header>
         <div className={styles.content}>
-          <h1>Welcome to Your Course</h1>
-          <p className={`${styles.subtitle} ${styles.globalFont}`}>Select a module to begin your journey</p>
+          <h1 style={{ fontWeight: 600 }}>Welcome to Your Course</h1>
+          <p className={`${styles.subtitle} ${styles.globalFont}`} style={{ fontWeight: 500 }}>
+            Select a module to begin your journey
+          </p>
           
           <div className={styles.membershipContainer}>
             {membershipStatus === 'free' ? (
               <div className={styles.freeStatus}>
-                <p>🔓 Free Member 🔓</p>
-                <p>Upgrade to unlock all course modules!</p>
+                <p style={{ fontWeight: 600 }}>🔓 Free Member 🔓</p>
+                <p style={{ fontWeight: 500 }}>Upgrade to unlock all course modules!</p>
                 <button className={styles.payButton} onClick={handlePayment}>
                   Upgrade to Premium
                 </button>
               </div>
             ) : membershipStatus === 'premium' ? (
               <div className={styles.premiumStatus}>
-                <p>✨ Premium Member ✨</p>
-                <p>Enjoy full access to all course modules!</p>
+                <p style={{ fontWeight: 600 }}>✨ Premium Member ✨</p>
+                <p style={{ fontWeight: 500 }}>Enjoy full access to all course modules!</p>
               </div>
             ) : (
-              <p>Membership Status: {membershipStatus}</p>
+              <p style={{ fontWeight: 500 }}>Membership Status: {membershipStatus}</p>
             )}
           </div>
 
           <div className={styles.moduleGrid}>
             <div className={styles.moduleCard}>
-              <h2>Module 1</h2>
-              <p>Introduction to Basics</p>
+              <h2 style={{ fontWeight: 600 }}>Module 1</h2>
+              <p style={{ fontWeight: 500 }}>Introduction to Basics</p>
               <a href="/module1" className={styles.moduleLink}>Start Learning</a>
             </div>
             

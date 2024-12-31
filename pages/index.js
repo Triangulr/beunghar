@@ -92,51 +92,51 @@ export default function Home() {
     document.body.appendChild(glow);
 
     const moveCursor = (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-        glow.style.left = e.clientX + 'px';
-        glow.style.top = e.clientY + 'px';
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
 
-        // Check if hovering over white element
-        const elementBelow = document.elementFromPoint(e.clientX, e.clientY);
-        if (elementBelow && (
-            elementBelow.classList.contains('trigger-dark-cursor') || 
-            elementBelow.closest('.trigger-dark-cursor')
-        )) {
-            cursor.classList.add('on-light');
-        } else {
-            cursor.classList.remove('on-light');
-        }
+      // Check if hovering over white element
+      const elementBelow = document.elementFromPoint(e.clientX, e.clientY);
+      if (elementBelow && (
+        elementBelow.classList.contains('trigger-dark-cursor') || 
+        elementBelow.closest('.trigger-dark-cursor')
+      )) {
+        cursor.classList.add('on-light');
+      } else {
+        cursor.classList.remove('on-light');
+      }
     };
 
     const handleElementHover = () => {
-        cursor.style.width = '40px';
-        cursor.style.height = '40px';
+      cursor.style.width = '40px';
+      cursor.style.height = '40px';
     };
 
     const handleElementLeave = () => {
-        cursor.style.width = '20px';
-        cursor.style.height = '20px';
+      cursor.style.width = '20px';
+      cursor.style.height = '20px';
     };
 
     // Add hover effect to all clickable elements
     const clickableElements = document.querySelectorAll('a, button, .accordion-trigger, [role="button"]');
     clickableElements.forEach(element => {
-        element.addEventListener('mouseenter', handleElementHover);
-        element.addEventListener('mouseleave', handleElementLeave);
+      element.addEventListener('mouseenter', handleElementHover);
+      element.addEventListener('mouseleave', handleElementLeave);
     });
 
     window.addEventListener('mousemove', moveCursor);
 
     // Cleanup
     return () => {
-        window.removeEventListener('mousemove', moveCursor);
-        clickableElements.forEach(element => {
-            element.removeEventListener('mouseenter', handleElementHover);
-            element.removeEventListener('mouseleave', handleElementLeave);
-        });
-        if (cursor.parentNode) document.body.removeChild(cursor);
-        if (glow.parentNode) document.body.removeChild(glow);
+      window.removeEventListener('mousemove', moveCursor);
+      clickableElements.forEach(element => {
+        element.removeEventListener('mouseenter', handleElementHover);
+        element.removeEventListener('mouseleave', handleElementLeave);
+      });
+      if (cursor.parentNode) document.body.removeChild(cursor);
+      if (glow.parentNode) document.body.removeChild(glow);
     };
   }, []);
 

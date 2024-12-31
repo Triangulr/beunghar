@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
+import ProgressTracker from '@/public/progress';
 
 export default function Module2() {
   const { isLoaded, isSignedIn } = useUser();

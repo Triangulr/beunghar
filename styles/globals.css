@@ -1185,3 +1185,89 @@ nav {
     transform: scaleX(1);
     transform-origin: bottom left;
 }
+
+/* Default cursor for all pages */
+body {
+  cursor: default !important;
+}
+
+/* Only hide cursor on home page */
+.home-page {
+  cursor: none;
+}
+
+/* Show cursor on members page */
+.members-page {
+  cursor: default !important;
+}
+
+/* Ensure all clickable elements in members page show cursor */
+.members-page a,
+.members-page button,
+.members-page .logo,
+.members-page [role="button"],
+.members-page .cl-userButtonTrigger {
+  cursor: pointer !important;
+}
+
+/* Keep custom cursor styles for home page only */
+.home-page a,
+.home-page button,
+.home-page [role="button"] {
+  cursor: none !important;
+}
+
+/* Update member page cursor rules */
+.members-page,
+.members-page *,
+.cl-component *,
+.cl-userButtonBox *,
+.cl-internal-b3fm6y,
+.cl-userButtonTrigger,
+.cl-userButtonTrigger *,
+.cl-modalBackdrop,
+.cl-modalContent,
+.cl-modalContent * {
+  cursor: default !important;
+}
+
+/* Ensure clickable elements show pointer cursor */
+.members-page a,
+.members-page button,
+.members-page .logo,
+.members-page [role="button"],
+.members-page input[type="file"],
+.cl-userButtonTrigger,
+.cl-button,
+.cl-button *,
+.cl-internal-b3fm6y,
+.cl-modalContent button,
+.cl-modalContent a,
+.cl-modalContent [role="button"],
+.cl-modalContent input,
+.cl-modalContent select {
+  cursor: pointer !important;
+}
+
+/* Text input cursor */
+.members-page input[type="text"],
+.members-page input[type="email"],
+.members-page input[type="password"],
+.members-page textarea,
+.cl-modalContent input[type="text"],
+.cl-modalContent input[type="email"],
+.cl-modalContent input[type="password"],
+.cl-modalContent textarea {
+  cursor: text !important;
+}
+
+/* Keep home page cursor rules */
+.home-page {
+  cursor: none;
+}
+
+.home-page a,
+.home-page button,
+.home-page [role="button"] {
+  cursor: none !important;
+}
