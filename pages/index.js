@@ -155,14 +155,17 @@ export default function Home() {
       <header>
         <div className="container">
           <div className="header-left">
+            <a href="mailto:info@beunghar.com" className="text-white hover:text-orange-400 transition-colors">
+              info@beunghar.com
+            </a>
           </div>
-          <nav1>
-                <div className="nav-container">
-                  <div className="logo">
-                    <img src="/logo/Beunghar-FINAL6.png" alt="Logo" />
-                  </div>
-                </div>
-            </nav1>              
+          <nav1 className="flex-1 flex justify-center">
+            <div className="nav-container">
+              <div className="logo">
+                <img src="/logo/Beunghar-FINAL6.png" alt="Logo" />
+              </div>
+            </div>
+          </nav1>              
           <nav>
             <button className="hamburger hamburger--elastic hamburger--squeeze js-menu-toggle" type="button" aria-label="Menu" aria-controls="nav-container" onClick={toggleMenu}>
               <span className="d-none d-md-inline"></span>
@@ -170,13 +173,13 @@ export default function Home() {
                 <span className="hamburger-inner"></span>
               </span>
             </button>
-              <nav id="nav-container" className="fullscreen-menu">
-                  <ul className="menu-items">
-                      <li><a href="#home" onClick={toggleMenu}>Home</a></li>
-                      <li><a href="reviews.html" onClick={toggleMenu}>Reviews</a></li>
-                      <li><a href="#faq" onClick={toggleMenu}>FAQ</a></li>
-                  </ul>
-              </nav>
+            <nav id="nav-container" className="fullscreen-menu">
+              <ul className="menu-items">
+                <li><a href="#home" onClick={toggleMenu}>Home</a></li>
+                <li><a href="reviews.html" onClick={toggleMenu}>Reviews</a></li>
+                <li><a href="#faq" onClick={toggleMenu}>FAQ</a></li>
+              </ul>
+            </nav>
           </nav>
         </div>
       </header>
