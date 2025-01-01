@@ -4,11 +4,42 @@ import '../styles/module2.css';
 import '../styles/module3.css';
 import { ClerkProvider } from '@clerk/nextjs'
 import { Toaster } from "@/components/ui/toaster"
+import { Inter } from 'next/font/google';
+import { useEffect } from 'react';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export default function App({ Component, pageProps }) {
+  useEffect(() => {
+    const trackVisit = async () => {
+      // Generate a visitor ID if not exists
+      let visitorId = localStorage.getItem('visitorId');
+      if (!visitorId) {
+        visitorId = crypto.randomUUID();
+        localStorage.setItem('visitorId', visitorId);
+      }
+
+      try {
+        await fetch('https://beunghar-api.onrender.com/api/track-visit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ visitorId }),
+        });
+      } catch (error) {
+        console.error('Error tracking visit:', error);
+      }
+    };
+
+    trackVisit();
+  }, []);
+
   return (
     <ClerkProvider {...pageProps}>
-      <Component {...pageProps} />
+      <main className={inter.className}>
+        <Component {...pageProps} />
+      </main>
       <Toaster />
     </ClerkProvider>
   )
