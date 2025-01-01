@@ -52,6 +52,7 @@ export function ModuleManager() {
   const [editingModule, setEditingModule] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [previewTab, setPreviewTab] = useState("edit");
+  const [moduleToDelete, setModuleToDelete] = useState(null);
 
   const handleEdit = (module) => {
     setEditingModule({ ...module });
@@ -70,6 +71,7 @@ export function ModuleManager() {
 
   const handleDelete = (moduleId) => {
     setModules(modules.filter(m => m.id !== moduleId));
+    setModuleToDelete(null);
   };
 
   return (
@@ -117,7 +119,12 @@ export function ModuleManager() {
                   <Button variant="ghost" size="icon" title="Edit" onClick={() => handleEdit(module)}>
                     <Pencil className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" title="Delete" onClick={() => handleDelete(module.id)}>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    title="Delete" 
+                    onClick={() => setModuleToDelete(module)}
+                  >
                     <Trash2 className="h-4 w-4 text-red-500" />
                   </Button>
                 </div>
@@ -196,6 +203,32 @@ export function ModuleManager() {
             </Button>
             <Button onClick={handleSave} className="bg-orange-500 hover:bg-orange-600 cursor-pointer">
               Save changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!moduleToDelete} onOpenChange={() => setModuleToDelete(null)}>
+        <DialogContent className="max-w-[400px] bg-zinc-900 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1100] cursor-default exclude-custom-cursor">
+          <DialogHeader>
+            <DialogTitle className="cursor-default">Delete Module</DialogTitle>
+            <DialogDescription className="cursor-default">
+              Are you sure you want to delete "{moduleToDelete?.title}"? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="mt-4">
+            <Button 
+              variant="outline" 
+              onClick={() => setModuleToDelete(null)}
+              className="cursor-pointer"
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={() => handleDelete(moduleToDelete.id)}
+              className="bg-red-500 hover:bg-red-600 cursor-pointer"
+            >
+              Delete
             </Button>
           </DialogFooter>
         </DialogContent>
