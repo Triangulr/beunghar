@@ -18,7 +18,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import styles from '@/styles/AdminPage.module.css';
 
-export function ModuleManager() {
+const ModuleManager = () => {
   const [modules, setModules] = useState([
     {
       id: 1,
@@ -235,4 +235,6 @@ export function ModuleManager() {
       </Dialog>
     </div>
   );
-}
+};
+
+export default ModuleManager;

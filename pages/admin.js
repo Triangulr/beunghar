@@ -16,7 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from "recharts"
 import { TrendingUp, TrendingDown, Eye, Pencil, Trash2 } from "lucide-react"
-import { ModuleManager } from './admin/moduleManager';
+import ModuleManager from './admin/moduleManager';
 
 function VisitorCard() {
   const [visitorCount, setVisitorCount] = useState(0);
