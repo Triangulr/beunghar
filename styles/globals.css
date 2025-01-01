@@ -1295,3 +1295,27 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
+
+/* Update the existing rule to exclude our module manager */
+a:not(.exclude-custom-cursor *), 
+button:not(.exclude-custom-cursor *), 
+.accordion-trigger:not(.exclude-custom-cursor *), 
+[role="button"]:not(.exclude-custom-cursor *) {
+    cursor: none !important;
+}
+
+/* Add specific override for our module manager */
+.exclude-custom-cursor * {
+    cursor: default !important;
+}
+
+.exclude-custom-cursor button,
+.exclude-custom-cursor a,
+.exclude-custom-cursor [role="button"] {
+    cursor: pointer !important;
+}
+
+.exclude-custom-cursor input,
+.exclude-custom-cursor textarea {
+    cursor: text !important;
+}

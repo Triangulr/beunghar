@@ -372,4 +372,157 @@
   gap: 24px;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   margin-top: 24px;
+}
+
+.moduleManagerCard {
+  margin: 24px;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+}
+
+.mainContent {
+  padding-top: 80px;
+}
+
+/* Base cursor styles */
+.moduleManagerCard * {
+  cursor: default !important;
+}
+
+/* Override for clickable elements */
+.moduleManagerCard button,
+.moduleManagerCard a,
+.moduleManagerCard [role="button"],
+.moduleManagerCard .clickable {
+  cursor: pointer !important;
+}
+
+/* Text input cursors */
+.moduleManagerCard input[type="text"],
+.moduleManagerCard textarea,
+.moduleManagerCard .markdownEditor {
+  cursor: text !important;
+}
+
+/* Dialog specific cursors */
+.dialogContent * {
+  cursor: default !important;
+}
+
+.dialogContent button,
+.dialogContent a,
+.dialogContent [role="button"] {
+  cursor: pointer !important;
+}
+
+.dialogContent input[type="text"],
+.dialogContent textarea {
+  cursor: text !important;
+}
+
+/* Tab cursors */
+.tabsList button {
+  cursor: pointer !important;
+}
+
+/* Action button cursors */
+.actionButton,
+.editButton,
+.deleteButton,
+.viewButton {
+  cursor: pointer !important;
+}
+
+/* Preview area cursor */
+.markdownPreview {
+  cursor: default !important;
+}
+
+/* Ensure dialog close button has pointer */
+.closeButton {
+  cursor: pointer !important;
+}
+
+.dialogContent :global(.prose) {
+  color: #e5e7eb;
+}
+
+.dialogContent :global(.prose a) {
+  color: #f97316;
+}
+
+.dialogContent :global(.prose strong) {
+  color: #f3f4f6;
+}
+
+.dialogContent :global(.prose code) {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #e5e7eb;
+  padding: 0.2em 0.4em;
+  border-radius: 0.375rem;
+}
+
+.dialogContent :global(.prose pre) {
+  background-color: rgba(0, 0, 0, 0.2);
+  margin: 0;
+}
+
+.dialogContent :global(.prose pre code) {
+  background-color: transparent;
+  padding: 0;
+}
+
+.dialogContent :global(.prose blockquote) {
+  border-left-color: #4b5563;
+  color: #9ca3af;
+}
+
+.dialogContent :global(.prose h1),
+.dialogContent :global(.prose h2),
+.dialogContent :global(.prose h3),
+.dialogContent :global(.prose h4) {
+  color: #f3f4f6;
+}
+
+/* Override the global cursor:none rule */
+.moduleManagerCard *,
+.dialogContent * {
+  cursor: default !important;
+}
+
+/* Ensure clickable elements show pointer cursor */
+.moduleManagerCard button,
+.moduleManagerCard a,
+.moduleManagerCard [role="button"],
+.dialogContent button,
+.dialogContent a,
+.dialogContent [role="button"],
+.dialogContent .tabsTrigger {
+  cursor: pointer !important;
+}
+
+/* Ensure text inputs show text cursor */
+.moduleManagerCard input[type="text"],
+.moduleManagerCard textarea,
+.dialogContent input[type="text"],
+.dialogContent textarea {
+  cursor: text !important;
+}
+
+/* Ensure tabs triggers have pointer cursor */
+.dialogContent [role="tab"] {
+  cursor: pointer !important;
+}
+
+/* Override any cursor:none specifically */
+.moduleManagerCard *[style*="cursor: none"],
+.dialogContent *[style*="cursor: none"] {
+  cursor: default !important;
+}
+
+.moduleManagerCard button[style*="cursor: none"],
+.dialogContent button[style*="cursor: none"],
+.moduleManagerCard a[style*="cursor: none"],
+.dialogContent a[style*="cursor: none"] {
+  cursor: pointer !important;
 } 

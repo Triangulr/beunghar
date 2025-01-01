@@ -15,7 +15,8 @@ import { UserButton } from "@clerk/nextjs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from "recharts"
-import { TrendingUp, TrendingDown } from "lucide-react"
+import { TrendingUp, TrendingDown, Eye, Pencil, Trash2 } from "lucide-react"
+import { ModuleManager } from './admin/moduleManager';
 
 function VisitorCard() {
   const [visitorCount, setVisitorCount] = useState(0);
@@ -375,6 +376,33 @@ export default function AdminDashboard() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
+  const [activeView, setActiveView] = useState('dashboard');
+  const [modules, setModules] = useState([
+    {
+      id: 1,
+      title: 'Module 1',
+      description: 'Introduction to Basics',
+      status: 'active',
+      students: 150,
+      lastUpdated: '2024-03-15'
+    },
+    {
+      id: 2,
+      title: 'Module 2',
+      description: 'Advanced Techniques',
+      status: 'active',
+      students: 120,
+      lastUpdated: '2024-03-14'
+    },
+    {
+      id: 3,
+      title: 'Module 3',
+      description: 'Master the Skills',
+      status: 'active',
+      students: 85,
+      lastUpdated: '2024-03-13'
+    }
+  ]);
 
   useEffect(() => {
     const checkAdminStatus = async () => {
@@ -477,11 +505,22 @@ export default function AdminDashboard() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <Link href="/admin/dashboard" legacyBehavior passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Dashboard
-                    </NavigationMenuLink>
-                  </Link>
+                  <NavigationMenuLink 
+                    className={navigationMenuTriggerStyle()}
+                    onClick={() => setActiveView('dashboard')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Dashboard
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink 
+                    className={navigationMenuTriggerStyle()}
+                    onClick={() => setActiveView('modules')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Modules
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link href="/admin/users" legacyBehavior passHref>
@@ -506,11 +545,15 @@ export default function AdminDashboard() {
         </div>
       </header>
       <div className={styles.mainContent}>
-        <div className={styles.cardGrid}>
-          <VisitorCard />
-          <PremiumMembersCard />
-          <RevenueCard />
-        </div>
+        {activeView === 'dashboard' ? (
+          <div className={styles.cardGrid}>
+            <VisitorCard />
+            <PremiumMembersCard />
+            <RevenueCard />
+          </div>
+        ) : activeView === 'modules' ? (
+          <ModuleManager />
+        ) : null}
       </div>
     </div>
   );
