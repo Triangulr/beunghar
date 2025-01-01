@@ -1,0 +1,259 @@
+.adminDashboard {
+  @apply h-screen bg-background;
+}
+
+.header {
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #333;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.userInfo {
+  color: #cccccc;
+}
+
+.main {
+  padding: 2rem;
+  width: 100%;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #1a1a1a;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #ffffff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.unauthorizedContainer {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.unauthorizedContent {
+  text-align: center;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.errorCode {
+  font-size: 8rem;
+  font-weight: bold;
+  color: #ff3333;
+  text-shadow: 2px 2px 8px rgba(255, 51, 51, 0.3);
+  animation: pulse 2s infinite;
+}
+
+.unauthorizedContent h1 {
+  font-size: 2rem;
+  margin: 1rem 0;
+  color: #ff3333;
+}
+
+.unauthorizedContent p {
+  color: #cccccc;
+  margin-bottom: 2rem;
+}
+
+.homeLink {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background-color: #ff3333;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.homeLink:hover {
+  background-color: #ff4444;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 51, 51, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.notSignedIn {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1a1a1a;
+}
+
+.signInContainer {
+  text-align: center;
+  color: #ffffff;
+  padding: 2rem;
+}
+
+.signInContainer h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.signInContainer p {
+  margin-bottom: 2rem;
+  color: #cccccc;
+}
+
+.signInButtonWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.signInButton {
+  background-color: #ff8a00;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.signInButton:hover {
+  background-color: #ff9500;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 138, 0, 0.3);
+}
+
+.loaderContainer {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1a1a1a;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.loaderContainer.fadeOut {
+  opacity: 0;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #ff8a00;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.logo img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.headerContent {
+  max-width: 100%;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-height: 50px;
+}
+
+.header {
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #333;
+  width: 100%;
+}
+
+.userButtonContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-right: 1rem;
+}
+
+.adminDashboard button,
+.adminDashboard a,
+.adminDashboard [role="button"],
+.adminDashboard .clickable {
+  cursor: pointer !important;
+}
+
+.adminDashboard input[type="text"],
+.adminDashboard input[type="email"],
+.adminDashboard input[type="password"],
+.adminDashboard textarea {
+  cursor: text !important;
+} 

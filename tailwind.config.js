@@ -17,7 +17,7 @@ module.exports = {
   		},
   		colors: {
   			background: {
-  				DEFAULT: '#000000',
+  				DEFAULT: '#000000'
   			},
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -49,7 +49,7 @@ module.exports = {
   				foreground: 'hsl(var(--destructive-foreground))'
   			},
   			border: {
-  				DEFAULT: '#1f2937', // gray-800
+  				DEFAULT: '#1f2937'
   			},
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',

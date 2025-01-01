@@ -5,6 +5,7 @@
   position: relative;
   margin: 0;
   padding: 0;
+  cursor: default !important;
 }
 
 .membersPage .header {
@@ -721,8 +722,36 @@
 
 .membersPage button,
 .membersPage a,
+.membersPage [role="button"],
+.membersPage .clickable,
 .membersPage .userButtonContainer *,
-.membersPage input[type="file"] {
+.membersPage .uploadButton,
+.membersPage .copyButton,
+.membersPage .closeButton,
+.membersPage .pillButton,
+.membersPage .moduleLink {
+  cursor: pointer !important;
+}
+
+.membersPage input[type="text"],
+.membersPage input[type="email"],
+.membersPage input[type="password"],
+.membersPage textarea,
+.membersPage .linkInput {
+  cursor: text !important;
+}
+
+/* Ensure Clerk components have proper cursors */
+.membersPage .cl-userButtonTrigger,
+.membersPage .cl-button,
+.membersPage .cl-internal-b3fm6y {
+  cursor: pointer !important;
+}
+
+/* Ensure drawer components have proper cursors */
+.drawerContainer button,
+.drawerContainer a,
+.drawerContainer [role="button"] {
   cursor: pointer !important;
 }
 

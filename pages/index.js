@@ -194,6 +194,8 @@ export default function Home() {
                 <li><a href="#home" onClick={toggleMenu}>Home</a></li>
                 <li><a href="#reviews" onClick={(e) => scrollToSection('#reviews', e)}>Reviews</a></li>
                 <li><a href="#faq" onClick={(e) => scrollToSection('#faq', e)}>FAQ</a></li>
+                <li><a href="/members">Member Login</a></li>
+                <li><a href="/admin">Admin Login</a></li>
               </ul>
             </nav>
           </nav>
