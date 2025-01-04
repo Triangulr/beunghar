@@ -40,6 +40,7 @@ export default function App({ Component, pageProps }) {
     <ClerkProvider {...pageProps}>
       <main className={inter.className}>
         <Component {...pageProps} />
+        <SpeedInsights />
       </main>
       <Toaster />
     </ClerkProvider>
