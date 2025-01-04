@@ -616,9 +616,16 @@ export default function Home() {
                 <p className="text-white/80 mb-4">
                   jane@example.com
                 </p>
-                <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
-                  Contact
-                </button>
+                <a 
+                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUJcmljayByb2xs" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block w-full"
+                >
+                  <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
+                    Contact
+                  </button>
+                </a>
               </CardContent>
             </Card>
 
@@ -641,9 +648,16 @@ export default function Home() {
                 <p className="text-white/80 mb-4">
                   mike@example.com
                 </p>
-                <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
-                  Contact
-                </button>
+                <a 
+                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUJcmljayByb2xs" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block w-full"
+                >
+                  <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
+                    Contact
+                  </button>
+                </a>
               </CardContent>
             </Card>
 
@@ -666,9 +680,16 @@ export default function Home() {
                 <p className="text-white/80 mb-4">
                   john@example.com
                 </p>
-                <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
-                  Contact
-                </button>
+                <a 
+                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUJcmljayByb2xs" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block w-full"
+                >
+                  <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
+                    Contact
+                  </button>
+                </a>
               </CardContent>
             </Card>
           </div>

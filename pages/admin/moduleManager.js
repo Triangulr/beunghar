@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, Pencil, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,59 +19,114 @@ import remarkGfm from 'remark-gfm';
 import styles from '@/styles/AdminPage.module.css';
 
 const ModuleManager = () => {
-  const [modules, setModules] = useState([
-    {
-      id: 1,
-      title: 'Module 1',
-      description: 'Introduction to Basics',
-      content: '# Module 1\n\nThis is the content for module 1',
-      status: 'active',
-      students: 150,
-      lastUpdated: '2024-03-15'
-    },
-    {
-      id: 2,
-      title: 'Module 2',
-      description: 'Advanced Techniques',
-      content: '# Module 2\n\nThis is the content for module 2',
-      status: 'active',
-      students: 120,
-      lastUpdated: '2024-03-14'
-    },
-    {
-      id: 3,
-      title: 'Module 3',
-      description: 'Master the Skills',
-      content: '# Module 3\n\nThis is the content for module 3',
-      status: 'active',
-      students: 85,
-      lastUpdated: '2024-03-13'
-    }
-  ]);
-
+  const [modules, setModules] = useState([]);
   const [editingModule, setEditingModule] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [previewTab, setPreviewTab] = useState("edit");
   const [moduleToDelete, setModuleToDelete] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleEdit = (module) => {
-    setEditingModule({ ...module });
-    setIsEditing(true);
-  };
+  useEffect(() => {
+    fetchModules();
+  }, []);
 
-  const handleSave = () => {
-    if (editingModule) {
-      setModules(modules.map(m => 
-        m.id === editingModule.id ? editingModule : m
-      ));
-      setIsEditing(false);
-      setEditingModule(null);
+  const fetchModules = async () => {
+    try {
+      const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/modules');
+      const data = await response.json();
+      console.log('Fetched modules:', data);
+      setModules(data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching modules:', error);
+      setLoading(false);
     }
   };
 
-  const handleDelete = (moduleId) => {
-    setModules(modules.filter(m => m.id !== moduleId));
-    setModuleToDelete(null);
+  const handleEdit = (module) => {
+    console.log('Editing module:', module);
+    setEditingModule({
+      _id: module._id,
+      title: module.title || '',
+      description: module.description || '',
+      content: module.content || '',
+      status: module.status || 'draft',
+      lastUpdated: module.lastUpdated || new Date().toISOString().split('T')[0]
+    });
+    setIsEditing(true);
+  };
+
+  const handleSave = async () => {
+    if (editingModule) {
+      try {
+        const url = editingModule._id
+          ? `https://beunghar-api-92744157839.asia-south1.run.app/api/modules/${editingModule._id}`
+          : 'https://beunghar-api-92744157839.asia-south1.run.app/api/modules';
+        
+        const method = editingModule._id ? 'PUT' : 'POST';
+        
+        console.log('Saving module:', editingModule);
+        
+        const response = await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title: editingModule.title || '',
+            description: editingModule.description || '',
+            content: editingModule.content || '',
+            status: editingModule.status || 'draft',
+            students: editingModule.students || 0,
+            lastUpdated: new Date().toISOString()
+          }),
+        });
+
+        if (response.ok) {
+          await fetchModules();
+          setIsEditing(false);
+          setEditingModule(null);
+        } else {
+          console.error('Error saving:', await response.text());
+        }
+      } catch (error) {
+        console.error('Error saving module:', error);
+      }
+    }
+  };
+
+  const handleDelete = async (moduleId) => {
+    try {
+      console.log('Deleting module:', moduleId); // Debug log
+      
+      const response = await fetch(
+        `https://beunghar-api-92744157839.asia-south1.run.app/api/modules/${moduleId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          mode: 'cors' // Explicitly state CORS mode
+        }
+      );
+
+      console.log('Delete response:', response); // Debug log
+
+      if (response.ok) {
+        await fetchModules();
+        setModuleToDelete(null);
+      } else {
+        const errorText = await response.text();
+        console.error('Error deleting module:', errorText);
+        // Optionally show error to user
+        alert('Failed to delete module: ' + errorText);
+      }
+    } catch (error) {
+      console.error('Error deleting module:', error);
+      // Optionally show error to user
+      alert('Failed to delete module: ' + error.message);
+    }
   };
 
   return (
@@ -82,12 +137,11 @@ const ModuleManager = () => {
           <Button 
             onClick={() => {
               setEditingModule({
-                id: Date.now(),
+                _id: null,
                 title: '',
                 description: '',
                 content: '',
                 status: 'draft',
-                students: 0,
                 lastUpdated: new Date().toISOString().split('T')[0]
               });
               setIsEditing(true);
@@ -101,15 +155,14 @@ const ModuleManager = () => {
           <div className="space-y-4">
             {modules.map((module) => (
               <div 
-                key={module.id} 
+                key={module._id} 
                 className="flex items-center justify-between p-4 bg-secondary/10 rounded-lg hover:bg-secondary/20 transition-colors"
               >
                 <div className="space-y-1">
-                  <h3 className="font-medium text-lg">{module.title}</h3>
-                  <p className="text-sm text-muted-foreground">{module.description}</p>
+                  <h3 className="font-medium text-lg">{module.title || 'Untitled'}</h3>
+                  <p className="text-sm text-muted-foreground">{module.description || 'No description'}</p>
                   <div className="flex gap-4 text-sm text-muted-foreground">
-                    <span>{module.students} students</span>
-                    <span>Last updated: {module.lastUpdated}</span>
+                    <span>Last updated: {module.lastUpdated || 'Never'}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -137,7 +190,9 @@ const ModuleManager = () => {
       <Dialog open={isEditing} onOpenChange={setIsEditing}>
         <DialogContent className="max-w-[900px] w-[90vw] h-[90vh] bg-zinc-900 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1100] cursor-default exclude-custom-cursor">
           <DialogHeader>
-            <DialogTitle className="cursor-default">{editingModule?.id ? 'Edit Module' : 'Create New Module'}</DialogTitle>
+            <DialogTitle className="cursor-default">
+              {editingModule?._id ? 'Edit Module' : 'Create New Module'}
+            </DialogTitle>
             <DialogDescription className="cursor-default">
               Make changes to your module here. Click save when you're done.
             </DialogDescription>
@@ -225,7 +280,7 @@ const ModuleManager = () => {
               Cancel
             </Button>
             <Button 
-              onClick={() => handleDelete(moduleToDelete.id)}
+              onClick={() => handleDelete(moduleToDelete._id)}
               className="bg-red-500 hover:bg-red-600 cursor-pointer"
             >
               Delete

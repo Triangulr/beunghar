@@ -947,3 +947,29 @@
 .toastDescription {
   color: #ccc;
 }
+
+.noModules {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  width: 100%;
+  grid-column: 1 / -1;
+}
+
+.premiumNote {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.moduleLink {
+  /* ... existing styles ... */
+  transition: opacity 0.3s ease;
+}
+
+.moduleLink:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

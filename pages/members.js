@@ -290,13 +290,13 @@ const AffiliateDrawer = () => {
 };
 
 export default function MembersPage() {
-  const { isSignedIn, isLoaded } = useUser();
+  const { isSignedIn, isLoaded, user } = useUser();
   const [loading, setLoading] = useState(true);
-  const { user } = useUser();
   const [membershipStatus, setMembershipStatus] = useState('free');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [showAffiliateModal, setShowAffiliateModal] = useState(false);
+  const [modules, setModules] = useState([]);
 
   useEffect(() => {
     // Force cursor to always show
@@ -351,6 +351,23 @@ export default function MembersPage() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  const fetchModules = async () => {
+    try {
+      const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/modules');
+      const data = await response.json();
+      console.log('Fetched modules:', data);
+      setModules(data);
+    } catch (error) {
+      console.error('Error fetching modules:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (isSignedIn) {
+      fetchModules();
+    }
+  }, [isSignedIn]);
 
   if (!isLoaded || loading) {
     return (
@@ -492,23 +509,35 @@ export default function MembersPage() {
           </div>
 
           <div className={styles.moduleGrid}>
-            <div className={styles.moduleCard}>
-              <h2 style={{ fontWeight: 600 }}>Module 1</h2>
-              <p style={{ fontWeight: 500 }}>Introduction to Basics</p>
-              <a href="/module1" className={styles.moduleLink}>Start Learning</a>
-            </div>
+            {modules.map((module) => (
+              <div key={module._id} className={styles.moduleCard}>
+                <h2 style={{ fontWeight: 600 }}>{module.title || 'Untitled Module'}</h2>
+                <p style={{ fontWeight: 500 }}>{module.description || 'No description available'}</p>
+                <Link 
+                  href={`/modules/${module._id}`} 
+                  className={styles.moduleLink}
+                  style={{
+                    pointerEvents: membershipStatus === 'premium' || modules.indexOf(module) === 0 ? 'auto' : 'none',
+                    opacity: membershipStatus === 'premium' || modules.indexOf(module) === 0 ? 1 : 0.5
+                  }}
+                >
+                  {membershipStatus === 'premium' || modules.indexOf(module) === 0 ? (
+                    'Start Learning'
+                  ) : (
+                    '🔒 Premium Only'
+                  )}
+                </Link>
+                {membershipStatus !== 'premium' && modules.indexOf(module) !== 0 && (
+                  <p className={styles.premiumNote}>Upgrade to access this module</p>
+                )}
+              </div>
+            ))}
             
-            <div className={styles.moduleCard}>
-              <h2>Module 2</h2>
-              <p>Advanced Techniques</p>
-              <a href="/module2" className={styles.moduleLink}>Start Learning</a>
-            </div>
-            
-            <div className={styles.moduleCard}>
-              <h2>Module 3</h2>
-              <p>Master the Skills</p>
-              <a href="/module3" className={styles.moduleLink}>Start Learning</a>
-            </div>
+            {modules.length === 0 && (
+              <div className={styles.noModules}>
+                <p>No modules available yet. Check back soon!</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
