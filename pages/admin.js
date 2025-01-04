@@ -62,7 +62,7 @@ function VisitorCard() {
 
     const fetchVisitorStats = async () => {
       try {
-        const response = await fetch(`https://beunghar-api.onrender.com/api/visitor-stats?time_span=${timeSpan}`);
+        const response = await fetch(`https://beunghar-api-92744157839.asia-south1.run.app/api/visitor-stats?time_span=${timeSpan}`);
         const data = await response.json();
         console.log('Raw visitor data:', data);
         
@@ -209,7 +209,7 @@ function PremiumMembersCard() {
 
     const fetchMemberStats = async () => {
       try {
-        const response = await fetch(`https://beunghar-api.onrender.com/api/member-stats?time_span=${timeSpan}`);
+        const response = await fetch(`https://beunghar-api-92744157839.asia-south1.run.app/api/member-stats?time_span=${timeSpan}`);
         const data = await response.json();
         console.log('Member stats response:', data);
 
@@ -409,7 +409,7 @@ export default function AdminDashboard() {
       if (!user) return;
 
       try {
-        const response = await fetch(`https://beunghar-api.onrender.com/api/sync-user`, {
+        const response = await fetch(`https://beunghar-api-92744157839.asia-south1.run.app/api/sync-user`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

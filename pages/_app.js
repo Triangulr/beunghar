@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }) {
       }
 
       try {
-        await fetch('https://beunghar-api.onrender.com/api/track-visit', {
+        await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/track-visit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

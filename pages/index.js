@@ -298,10 +298,10 @@ export default function Home() {
             transition={{ duration: 1, ease: "easeInOut" }}
           >
             {/* First set of cards */}
-            <Card className="min-w-[500px] bg-slate-700 dark:bg-slate-700">
+            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
               <CardHeader>
                 <CardTitle className="text-white">John Doe</CardTitle>
-                <CardDescription className="text-gray-200">Business Owner</CardDescription>
+                <CardDescription className="text-gray-100">Business Owner</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
@@ -311,10 +311,10 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="min-w-[500px] bg-slate-700 dark:bg-slate-700">
+            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
               <CardHeader>
                 <CardTitle className="text-white">Jane Smith</CardTitle>
-                <CardDescription className="text-gray-200">Startup Founder</CardDescription>
+                <CardDescription className="text-gray-100">Startup Founder</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
@@ -324,10 +324,10 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="min-w-[500px] bg-slate-700 dark:bg-slate-700">
+            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
               <CardHeader>
                 <CardTitle className="text-white">Alex Brown</CardTitle>
-                <CardDescription className="text-gray-200">Digital Entrepreneur</CardDescription>
+                <CardDescription className="text-gray-100">Digital Entrepreneur</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
@@ -338,10 +338,10 @@ export default function Home() {
             </Card>
 
             {/* Duplicate first set for seamless loop */}
-            <Card className="min-w-[500px] bg-slate-700 dark:bg-slate-700">
+            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
               <CardHeader>
                 <CardTitle className="text-white">John Doe</CardTitle>
-                <CardDescription className="text-gray-200">Business Owner</CardDescription>
+                <CardDescription className="text-gray-100">Business Owner</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
@@ -362,10 +362,10 @@ export default function Home() {
             transition={{ duration: 1, ease: "easeInOut" }}
           >
             {/* Second set of cards */}
-            <Card className="min-w-[500px] bg-slate-700 dark:bg-slate-700">
+            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
               <CardHeader>
                 <CardTitle className="text-white">Sarah Davis</CardTitle>
-                <CardDescription className="text-gray-200">E-commerce Expert</CardDescription>
+                <CardDescription className="text-gray-100">E-commerce Expert</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
@@ -375,10 +375,10 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="min-w-[500px] bg-slate-700 dark:bg-slate-700">
+            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
               <CardHeader>
                 <CardTitle className="text-white">Michael Chen</CardTitle>
-                <CardDescription className="text-gray-200">Tech Startup CEO</CardDescription>
+                <CardDescription className="text-gray-100">Tech Startup CEO</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
@@ -388,10 +388,10 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="min-w-[500px] bg-slate-700 dark:bg-slate-700">
+            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
               <CardHeader>
                 <CardTitle className="text-white">Emma Wilson</CardTitle>
-                <CardDescription className="text-gray-200">Marketing Consultant</CardDescription>
+                <CardDescription className="text-gray-100">Marketing Consultant</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
@@ -402,10 +402,10 @@ export default function Home() {
             </Card>
 
             {/* Duplicate second set for seamless loop */}
-            <Card className="min-w-[500px] bg-slate-700 dark:bg-slate-700">
+            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
               <CardHeader>
                 <CardTitle className="text-white">Sarah Davis</CardTitle>
-                <CardDescription className="text-gray-200">E-commerce Expert</CardDescription>
+                <CardDescription className="text-gray-100">E-commerce Expert</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
@@ -426,44 +426,44 @@ export default function Home() {
       >
         <h2 className="text-3xl font-bold text-center mb-8 text-white">Why Join Our Course?</h2>
         <Accordion type="single" collapsible className="w-full space-y-4">
-          <AccordionItem value="item-1" className="bg-slate-700 dark:bg-slate-700 rounded-lg px-6">
-            <AccordionTrigger className="text-xl py-6 accordion-trigger">
+          <AccordionItem value="item-1" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Comprehensive Curriculum
             </AccordionTrigger>
-            <AccordionContent className="text-lg pb-6 text-gray-200">
+            <AccordionContent className="text-lg pb-6 text-white">
               Our curriculum is carefully designed to cover all essential aspects of business success. From foundational principles to advanced strategies, 
               you'll learn everything you need to build and scale your business. Each module builds upon the previous one, 
               ensuring a structured and thorough learning experience.
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-2" className="bg-slate-700 dark:bg-slate-700 rounded-lg px-6">
-            <AccordionTrigger className="text-xl py-6 accordion-trigger">
+          <AccordionItem value="item-2" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Expert Instructors
             </AccordionTrigger>
-            <AccordionContent className="text-lg pb-6 text-gray-200">
+            <AccordionContent className="text-lg pb-6 text-white">
               Learn from successful entrepreneurs and industry leaders who have built multiple seven-figure businesses. 
               Our instructors don't just teach theory – they share real-world experiences, strategies, and lessons 
               learned from their own entrepreneurial journeys.
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-3" className="bg-slate-700 dark:bg-slate-700 rounded-lg px-6">
-            <AccordionTrigger className="text-xl py-6 accordion-trigger">
+          <AccordionItem value="item-3" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Flexible Learning
             </AccordionTrigger>
-            <AccordionContent className="text-lg pb-6 text-gray-200">
+            <AccordionContent className="text-lg pb-6 text-white">
               Study at your own pace with 24/7 access to course materials. Whether you're a full-time entrepreneur 
               or building your business on the side, our platform allows you to learn whenever and wherever it's 
               convenient for you. All content is available on-demand and can be accessed from any device.
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-4" className="bg-slate-700 dark:bg-slate-700 rounded-lg px-6">
-            <AccordionTrigger className="text-xl py-6 accordion-trigger">
+          <AccordionItem value="item-4" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Community Support
             </AccordionTrigger>
-            <AccordionContent className="text-lg pb-6 text-gray-200">
+            <AccordionContent className="text-lg pb-6 text-white">
               Join a vibrant community of like-minded entrepreneurs. Network with peers, find accountability partners, 
               and get support from mentors. Our active community forum and regular networking events ensure you're 
               never alone on your entrepreneurial journey. Plus, gain access to exclusive resources and opportunities 
@@ -482,47 +482,47 @@ export default function Home() {
       >
         <h2 className="text-3xl font-bold text-center mb-8 text-white">Frequently Asked Questions</h2>
         <Accordion type="single" collapsible className="w-full space-y-4">
-          <AccordionItem value="item-1" className="bg-slate-700 dark:bg-slate-700 rounded-lg px-6">
-            <AccordionTrigger className="text-xl py-6 accordion-trigger">
+          <AccordionItem value="item-1" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               How long is the course?
             </AccordionTrigger>
-            <AccordionContent className="text-lg pb-6 text-gray-200">
+            <AccordionContent className="text-lg pb-6 text-white">
               The course lasts for 6 weeks, with new modules released each week. You'll have lifetime access to all materials, so you can learn at your own pace.
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-2" className="bg-slate-700 dark:bg-slate-700 rounded-lg px-6">
-            <AccordionTrigger className="text-xl py-6 accordion-trigger">
+          <AccordionItem value="item-2" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               What if I fall behind?
             </AccordionTrigger>
-            <AccordionContent className="text-lg pb-6 text-gray-200">
+            <AccordionContent className="text-lg pb-6 text-white">
               No problem! You can access all materials at any time and complete the course at your own pace. Our community and support team are always here to help you catch up.
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-3" className="bg-slate-700 dark:bg-slate-700 rounded-lg px-6">
-            <AccordionTrigger className="text-xl py-6 accordion-trigger">
+          <AccordionItem value="item-3" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Is there a money-back guarantee?
             </AccordionTrigger>
-            <AccordionContent className="text-lg pb-6 text-gray-200">
+            <AccordionContent className="text-lg pb-6 text-white">
               Yes! We offer a 30-day money-back guarantee. If you're not completely satisfied with the course, we'll refund your investment with no questions asked.
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-4" className="bg-slate-700 dark:bg-slate-700 rounded-lg px-6">
-            <AccordionTrigger className="text-xl py-6 accordion-trigger">
+          <AccordionItem value="item-4" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Do I get lifetime access?
             </AccordionTrigger>
-            <AccordionContent className="text-lg pb-6 text-gray-200">
+            <AccordionContent className="text-lg pb-6 text-white">
               Absolutely! Once you enroll, you'll have lifetime access to all course materials, including future updates and improvements to the curriculum.
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-5" className="bg-slate-700 dark:bg-slate-700 rounded-lg px-6">
-            <AccordionTrigger className="text-xl py-6 accordion-trigger">
+          <AccordionItem value="item-5" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Is there live support available?
             </AccordionTrigger>
-            <AccordionContent className="text-lg pb-6 text-gray-200">
+            <AccordionContent className="text-lg pb-6 text-white">
               Yes! We provide live support through our community platform, weekly Q&A sessions, and dedicated mentorship calls to ensure you get the help you need.
             </AccordionContent>
           </AccordionItem>
@@ -542,40 +542,40 @@ export default function Home() {
         </div>
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="bg-slate-800 dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200" 
+            <Card className="bg-[#Fc420d] dark:bg-[#Fc420d] transform hover:scale-105 transition-transform duration-200" 
                   onClick={() => navigateToModule('module1')}>
               <CardHeader>
-                <CardTitle>Module 1</CardTitle>
-                <CardDescription>Introduction to Basics</CardDescription>
+                <CardTitle className="text-white">Module 1</CardTitle>
+                <CardDescription className="text-white/80">Introduction to Basics</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-slate-600 dark:text-slate-300">
+                <p className="text-white/90">
                   Learn the fundamental concepts and principles to build a strong foundation.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-800 dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200"
+            <Card className="bg-[#Fc420d] dark:bg-[#Fc420d] transform hover:scale-105 transition-transform duration-200"
                   onClick={() => navigateToModule('module2')}>
               <CardHeader>
-                <CardTitle>Module 2</CardTitle>
-                <CardDescription>Intermediate Concepts</CardDescription>
+                <CardTitle className="text-white">Module 2</CardTitle>
+                <CardDescription className="text-white/80">Intermediate Concepts</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-slate-600 dark:text-slate-300">
+                <p className="text-white/90">
                   Dive deeper into advanced strategies and practical applications.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-800 dark:bg-slate-800 transform hover:scale-105 transition-transform duration-200"
+            <Card className="bg-[#Fc420d] dark:bg-[#Fc420d] transform hover:scale-105 transition-transform duration-200"
                   onClick={() => navigateToModule('module3')}>
               <CardHeader>
-                <CardTitle>Module 3</CardTitle>
-                <CardDescription>Advanced Topics</CardDescription>
+                <CardTitle className="text-white">Module 3</CardTitle>
+                <CardDescription className="text-white/80">Advanced Topics</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-slate-600 dark:text-slate-300">
+                <p className="text-white/90">
                   Master complex techniques and real-world business scenarios.
                 </p>
               </CardContent>
@@ -597,7 +597,7 @@ export default function Home() {
         </div>
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="bg-slate-700 dark:bg-slate-700">
+            <Card className="bg-[#Fc420d] dark:bg-[#Fc420d]">
               <CardHeader>
                 <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
                   <img 
@@ -607,22 +607,22 @@ export default function Home() {
                   />
                 </div>
                 <CardTitle className="text-white">Jane Doe</CardTitle>
-                <CardDescription className="text-gray-200">CEO & Founder</CardDescription>
+                <CardDescription className="text-white/80">CEO & Founder</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white mb-4">
                   Some text that describes me lorem ipsum ipsum lorem.
                 </p>
-                <p className="text-gray-200 mb-4">
+                <p className="text-white/80 mb-4">
                   jane@example.com
                 </p>
-                <button className="w-full bg-slate-900 text-white hover:bg-slate-800 py-2 rounded-md hover:opacity-90 transition-opacity">
+                <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
                   Contact
                 </button>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-700 dark:bg-slate-700">
+            <Card className="bg-[#Fc420d] dark:bg-[#Fc420d]">
               <CardHeader>
                 <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
                   <img 
@@ -632,22 +632,22 @@ export default function Home() {
                   />
                 </div>
                 <CardTitle className="text-white">Mike Ross</CardTitle>
-                <CardDescription className="text-gray-200">Art Director</CardDescription>
+                <CardDescription className="text-white/80">Art Director</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white mb-4">
                   Some text that describes me lorem ipsum ipsum lorem.
                 </p>
-                <p className="text-gray-200 mb-4">
+                <p className="text-white/80 mb-4">
                   mike@example.com
                 </p>
-                <button className="w-full bg-slate-900 text-white hover:bg-slate-800 py-2 rounded-md hover:opacity-90 transition-opacity">
+                <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
                   Contact
                 </button>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-700 dark:bg-slate-700">
+            <Card className="bg-[#Fc420d] dark:bg-[#Fc420d]">
               <CardHeader>
                 <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
                   <img 
@@ -657,16 +657,16 @@ export default function Home() {
                   />
                 </div>
                 <CardTitle className="text-white">John Doe</CardTitle>
-                <CardDescription className="text-gray-200">Designer</CardDescription>
+                <CardDescription className="text-white/80">Designer</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white mb-4">
                   Some text that describes me lorem ipsum ipsum lorem.
                 </p>
-                <p className="text-gray-200 mb-4">
+                <p className="text-white/80 mb-4">
                   john@example.com
                 </p>
-                <button className="w-full bg-slate-900 text-white hover:bg-slate-800 py-2 rounded-md hover:opacity-90 transition-opacity">
+                <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
                   Contact
                 </button>
               </CardContent>

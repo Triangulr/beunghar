@@ -71,7 +71,7 @@ const AffiliateDrawer = () => {
   useEffect(() => {
     const fetchUserAsset = async () => {
       try {
-        const response = await fetch(`https://beunghar-api.onrender.com/api/user-asset/${user.id}`);
+        const response = await fetch(`https://beunghar-api-92744157839.asia-south1.run.app/api/user-asset/${user.id}`);
         if (response.ok) {
           const data = await response.json();
           if (data.imageUrl) {
@@ -119,7 +119,7 @@ const AffiliateDrawer = () => {
       formData.append('file', file);
       
       // Send the request with the user_id as a URL parameter
-      const url = `https://beunghar-api.onrender.com/api/upload-affiliate-image?user_id=${encodeURIComponent(user.id)}`;
+      const url = `https://beunghar-api-92744157839.asia-south1.run.app/api/upload-affiliate-image?user_id=${encodeURIComponent(user.id)}`;
       
       console.log('Uploading file...'); // Debug log
       const response = await fetch(url, {
@@ -312,7 +312,7 @@ export default function MembersPage() {
     if (!user || retries >= MAX_RETRIES) return false;
 
     try {
-      const response = await fetch('https://beunghar-api.onrender.com/api/sync-user', {
+      const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/sync-user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -382,7 +382,7 @@ export default function MembersPage() {
     const orderId = 'order-' + Math.random().toString(36).substring(2, 15);
 
     try {
-      const response = await fetch('https://beunghar-api.onrender.com/create-transaction-token', {
+      const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/create-transaction-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
