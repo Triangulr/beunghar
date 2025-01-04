@@ -525,4 +525,8 @@
 .moduleManagerCard a[style*="cursor: none"],
 .dialogContent a[style*="cursor: none"] {
   cursor: pointer !important;
+}
+
+.userButtonContainer * {
+  cursor: pointer !important;
 } 

@@ -539,7 +539,7 @@ export default function AdminDashboard() {
               </NavigationMenuList>
             </NavigationMenu>
           </div>
-          <div className={styles.userButtonContainer}>
+          <div className={styles.userButtonContainer} style={{ cursor: 'pointer' }}>
             <UserButton afterSignOutUrl="/" />
           </div>
         </div>

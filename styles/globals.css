@@ -1319,3 +1319,49 @@ button:not(.exclude-custom-cursor *),
 .exclude-custom-cursor textarea {
     cursor: text !important;
 }
+
+/* Add these rules to ensure cursor visibility across all Clerk components */
+.cl-component,
+.cl-component *,
+[class^="cl-"],
+[class^="cl-"] * {
+  cursor: default !important;
+}
+
+/* Specifically target button elements within Clerk components */
+.cl-component button,
+[class^="cl-"] button {
+  cursor: pointer !important;
+}
+
+/* Reset all Clerk elements to default cursor first */
+.cl-component,
+.cl-component *,
+[class^="cl-"],
+[class^="cl-"] * {
+  cursor: default !important;
+}
+
+/* Target only interactive elements */
+.cl-component button,
+.cl-component a,
+.cl-component [role="button"],
+.cl-component input,
+.cl-component select,
+[class^="cl-"] button,
+[class^="cl-"] a,
+[class^="cl-"] [role="button"],
+[class^="cl-"] input,
+[class^="cl-"] select {
+  cursor: pointer !important;
+}
+
+/* Text inputs should show text cursor */
+.cl-component input[type="text"],
+.cl-component input[type="email"],
+.cl-component input[type="password"],
+[class^="cl-"] input[type="text"],
+[class^="cl-"] input[type="email"],
+[class^="cl-"] input[type="password"] {
+  cursor: text !important;
+}
