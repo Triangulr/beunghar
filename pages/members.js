@@ -355,11 +355,15 @@ export default function MembersPage() {
   const fetchModules = async () => {
     try {
       const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/modules');
+      if (!response.ok) {
+        throw new Error('Failed to fetch modules');
+      }
       const data = await response.json();
+      setModules(Array.isArray(data) ? data : []);
       console.log('Fetched modules:', data);
-      setModules(data);
     } catch (error) {
       console.error('Error fetching modules:', error);
+      setModules([]);
     }
   };
 
@@ -509,10 +513,17 @@ export default function MembersPage() {
           </div>
 
           <div className={styles.moduleGrid}>
-            {modules.map((module) => (
+            {Array.isArray(modules) && modules.map((module) => (
               <div key={module._id} className={styles.moduleCard}>
-                <h2 style={{ fontWeight: 600 }}>{module.title || 'Untitled Module'}</h2>
-                <p style={{ fontWeight: 500 }}>{module.description || 'No description available'}</p>
+                <h2 style={{ fontWeight: 600 }}>
+                  {module.title || 'Untitled Module'}
+                </h2>
+                <p style={{ fontWeight: 500 }}>
+                  {module.description || 'No description available'}
+                </p>
+                <p className={styles.sectionCount}>
+                  {module.sections?.length || 0} sections
+                </p>
                 <Link 
                   href={`/modules/${module._id}`} 
                   className={styles.moduleLink}
@@ -533,7 +544,7 @@ export default function MembersPage() {
               </div>
             ))}
             
-            {modules.length === 0 && (
+            {(!modules || modules.length === 0) && (
               <div className={styles.noModules}>
                 <p>No modules available yet. Check back soon!</p>
               </div>

@@ -17,14 +17,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import styles from '@/styles/AdminPage.module.css';
+import { useUser } from '@clerk/nextjs';
 
 const ModuleManager = () => {
   const [modules, setModules] = useState([]);
-  const [editingModule, setEditingModule] = useState(null);
+  const [editingModule, setEditingModule] = useState({
+    _id: null,
+    title: '',
+    description: '',
+    sections: [{ title: '', description: '', content: '' }],
+    status: 'draft',
+    lastUpdated: new Date().toISOString().split('T')[0]
+  });
   const [isEditing, setIsEditing] = useState(false);
   const [previewTab, setPreviewTab] = useState("edit");
   const [moduleToDelete, setModuleToDelete] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { user } = useUser();
 
   useEffect(() => {
     fetchModules();
@@ -32,9 +41,16 @@ const ModuleManager = () => {
 
   const fetchModules = async () => {
     try {
-      const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/modules');
+      const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/modules', {
+        headers: {
+          'Content-Type': 'application/json',
+          'user-id': user?.id || ''
+        }
+      });
+      if (response.status === 403) {
+        throw new Error('Unauthorized');
+      }
       const data = await response.json();
-      console.log('Fetched modules:', data);
       setModules(data);
       setLoading(false);
     } catch (error) {
@@ -49,7 +65,7 @@ const ModuleManager = () => {
       _id: module._id,
       title: module.title || '',
       description: module.description || '',
-      content: module.content || '',
+      sections: module.sections || [{ title: '', description: '', content: '' }],
       status: module.status || 'draft',
       lastUpdated: module.lastUpdated || new Date().toISOString().split('T')[0]
     });
@@ -65,22 +81,25 @@ const ModuleManager = () => {
         
         const method = editingModule._id ? 'PUT' : 'POST';
         
-        console.log('Saving module:', editingModule);
-        
         const response = await fetch(url, {
           method,
           headers: {
             'Content-Type': 'application/json',
+            'user-id': user?.id || ''
           },
           body: JSON.stringify({
             title: editingModule.title || '',
             description: editingModule.description || '',
-            content: editingModule.content || '',
+            sections: editingModule.sections || [],
             status: editingModule.status || 'draft',
             students: editingModule.students || 0,
             lastUpdated: new Date().toISOString()
           }),
         });
+
+        if (response.status === 403) {
+          throw new Error('Unauthorized');
+        }
 
         if (response.ok) {
           await fetchModules();
@@ -97,8 +116,6 @@ const ModuleManager = () => {
 
   const handleDelete = async (moduleId) => {
     try {
-      console.log('Deleting module:', moduleId); // Debug log
-      
       const response = await fetch(
         `https://beunghar-api-92744157839.asia-south1.run.app/api/modules/${moduleId}`,
         {
@@ -106,12 +123,15 @@ const ModuleManager = () => {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'user-id': user?.id || ''
           },
-          mode: 'cors' // Explicitly state CORS mode
+          mode: 'cors'
         }
       );
 
-      console.log('Delete response:', response); // Debug log
+      if (response.status === 403) {
+        throw new Error('Unauthorized');
+      }
 
       if (response.ok) {
         await fetchModules();
@@ -119,28 +139,49 @@ const ModuleManager = () => {
       } else {
         const errorText = await response.text();
         console.error('Error deleting module:', errorText);
-        // Optionally show error to user
         alert('Failed to delete module: ' + errorText);
       }
     } catch (error) {
       console.error('Error deleting module:', error);
-      // Optionally show error to user
       alert('Failed to delete module: ' + error.message);
     }
+  };
+
+  const handleAddSection = () => {
+    setEditingModule(prev => ({
+      ...prev,
+      sections: [...prev.sections, { title: '', description: '', content: '' }]
+    }));
+  };
+
+  const handleRemoveSection = (index) => {
+    setEditingModule(prev => ({
+      ...prev,
+      sections: prev.sections.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleSectionChange = (index, field, value) => {
+    setEditingModule(prev => ({
+      ...prev,
+      sections: prev.sections.map((section, i) => 
+        i === index ? { ...section, [field]: value } : section
+      )
+    }));
   };
 
   return (
     <div className="exclude-custom-cursor">
       <Card className={`${styles.moduleManagerCard} ${styles.statsCard}`}>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-xl font-bold">Module Management</CardTitle>
+          <CardTitle className="text-xl font-bold">Module Manager</CardTitle>
           <Button 
             onClick={() => {
               setEditingModule({
                 _id: null,
                 title: '',
                 description: '',
-                content: '',
+                sections: [{ title: '', description: '', content: '' }],
                 status: 'draft',
                 lastUpdated: new Date().toISOString().split('T')[0]
               });
@@ -166,7 +207,12 @@ const ModuleManager = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Button variant="ghost" size="icon" title="View">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    title="View" 
+                    onClick={() => window.open(`/modules/${module._id}`, '_blank')}
+                  >
                     <Eye className="h-4 w-4" />
                   </Button>
                   <Button variant="ghost" size="icon" title="Edit" onClick={() => handleEdit(module)}>
@@ -201,55 +247,89 @@ const ModuleManager = () => {
           <div className="flex flex-col space-y-4 h-full overflow-hidden">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="title" className="cursor-default">Title</Label>
+                <Label>Module Title</Label>
                 <Input
-                  id="title"
                   value={editingModule?.title || ''}
                   onChange={(e) => setEditingModule({
                     ...editingModule,
                     title: e.target.value
                   })}
-                  className="cursor-text"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="description" className="cursor-default">Description</Label>
+                <Label>Module Description</Label>
                 <Input
-                  id="description"
                   value={editingModule?.description || ''}
                   onChange={(e) => setEditingModule({
                     ...editingModule,
                     description: e.target.value
                   })}
-                  className="cursor-text"
                 />
               </div>
             </div>
 
-            <Tabs value={previewTab} onValueChange={setPreviewTab} className="flex-1 overflow-hidden">
-              <TabsList className="bg-zinc-800 mb-4">
-                <TabsTrigger value="edit" className="data-[state=active]:bg-zinc-700 cursor-pointer">Edit</TabsTrigger>
-                <TabsTrigger value="preview" className="data-[state=active]:bg-zinc-700 cursor-pointer">Preview</TabsTrigger>
-              </TabsList>
-              <TabsContent value="edit" className="flex-1 overflow-auto mt-2 border rounded-md">
-                <Textarea
-                  placeholder="Write your module content here..."
-                  value={editingModule?.content || ''}
-                  onChange={(e) => setEditingModule({
-                    ...editingModule,
-                    content: e.target.value
-                  })}
-                  className="min-h-[500px] flex-1 bg-zinc-800 border-0 rounded-none focus-visible:ring-0 focus-visible:ring-offset-0 cursor-text"
-                />
-              </TabsContent>
-              <TabsContent value="preview" className="markdown-preview bg-zinc-800 p-6 rounded-md overflow-auto mt-2 border h-[500px] cursor-default">
-                <div className="prose prose-invert prose-zinc max-w-none">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {editingModule?.content || ''}
-                  </ReactMarkdown>
+            <div className={`flex-1 overflow-auto ${styles.customScroll}`}>
+              {editingModule?.sections.map((section, index) => (
+                <div key={index} className="mb-6 p-4 border border-zinc-700 rounded-lg bg-zinc-900/50">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-lg font-semibold">Section {index + 1}</h3>
+                    {editingModule.sections.length > 1 && (
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleRemoveSection(index)}
+                      >
+                        Remove Section
+                      </Button>
+                    )}
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <Label>Section Title</Label>
+                      <Input
+                        value={section.title}
+                        onChange={(e) => handleSectionChange(index, 'title', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label>Section Description</Label>
+                      <Input
+                        value={section.description}
+                        onChange={(e) => handleSectionChange(index, 'description', e.target.value)}
+                      />
+                    </div>
+
+                    <Tabs defaultValue="edit" className="bg-zinc-800/50 p-4 rounded-lg">
+                      <TabsList className="bg-zinc-900">
+                        <TabsTrigger value="edit" className="data-[state=active]:bg-zinc-700">Edit</TabsTrigger>
+                        <TabsTrigger value="preview" className="data-[state=active]:bg-zinc-700">Preview</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="edit" className="bg-zinc-800/50 rounded-md mt-2">
+                        <Textarea
+                          placeholder="Write your section content here..."
+                          value={section.content}
+                          onChange={(e) => handleSectionChange(index, 'content', e.target.value)}
+                          className="min-h-[200px] bg-transparent border-zinc-700"
+                        />
+                      </TabsContent>
+                      <TabsContent value="preview" className="bg-zinc-800/50 rounded-md mt-2 p-4 prose prose-invert max-w-none">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {section.content}
+                        </ReactMarkdown>
+                      </TabsContent>
+                    </Tabs>
+                  </div>
                 </div>
-              </TabsContent>
-            </Tabs>
+              ))}
+
+              <Button
+                onClick={handleAddSection}
+                className="w-full mt-4"
+              >
+                Add New Section
+              </Button>
+            </div>
           </div>
 
           <DialogFooter>

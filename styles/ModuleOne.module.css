@@ -214,3 +214,30 @@
   margin-top: 2rem;
 }
 
+.sectionDivider {
+  margin: 2rem 0;
+  border: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sectionTitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #ffab40;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.sectionDescription {
+  font-size: 1.1rem;
+  color: #ccc;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.moduleSection {
+  padding: 2rem 0;
+}
+

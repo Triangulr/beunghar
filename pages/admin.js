@@ -495,12 +495,14 @@ export default function AdminDashboard() {
         <div className={styles.headerContent}>
           <div className={styles.leftSection}>
             <div className={styles.logo}>
-              <Image 
-                src="/logo/Beunghar-FINAL1.png"
-                alt="Beunghar Logo"
-                width={40}
-                height={40}
-              />
+              <Link href="/">
+                <Image 
+                  src="/logo/Beunghar-FINAL1.png"
+                  alt="Beunghar Logo"
+                  width={40}
+                  height={40}
+                />
+              </Link>
             </div>
             <NavigationMenu>
               <NavigationMenuList>

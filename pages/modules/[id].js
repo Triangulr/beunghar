@@ -11,6 +11,7 @@ export default function DynamicModule() {
   const router = useRouter();
   const { id } = router.query;
   const { isLoaded, isSignedIn } = useUser();
+  const [isAuthorized, setIsAuthorized] = useState(false);
   const [module, setModule] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -18,10 +19,11 @@ export default function DynamicModule() {
     if (isLoaded && !isSignedIn) {
       router.push('/members');
       return;
-    }
-
-    if (id) {
-      fetchModule();
+    } else if (isLoaded && isSignedIn) {
+      setIsAuthorized(true);
+      if (id) {
+        fetchModule();
+      }
     }
   }, [id, isLoaded, isSignedIn]);
 
@@ -40,7 +42,7 @@ export default function DynamicModule() {
     }
   };
 
-  if (loading) {
+  if (!isAuthorized || loading) {
     return (
       <div className={styles.loadingContainer}>
         <div className={styles.loader}></div>
@@ -80,13 +82,25 @@ export default function DynamicModule() {
           <h1 className={styles.moduleTitle}>{module.title}</h1>
           <p className={styles.moduleSummary}>{module.description}</p>
 
-          <div className={styles.content}>
-            <div className="prose prose-invert prose-zinc max-w-none">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {module.content || ''}
-              </ReactMarkdown>
+          {module.sections?.map((section, index) => (
+            <div key={index}>
+              <div className={styles.moduleSection}>
+                <h2 className={styles.sectionTitle}>{section.title}</h2>
+                <p className={styles.sectionDescription}>{section.description}</p>
+                
+                <div className={styles.content}>
+                  <div className="prose prose-invert prose-zinc max-w-none">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {section.content || ''}
+                    </ReactMarkdown>
+                  </div>
+                </div>
+              </div>
+              {index < module.sections.length - 1 && (
+                <hr className={styles.sectionDivider} />
+              )}
             </div>
-          </div>
+          ))}
         </section>
       </main>
 
