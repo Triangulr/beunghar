@@ -34,6 +34,7 @@ const ModuleManager = () => {
   const [moduleToDelete, setModuleToDelete] = useState(null);
   const [loading, setLoading] = useState(true);
   const [uploadingVideo, setUploadingVideo] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
   const { user } = useUser();
 
   useEffect(() => {
@@ -79,6 +80,7 @@ const ModuleManager = () => {
 
   const handleSave = async () => {
     if (editingModule) {
+      setIsSaving(true);
       try {
         const url = editingModule._id
           ? `https://beunghar-api-92744157839.asia-south1.run.app/api/modules/${editingModule._id}`
@@ -107,6 +109,40 @@ const ModuleManager = () => {
         }
 
         if (response.ok) {
+          // After successful module save, update video chapters and generate VTT
+          if (editingModule._id) {
+            for (let i = 0; i < editingModule.sections.length; i++) {
+              const section = editingModule.sections[i];
+              if (section.videoUrl && section.chapters) {
+                await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/modules/update-video-chapters', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'user-id': user?.id || ''
+                  },
+                  body: JSON.stringify({
+                    moduleId: editingModule._id,
+                    sectionIndex: i,
+                    chapters: section.chapters
+                  }),
+                });
+
+                await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/modules/generate-vtt', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'user-id': user?.id || ''
+                  },
+                  body: JSON.stringify({
+                    moduleId: editingModule._id,
+                    sectionIndex: i,
+                    chapters: section.chapters
+                  }),
+                });
+              }
+            }
+          }
+
           await fetchModules();
           setIsEditing(false);
           setEditingModule(null);
@@ -115,6 +151,8 @@ const ModuleManager = () => {
         }
       } catch (error) {
         console.error('Error saving module:', error);
+      } finally {
+        setIsSaving(false);
       }
     }
   };
@@ -499,6 +537,66 @@ const ModuleManager = () => {
                         )}
                       </div>
                     </div>
+
+                    <div className="mt-4">
+                      {section.videoUrl && (
+                        <div className="space-y-4">
+                          <Label>Video Chapters</Label>
+                          <div className="space-y-2">
+                            {(section.chapters || []).map((chapter, chapterIndex) => (
+                              <div key={chapterIndex} className="flex items-center gap-2">
+                                <Input
+                                  type="text"
+                                  placeholder="HH:MM:SS"
+                                  className="w-24"
+                                  value={chapter.time}
+                                  onChange={(e) => {
+                                    const newChapters = [...(section.chapters || [])];
+                                    newChapters[chapterIndex] = {
+                                      ...chapter,
+                                      time: e.target.value
+                                    };
+                                    handleSectionChange(index, 'chapters', newChapters);
+                                  }}
+                                />
+                                <Input
+                                  placeholder="Chapter title"
+                                  value={chapter.title}
+                                  onChange={(e) => {
+                                    const newChapters = [...(section.chapters || [])];
+                                    newChapters[chapterIndex] = {
+                                      ...chapter,
+                                      title: e.target.value
+                                    };
+                                    handleSectionChange(index, 'chapters', newChapters);
+                                  }}
+                                />
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => {
+                                    const newChapters = section.chapters.filter((_, i) => i !== chapterIndex);
+                                    handleSectionChange(index, 'chapters', newChapters);
+                                  }}
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            ))}
+                            <Button
+                              variant="outline"
+                              onClick={() => {
+                                const newChapters = [...(section.chapters || []), { time: '', title: '' }];
+                                handleSectionChange(index, 'chapters', newChapters);
+                              }}
+                              className="w-full"
+                            >
+                              Add Chapter
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -513,11 +611,27 @@ const ModuleManager = () => {
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditing(false)} className="cursor-pointer">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsEditing(false)} 
+              className="cursor-pointer"
+              disabled={isSaving}
+            >
               Cancel
             </Button>
-            <Button onClick={handleSave} className="bg-orange-500 hover:bg-orange-600 cursor-pointer">
-              Save changes
+            <Button 
+              onClick={handleSave} 
+              className="bg-orange-500 hover:bg-orange-600 cursor-pointer"
+              disabled={isSaving}
+            >
+              {isSaving ? (
+                <div className="flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Saving...</span>
+                </div>
+              ) : (
+                'Save changes'
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

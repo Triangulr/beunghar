@@ -6,9 +6,21 @@ import Head from 'next/head';
 import Script from 'next/script';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import 'vidstack/player/styles/base.css';
-import 'vidstack/player/styles/plyr/theme.css';
-import { PlyrLayout, VidstackPlayer } from 'vidstack/global/player';
+import {
+  MediaPlayer,
+  MediaProvider,
+  Track,
+  Poster
+} from '@vidstack/react';
+import { defaultLayoutIcons, DefaultVideoLayout } from '@vidstack/react/player/layouts/default';
+import '@vidstack/react/player/styles/default/theme.css';
+import '@vidstack/react/player/styles/default/layouts/video.css';
+
+function timeStringToSeconds(timeString) {
+  if (!timeString) return 0;
+  const [hours, minutes, seconds] = timeString.split(':').map(Number);
+  return (hours * 3600) + (minutes * 60) + seconds;
+}
 
 export default function DynamicModule() {
   const router = useRouter();
@@ -19,6 +31,11 @@ export default function DynamicModule() {
   const [loading, setLoading] = useState(true);
   const [moduleVideos, setModuleVideos] = useState({});
   const playerRefs = useRef({});
+  const [currentChapters, setCurrentChapters] = useState({});
+  const [chapterProgress, setChapterProgress] = useState({});
+  const [currentTime, setCurrentTime] = useState({});
+  const [completedChapters, setCompletedChapters] = useState({});
+  const [videoDurations, setVideoDurations] = useState({});
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
@@ -65,7 +82,12 @@ export default function DynamicModule() {
         const videos = await response.json();
         const videoMap = {};
         videos.forEach(video => {
-          videoMap[video.sectionIndex] = video.videoUrl;
+          videoMap[video.sectionIndex] = {
+            videoUrl: video.videoUrl,
+            chapters: video.chapters || [],
+            chaptersVttUrl: `${video.chaptersVttUrl}?t=${Date.now()}`,
+            duration: video.duration
+          };
         });
         setModuleVideos(videoMap);
       }
@@ -74,32 +96,42 @@ export default function DynamicModule() {
     }
   };
 
-  useEffect(() => {
-    if (!module || !moduleVideos) return;
+  const handleDuration = (index) => (duration) => {
+    setVideoDurations(prev => ({
+      ...prev,
+      [index]: duration
+    }));
+  };
 
-    module.sections?.forEach((section, index) => {
-      if (!moduleVideos[index]) return;
-
-      const element = document.getElementById(`video-player-${index}`);
-      if (!element) return;
-
-      if (playerRefs.current[index]?.target === element) return;
-
-      if (playerRefs.current[index]) {
-        playerRefs.current[index].destroy();
-        playerRefs.current[index] = null;
+  const handleTimeUpdate = (index) => (event) => {
+    const time = event.currentTime;
+    const duration = moduleVideos[index]?.duration;
+    const chapters = moduleVideos[index]?.chapters || [];
+    
+    console.log(`Video ${index} using chapters VTT:`, moduleVideos[index]?.chaptersVttUrl);
+    
+    const completed = chapters.filter((chapter, i) => {
+      const currentChapterStart = timeStringToSeconds(chapter.time);
+      if (i === chapters.length - 1) {
+        return duration && time >= (duration - 1);
+      } else {
+        const nextChapterStart = timeStringToSeconds(chapters[i + 1].time);
+        return time >= nextChapterStart;
       }
-
-      VidstackPlayer.create({
-        target: element,
-        title: section.title,
-        src: moduleVideos[index],
-        layout: new PlyrLayout(),
-      }).then(player => {
-        playerRefs.current[index] = player;
-      });
     });
-  }, [module, moduleVideos]);
+
+    const progress = (completed.length / chapters.length) * 100;
+
+    setChapterProgress(prev => ({
+      ...prev,
+      [index]: progress
+    }));
+
+    setCompletedChapters(prev => ({
+      ...prev,
+      [index]: completed.map(c => c.time)
+    }));
+  };
 
   if (!isAuthorized || loading) {
     return (
@@ -158,9 +190,78 @@ export default function DynamicModule() {
                 <h2 className={styles.sectionTitle}>{section.title}</h2>
                 <p className={styles.sectionDescription}>{section.description}</p>
                 
-                {moduleVideos[index] && (
-                  <div className={styles.videoContainer}>
-                    <div id={`video-player-${index}`} />
+                {moduleVideos[index]?.videoUrl && (
+                  <div className={styles.videoWrapper}>
+                    <div className={styles.videoContainer}>
+                      <MediaPlayer
+                        title={section.title}
+                        src={moduleVideos[index].videoUrl}
+                        crossorigin=""
+                        playsinline
+                        viewType="video"
+                        streamType="on-demand"
+                        onTimeUpdate={handleTimeUpdate(index)}
+                        onDuration={handleDuration(index)}
+                      >
+                        <MediaProvider>
+                          {moduleVideos[index]?.chaptersVttUrl && (
+                            <Track
+                              key={`chapters-${index}`}
+                              src={moduleVideos[index].chaptersVttUrl}
+                              kind="chapters"
+                              default
+                              label={`Chapters for Section ${index + 1}`}
+                              crossOrigin="anonymous"
+                            />
+                          )}
+                        </MediaProvider>
+                        <DefaultVideoLayout 
+                          icons={defaultLayoutIcons}
+                          thumbnails={moduleVideos[index].videoUrl}
+                        />
+                      </MediaPlayer>
+                    </div>
+                    
+                    {moduleVideos[index]?.chapters && moduleVideos[index].chapters.length > 0 && (
+                      <div className={styles.chaptersTracker}>
+                        <div className={styles.overallProgress}>
+                          <div className={styles.mainProgressBar}>
+                            <div 
+                              className={styles.mainProgressFill}
+                              style={{ width: `${chapterProgress[index] || 0}%` }}
+                            />
+                          </div>
+                          <span className={styles.progressText}>
+                            {Math.round(chapterProgress[index] || 0)}% Complete
+                          </span>
+                        </div>
+                        
+                        <div className={styles.chaptersList}>
+                          {moduleVideos[index].chapters.map((chapter, chapterIndex) => (
+                            <div 
+                              key={chapterIndex}
+                              className={`${styles.chapterItem} ${
+                                completedChapters[index]?.includes(chapter.time) ? styles.active : ''
+                              }`}
+                            >
+                              <div className={styles.chapterCheckbox}>
+                                {completedChapters[index]?.includes(chapter.time) && (
+                                  <svg viewBox="0 0 24 24" fill="currentColor" className={styles.checkIcon}>
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                  </svg>
+                                )}
+                              </div>
+                              <div className={styles.chapterInfo}>
+                                <span className={styles.chapterTitle}>{chapter.title}</span>
+                                <span className={styles.chapterTime}>
+                                  {formatTime(chapter.time)}
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
                 
@@ -186,4 +287,18 @@ export default function DynamicModule() {
       />
     </div>
   );
+}
+
+function formatTime(timeString) {
+  if (typeof timeString === 'string') {
+    const [hours, minutes, seconds] = timeString.split(':');
+    if (hours === '00') {
+      return `${minutes}:${seconds}`;
+    }
+    return timeString;
+  }
+  
+  const minutes = Math.floor(timeString / 60);
+  const seconds = Math.floor(timeString % 60);
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
