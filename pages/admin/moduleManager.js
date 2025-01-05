@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Eye, Pencil, Trash2, X } from "lucide-react";
+import { Eye, Pencil, Trash2, X, Upload, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -33,6 +33,7 @@ const ModuleManager = () => {
   const [previewTab, setPreviewTab] = useState("edit");
   const [moduleToDelete, setModuleToDelete] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [uploadingVideo, setUploadingVideo] = useState(null);
   const { user } = useUser();
 
   useEffect(() => {
@@ -59,7 +60,7 @@ const ModuleManager = () => {
     }
   };
 
-  const handleEdit = (module) => {
+  const handleEdit = async (module) => {
     console.log('Editing module:', module);
     setEditingModule({
       _id: module._id,
@@ -70,6 +71,10 @@ const ModuleManager = () => {
       lastUpdated: module.lastUpdated || new Date().toISOString().split('T')[0]
     });
     setIsEditing(true);
+    
+    if (module._id) {
+      await fetchModuleVideos(module._id);
+    }
   };
 
   const handleSave = async () => {
@@ -168,6 +173,77 @@ const ModuleManager = () => {
         i === index ? { ...section, [field]: value } : section
       )
     }));
+  };
+
+  const handleVideoUpload = async (moduleId, sectionIndex, file) => {
+    try {
+      if (!moduleId) {
+        alert('Please save the module first before uploading videos');
+        return;
+      }
+
+      if (!user?.id) {
+        alert('You must be logged in to upload videos');
+        return;
+      }
+
+      setUploadingVideo({ moduleId, sectionIndex });
+      
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const response = await fetch(
+        `https://beunghar-api-92744157839.asia-south1.run.app/api/modules/upload-video?module_id=${moduleId}&section_index=${sectionIndex}&user_id=${user.id}`,
+        {
+          method: 'POST',
+          headers: {
+            'user-id': user.id,
+          },
+          body: formData,
+        }
+      );
+
+      if (response.status === 403) {
+        throw new Error('Unauthorized - Admin access required');
+      }
+
+      if (!response.ok) {
+        throw new Error('Failed to upload video');
+      }
+
+      const data = await response.json();
+      
+      // Update the section with the video URL
+      handleSectionChange(sectionIndex, 'videoUrl', data.videoUrl);
+      
+    } catch (error) {
+      console.error('Error uploading video:', error);
+      alert(error.message || 'Failed to upload video');
+    } finally {
+      setUploadingVideo(null);
+    }
+  };
+
+  const fetchModuleVideos = async (moduleId) => {
+    try {
+      const response = await fetch(
+        `https://beunghar-api-92744157839.asia-south1.run.app/api/modules/${moduleId}/videos`
+      );
+      
+      if (response.ok) {
+        const videos = await response.json();
+        // Update sections with video URLs
+        setEditingModule(prev => ({
+          ...prev,
+          sections: prev.sections.map((section, index) => ({
+            ...section,
+            videoUrl: videos.find(v => v.sectionIndex === index)?.videoUrl || null
+          }))
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching module videos:', error);
+    }
   };
 
   return (
@@ -319,6 +395,110 @@ const ModuleManager = () => {
                         </ReactMarkdown>
                       </TabsContent>
                     </Tabs>
+
+                    <div className="mt-4">
+                      <Label>Section Video</Label>
+                      <div className="flex items-center gap-4 mt-2">
+                        {section.videoUrl ? (
+                          <>
+                            <div className="relative w-64 h-36">
+                              <video
+                                className="w-full h-full rounded bg-zinc-800 object-cover"
+                                src={section.videoUrl}
+                                controls
+                              />
+                              {uploadingVideo?.sectionIndex === index && (
+                                <div className="absolute inset-0 bg-black/50 rounded flex items-center justify-center">
+                                  <div className="flex flex-col items-center gap-2">
+                                    <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
+                                    <span className="text-sm text-white">Uploading video...</span>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                            <input
+                              type="file"
+                              accept="video/*"
+                              className="hidden"
+                              id={`video-upload-${index}`}
+                              onChange={(e) => {
+                                if (e.target.files?.[0]) {
+                                  handleVideoUpload(editingModule._id, index, e.target.files[0]);
+                                }
+                              }}
+                            />
+                            <Button
+                              variant="outline"
+                              onClick={() => document.getElementById(`video-upload-${index}`).click()}
+                              disabled={uploadingVideo?.sectionIndex === index || !editingModule._id}
+                              title={!editingModule._id ? "Save module first before uploading videos" : ""}
+                              className="min-w-[140px]"
+                            >
+                              {uploadingVideo?.sectionIndex === index ? (
+                                <div className="flex items-center gap-2">
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                  <span>Uploading...</span>
+                                </div>
+                              ) : !editingModule._id ? (
+                                "Save module first"
+                              ) : (
+                                <>
+                                  <Upload className="h-4 w-4 mr-2" />
+                                  Change Video
+                                </>
+                              )}
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <div className="relative w-64 h-36">
+                              <div className="w-full h-full rounded bg-zinc-800 flex items-center justify-center">
+                                {uploadingVideo?.sectionIndex === index ? (
+                                  <div className="flex flex-col items-center gap-2">
+                                    <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
+                                    <span className="text-sm text-zinc-400">Uploading video...</span>
+                                  </div>
+                                ) : (
+                                  <p className="text-zinc-500">No video uploaded</p>
+                                )}
+                              </div>
+                            </div>
+                            <input
+                              type="file"
+                              accept="video/*"
+                              className="hidden"
+                              id={`video-upload-${index}`}
+                              onChange={(e) => {
+                                if (e.target.files?.[0]) {
+                                  handleVideoUpload(editingModule._id, index, e.target.files[0]);
+                                }
+                              }}
+                            />
+                            <Button
+                              variant="outline"
+                              onClick={() => document.getElementById(`video-upload-${index}`).click()}
+                              disabled={uploadingVideo?.sectionIndex === index || !editingModule._id}
+                              title={!editingModule._id ? "Save module first before uploading videos" : ""}
+                              className="min-w-[140px]"
+                            >
+                              {uploadingVideo?.sectionIndex === index ? (
+                                <div className="flex items-center gap-2">
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                  <span>Uploading...</span>
+                                </div>
+                              ) : !editingModule._id ? (
+                                "Save module first"
+                              ) : (
+                                <>
+                                  <Upload className="h-4 w-4 mr-2" />
+                                  Upload Video
+                                </>
+                              )}
+                            </Button>
+                          </>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}

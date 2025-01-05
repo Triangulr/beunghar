@@ -1,11 +1,14 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useUser } from '@clerk/nextjs';
 import styles from '../../styles/ModuleOne.module.css';
 import Head from 'next/head';
 import Script from 'next/script';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import 'vidstack/player/styles/base.css';
+import 'vidstack/player/styles/plyr/theme.css';
+import { PlyrLayout, VidstackPlayer } from 'vidstack/global/player';
 
 export default function DynamicModule() {
   const router = useRouter();
@@ -14,6 +17,8 @@ export default function DynamicModule() {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [module, setModule] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [moduleVideos, setModuleVideos] = useState({});
+  const playerRefs = useRef({});
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
@@ -23,9 +28,18 @@ export default function DynamicModule() {
       setIsAuthorized(true);
       if (id) {
         fetchModule();
+        fetchModuleVideos(id);
       }
     }
   }, [id, isLoaded, isSignedIn]);
+
+  useEffect(() => {
+    return () => {
+      Object.values(playerRefs.current).forEach(player => {
+        player?.destroy();
+      });
+    };
+  }, []);
 
   const fetchModule = async () => {
     try {
@@ -41,6 +55,51 @@ export default function DynamicModule() {
       setLoading(false);
     }
   };
+
+  const fetchModuleVideos = async (moduleId) => {
+    try {
+      const response = await fetch(
+        `https://beunghar-api-92744157839.asia-south1.run.app/api/modules/${moduleId}/videos`
+      );
+      if (response.ok) {
+        const videos = await response.json();
+        const videoMap = {};
+        videos.forEach(video => {
+          videoMap[video.sectionIndex] = video.videoUrl;
+        });
+        setModuleVideos(videoMap);
+      }
+    } catch (error) {
+      console.error('Error fetching module videos:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (!module || !moduleVideos) return;
+
+    module.sections?.forEach((section, index) => {
+      if (!moduleVideos[index]) return;
+
+      const element = document.getElementById(`video-player-${index}`);
+      if (!element) return;
+
+      if (playerRefs.current[index]?.target === element) return;
+
+      if (playerRefs.current[index]) {
+        playerRefs.current[index].destroy();
+        playerRefs.current[index] = null;
+      }
+
+      VidstackPlayer.create({
+        target: element,
+        title: section.title,
+        src: moduleVideos[index],
+        layout: new PlyrLayout(),
+      }).then(player => {
+        playerRefs.current[index] = player;
+      });
+    });
+  }, [module, moduleVideos]);
 
   if (!isAuthorized || loading) {
     return (
@@ -69,6 +128,17 @@ export default function DynamicModule() {
           href="https://assets.calendly.com/assets/external/widget.css" 
           rel="stylesheet"
         />
+        <style>
+          {`
+            :root {
+              --plyr-color-main: #ff6b00;
+              --plyr-range-fill-background: #ff6b00;
+              --plyr-video-control-color-hover: #ff8533;
+              --plyr-badge-background: #ff6b00;
+              --plyr-range-thumb-background: #ff6b00;
+            }
+          `}
+        </style>
       </Head>
 
       <header className={styles.moduleHeader}>
@@ -87,6 +157,12 @@ export default function DynamicModule() {
               <div className={styles.moduleSection}>
                 <h2 className={styles.sectionTitle}>{section.title}</h2>
                 <p className={styles.sectionDescription}>{section.description}</p>
+                
+                {moduleVideos[index] && (
+                  <div className={styles.videoContainer}>
+                    <div id={`video-player-${index}`} />
+                  </div>
+                )}
                 
                 <div className={styles.content}>
                   <div className="prose prose-invert prose-zinc max-w-none">
