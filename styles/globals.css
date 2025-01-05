@@ -15,7 +15,7 @@ body, html {
     font-family: "Ubuntu", sans-serif;
     font-weight: 300;
     scroll-behavior: smooth;
-    background-color: black !important;
+    background-color: #111111 !important;
 }
 
 * {
@@ -42,7 +42,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
     scroll-behavior: smooth;
-    background-color: black !important;
+    background-color: #111111 !important;
     padding-top: 80px;
     transition: background-color 0.5s ease;
     cursor: none !important;
@@ -62,7 +62,7 @@ body:not(.members-page) header {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: rgb(0, 0, 0);
+    background-color: #000000;
     backdrop-filter: blur(15px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 1000;
@@ -75,7 +75,7 @@ body:not(.members-page) header {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: rgb(0, 0, 0);
+    background-color: #000000;
     backdrop-filter: blur(15px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 1000;
@@ -439,7 +439,7 @@ nav {
 
 
 .testimonials-section {
-    background-color: black;
+    background-color: #111111;
     padding: 150px 100px;
     text-align: center;
     border-radius: 15px;
@@ -514,7 +514,7 @@ nav {
 .modules {
     text-align: center;
     margin: 85px auto;
-    background-color: black;
+    background-color: #111111;
 }
 
 .module-container {
@@ -556,7 +556,7 @@ nav {
     justify-content: center;
     height: 100vh;
     padding: 20px;
-    background-color: black;
+    background-color: #111111;
     box-sizing: border-box; 
 }
 
@@ -599,7 +599,7 @@ nav {
     justify-content: center;
     padding: 100px 20px;
     text-align: center;
-    background-color: black;
+    background-color: #111111;
     border-radius: 15px;
     margin: 50px auto;
     max-width: 1200px;
@@ -679,7 +679,7 @@ nav {
 .team-section {
     padding: 60px 20px;
     text-align: center;
-    background-color: black;
+    background-color: #111111;
 }
 
 .team-section h2 {
@@ -925,7 +925,7 @@ body {
     }
   body {
     @apply bg-background text-foreground;
-    background-color: black;
+    background-color: #111111;
     }
 }
 
@@ -961,9 +961,9 @@ body {
   animation-play-state: paused;
 }
 
-/* Ensure sections inherit black background */
+/* Ensure sections inherit background */
 section {
-    background-color: black !important;
+    background-color: #111111 !important;
 }
 
 /* Add or modify these rules */

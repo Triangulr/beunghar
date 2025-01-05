@@ -37,6 +37,25 @@ const ModuleManager = () => {
   const [isSaving, setIsSaving] = useState(false);
   const { user } = useUser();
 
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Never';
+    console.log('Input date string:', dateString);
+    // Create date object in UTC
+    const utcDate = new Date(dateString + 'Z');
+    console.log('Parsed date object:', utcDate);
+    const formatted = utcDate.toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    });
+    console.log('Formatted output:', formatted);
+    return formatted.replace(' at ', ', ');
+  };
+
   useEffect(() => {
     fetchModules();
   }, []);
@@ -317,7 +336,7 @@ const ModuleManager = () => {
                   <h3 className="font-medium text-lg">{module.title || 'Untitled'}</h3>
                   <p className="text-sm text-muted-foreground">{module.description || 'No description'}</p>
                   <div className="flex gap-4 text-sm text-muted-foreground">
-                    <span>Last updated: {module.lastUpdated || 'Never'}</span>
+                    <span>Last updated: {formatDate(module.lastUpdated)}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">

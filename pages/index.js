@@ -21,6 +21,7 @@ import CountUp from 'react-countup';
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [modules, setModules] = useState([]);
   const router = useRouter();
 
   const toggleMenu = () => {
@@ -63,17 +64,7 @@ export default function Home() {
   }, [currentTestimonial]);
 
   const navigateToModule = (moduleId) => {
-    const moduleRoutes = {
-      module1: '/module1',
-      module2: '/module2',
-      module3: '/module3',
-    };
-
-    if (moduleRoutes[moduleId]) {
-      window.location.href = moduleRoutes[moduleId];
-    } else {
-      console.error('Module not found');
-    }
+    router.push(`/modules/${moduleId}`);
   };
 
   useEffect(() => {
@@ -160,10 +151,29 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    const fetchModules = async () => {
+      try {
+        const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/modules');
+        if (!response.ok) {
+          throw new Error('Failed to fetch modules');
+        }
+        const data = await response.json();
+        setModules(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error('Error fetching modules:', error);
+        setModules([]);
+      }
+    };
+
+    fetchModules();
+  }, []);
+
   return (
     <div className="home-page">
       <Head>
-        <title>Beunghar Business Course</title>
+        <title>beunghar.com</title>
+        <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet" />
@@ -277,7 +287,7 @@ export default function Home() {
         </video>
       </motion.section>
 
-      <section id="reviews" className="py-24 px-6 bg-black dark:bg-black overflow-hidden">
+      <section id="reviews" className="py-24 px-6 bg-[#111111] dark:bg-[#111111] overflow-hidden">
         <div className="max-w-4xl mx-auto text-center mb-16">
           <motion.h2
             className="text-4xl font-bold text-white"
@@ -298,7 +308,7 @@ export default function Home() {
             transition={{ duration: 1, ease: "easeInOut" }}
           >
             {/* First set of cards */}
-            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
+            <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
                 <CardTitle className="text-white">John Doe</CardTitle>
                 <CardDescription className="text-gray-100">Business Owner</CardDescription>
@@ -311,7 +321,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
+            <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
                 <CardTitle className="text-white">Jane Smith</CardTitle>
                 <CardDescription className="text-gray-100">Startup Founder</CardDescription>
@@ -324,7 +334,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
+            <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
                 <CardTitle className="text-white">Alex Brown</CardTitle>
                 <CardDescription className="text-gray-100">Digital Entrepreneur</CardDescription>
@@ -338,7 +348,7 @@ export default function Home() {
             </Card>
 
             {/* Duplicate first set for seamless loop */}
-            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
+            <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
                 <CardTitle className="text-white">John Doe</CardTitle>
                 <CardDescription className="text-gray-100">Business Owner</CardDescription>
@@ -362,7 +372,7 @@ export default function Home() {
             transition={{ duration: 1, ease: "easeInOut" }}
           >
             {/* Second set of cards */}
-            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
+            <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
                 <CardTitle className="text-white">Sarah Davis</CardTitle>
                 <CardDescription className="text-gray-100">E-commerce Expert</CardDescription>
@@ -375,7 +385,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
+            <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
                 <CardTitle className="text-white">Michael Chen</CardTitle>
                 <CardDescription className="text-gray-100">Tech Startup CEO</CardDescription>
@@ -388,7 +398,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
+            <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
                 <CardTitle className="text-white">Emma Wilson</CardTitle>
                 <CardDescription className="text-gray-100">Marketing Consultant</CardDescription>
@@ -402,7 +412,7 @@ export default function Home() {
             </Card>
 
             {/* Duplicate second set for seamless loop */}
-            <Card className="min-w-[500px] bg-[#Fc420d] dark:bg-[#Fc420d]">
+            <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
                 <CardTitle className="text-white">Sarah Davis</CardTitle>
                 <CardDescription className="text-gray-100">E-commerce Expert</CardDescription>
@@ -419,14 +429,14 @@ export default function Home() {
       </section>
 
       <motion.section 
-        className="w-full max-w-3xl mx-auto px-4 py-16 bg-black"
+        className="w-full max-w-3xl mx-auto px-4 py-16 bg-[#111111]"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <h2 className="text-3xl font-bold text-center mb-8 text-white">Why Join Our Course?</h2>
+        <h2 className="text-3xl font-bold text-center mb-8 text-white">Why Join Beunghar.com?</h2>
         <Accordion type="single" collapsible className="w-full space-y-4">
-          <AccordionItem value="item-1" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+          <AccordionItem value="item-1" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
             <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Comprehensive Curriculum
             </AccordionTrigger>
@@ -437,7 +447,7 @@ export default function Home() {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-2" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+          <AccordionItem value="item-2" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
             <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Expert Instructors
             </AccordionTrigger>
@@ -448,7 +458,7 @@ export default function Home() {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-3" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+          <AccordionItem value="item-3" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
             <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Flexible Learning
             </AccordionTrigger>
@@ -459,7 +469,7 @@ export default function Home() {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-4" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+          <AccordionItem value="item-4" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
             <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Community Support
             </AccordionTrigger>
@@ -475,14 +485,14 @@ export default function Home() {
 
       <motion.section 
         id="faq"
-        className="w-full max-w-3xl mx-auto px-4 py-16 bg-black"
+        className="w-full max-w-3xl mx-auto px-4 py-16 bg-[#111111]"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
         <h2 className="text-3xl font-bold text-center mb-8 text-white">Frequently Asked Questions</h2>
         <Accordion type="single" collapsible className="w-full space-y-4">
-          <AccordionItem value="item-1" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+          <AccordionItem value="item-1" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
             <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               How long is the course?
             </AccordionTrigger>
@@ -491,7 +501,7 @@ export default function Home() {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-2" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+          <AccordionItem value="item-2" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
             <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               What if I fall behind?
             </AccordionTrigger>
@@ -500,7 +510,7 @@ export default function Home() {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-3" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+          <AccordionItem value="item-3" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
             <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Is there a money-back guarantee?
             </AccordionTrigger>
@@ -509,7 +519,7 @@ export default function Home() {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-4" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+          <AccordionItem value="item-4" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
             <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Do I get lifetime access?
             </AccordionTrigger>
@@ -518,7 +528,7 @@ export default function Home() {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-5" className="bg-[#Fc420d] dark:bg-[#Fc420d] rounded-lg px-6">
+          <AccordionItem value="item-5" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
             <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
               Is there live support available?
             </AccordionTrigger>
@@ -530,62 +540,58 @@ export default function Home() {
       </motion.section>
 
       <motion.section 
-        className="py-24 px-6 bg-black dark:bg-black"
+        className="py-24 px-6 bg-[#111111] dark:bg-[#111111]"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-center mb-12 text-white">
             Our Modules
           </h2>
         </div>
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="bg-[#Fc420d] dark:bg-[#Fc420d] transform hover:scale-105 transition-transform duration-200" 
-                  onClick={() => navigateToModule('module1')}>
-              <CardHeader>
-                <CardTitle className="text-white">Module 1</CardTitle>
-                <CardDescription className="text-white/80">Introduction to Basics</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white/90">
-                  Learn the fundamental concepts and principles to build a strong foundation.
-                </p>
-              </CardContent>
-            </Card>
+        <div className="container mx-auto max-w-7xl px-4">
+          <div className={`grid gap-8 ${
+            modules.length === 1 ? 'grid-cols-1 max-w-4xl mx-auto' :
+            modules.length === 2 ? 'grid-cols-2 max-w-6xl mx-auto' :
+            'grid-cols-1 md:grid-cols-3'
+          }`}>
+            {Array.isArray(modules) && modules.map((module) => (
+              <Card 
+                key={module._id} 
+                className="bg-[#333333] dark:bg-[#333333] transform hover:scale-105 transition-transform duration-200 flex flex-col min-w-[300px] text-center"
+              >
+                <CardHeader className="p-8">
+                  <CardTitle className="text-white text-2xl mb-4 text-center">{module.title || 'Untitled Module'}</CardTitle>
+                  <CardDescription className="text-white/80 text-lg text-center">
+                    {module.description || 'No description available'}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-grow flex flex-col justify-between p-8 pt-0">
+                  <p className="text-white/90 text-lg mb-8 text-center">
+                    {module.sections?.length || 0} sections
+                  </p>
+                  <Button 
+                    className="w-full bg-black/40 text-white hover:bg-black/50 py-6 rounded-md hover:opacity-90 transition-opacity text-lg"
+                    onClick={() => navigateToModule(module._id)}
+                  >
+                    Start Learning
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
 
-            <Card className="bg-[#Fc420d] dark:bg-[#Fc420d] transform hover:scale-105 transition-transform duration-200"
-                  onClick={() => navigateToModule('module2')}>
-              <CardHeader>
-                <CardTitle className="text-white">Module 2</CardTitle>
-                <CardDescription className="text-white/80">Intermediate Concepts</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white/90">
-                  Dive deeper into advanced strategies and practical applications.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#Fc420d] dark:bg-[#Fc420d] transform hover:scale-105 transition-transform duration-200"
-                  onClick={() => navigateToModule('module3')}>
-              <CardHeader>
-                <CardTitle className="text-white">Module 3</CardTitle>
-                <CardDescription className="text-white/80">Advanced Topics</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white/90">
-                  Master complex techniques and real-world business scenarios.
-                </p>
-              </CardContent>
-            </Card>
+            {(!modules || modules.length === 0) && (
+              <div className="col-span-full text-center text-white/90 py-8">
+                <p>No modules available yet. Check back soon!</p>
+              </div>
+            )}
           </div>
         </div>
       </motion.section>
 
       <motion.section 
-        className="py-24 px-6 bg-black dark:bg-black"
+        className="py-24 px-6 bg-[#111111] dark:bg-[#111111]"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
@@ -596,8 +602,8 @@ export default function Home() {
           </h2>
         </div>
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="bg-[#Fc420d] dark:bg-[#Fc420d]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <Card className="bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
                 <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
                   <img 
@@ -629,7 +635,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="bg-[#Fc420d] dark:bg-[#Fc420d]">
+            <Card className="bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
                 <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
                   <img 
@@ -660,45 +666,13 @@ export default function Home() {
                 </a>
               </CardContent>
             </Card>
-
-            <Card className="bg-[#Fc420d] dark:bg-[#Fc420d]">
-              <CardHeader>
-                <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
-                  <img 
-                    src="/img/big.jpg" 
-                    alt="John Doe" 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <CardTitle className="text-white">John Doe</CardTitle>
-                <CardDescription className="text-white/80">Designer</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white mb-4">
-                  Some text that describes me lorem ipsum ipsum lorem.
-                </p>
-                <p className="text-white/80 mb-4">
-                  john@example.com
-                </p>
-                <a 
-                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUJcmljayByb2xs" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="block w-full"
-                >
-                  <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
-                    Contact
-                  </button>
-                </a>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </motion.section>
 
-      <footer className="bg-black text-white">
+      <footer className="bg-[#111111] text-white">
         {/* CTA Section */}
-        <div className="bg-radial-at-center from-gray-900 via-gray-900 to-black min-h-[200px] flex items-center justify-center">
+        <div className="bg-radial-at-center from-[#111111] via-[#111111] to-[#111111] min-h-[200px] flex items-center justify-center">
           <div className="w-full max-w-4xl mx-auto px-6">
             <div className="flex flex-col items-center justify-center gap-6">
               <div className="text-center">
@@ -743,7 +717,7 @@ export default function Home() {
         </div>
 
         {/* Main Footer Content */}
-        <div className="bg-black min-h-[200px] flex items-center justify-center py-16">
+        <div className="bg-[#111111] min-h-[200px] flex items-center justify-center py-16">
           <div className="w-full max-w-6xl mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
               {/* Quick Links */}
@@ -799,7 +773,7 @@ export default function Home() {
                 <a href="#linkedin" className="text-slate-400 hover:text-white transition-colors">LinkedIn</a>
                 <a href="#facebook" className="text-slate-400 hover:text-white transition-colors">Facebook</a>
               </div>
-              <p className="text-slate-400">© {new Date().getFullYear()} Beunghar Business Course. All rights reserved.</p>
+              <p className="text-slate-400">© {new Date().getFullYear()} Beunghar. All rights reserved.</p>
             </div>
           </div>
         </div>

@@ -22,6 +22,20 @@ function timeStringToSeconds(timeString) {
   return (hours * 3600) + (minutes * 60) + seconds;
 }
 
+const formatDate = (dateString) => {
+  if (!dateString) return 'Never';
+  const utcDate = new Date(dateString + 'Z');
+  return utcDate.toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+  }).replace(' at ', ', ');
+};
+
 export default function DynamicModule() {
   const router = useRouter();
   const { id } = router.query;
@@ -183,6 +197,7 @@ export default function DynamicModule() {
         <section className={styles.topSection}>
           <h1 className={styles.moduleTitle}>{module.title}</h1>
           <p className={styles.moduleSummary}>{module.description}</p>
+          <p className={styles.lastUpdated}>Last updated: {formatDate(module.lastUpdated)}</p>
 
           {module.sections?.map((section, index) => (
             <div key={index}>

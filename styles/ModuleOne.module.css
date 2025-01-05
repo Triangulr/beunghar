@@ -58,7 +58,7 @@
 .moduleSummary {
   text-align: center;
   color: #ccc;
-  margin-bottom: 40px;
+  margin-bottom: 1.5rem;
 }
 
 .moduleVideoContainer {
@@ -521,5 +521,14 @@
 .chapterTime {
   font-size: 0.8rem;
   color: var(--text-secondary);
+}
+
+.lastUpdated {
+  color: #666;
+  font-size: 0.9rem;
+  text-align: center;
+  font-style: italic;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
 }
 
