@@ -369,9 +369,15 @@ nav {
 
 .hero-content {
     position: relative;
-    z-index: 1; 
+    z-index: 1;
     color: white;
     font-size: 1.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
 }
 
 .hero-content h1, .hero-content h2 {
@@ -379,19 +385,33 @@ nav {
 }
 
 .hero-content p {
-    margin: 10px 0 40px 0;
+    font-family: 'Inter', sans-serif;
+    margin: 10px 0 30px 0;
     font-weight: 600;
+    font-size: 1.5em;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
 }
 
 .hero-content h1 {
-    font-size: 3.3em;
-    margin: 30px;
-    font-weight: 800;
+    font-family: 'Humane', sans-serif;
+    font-size: 6em;
+    margin: 20px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.05em;
 }
 
 .hero-content h2 {
-    margin: 30px;
-    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    font-size: 3.5em;
+    margin: 20px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
 }
 
 .background-overlay {
@@ -515,21 +535,28 @@ nav {
     text-align: center;
     margin: 85px auto;
     background-color: #111111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .module-container {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 100px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
 }
 
 .module-box {
     background-color: rgb(35, 34, 34);
     border-radius: 15px;
     padding: 100px;
-    width: 500px;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -547,6 +574,17 @@ nav {
 .module-box p {
     margin: 5px 0 0;
     font-size: 1em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .module-container {
+        gap: 40px;
+    }
+    
+    .module-box {
+        padding: 50px;
+    }
 }
 
 .faq-section {
@@ -1364,4 +1402,41 @@ button:not(.exclude-custom-cursor *),
 [class^="cl-"] input[type="email"],
 [class^="cl-"] input[type="password"] {
   cursor: text !important;
+}
+
+@font-face {
+  font-family: 'Humane';
+  src: url('/fonts/Humane-VF.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+.hero-content h1 {
+    font-family: 'Humane', sans-serif;
+    font-size: 6em;
+    margin: 20px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.05em;
+}
+
+.hero-content h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 3.5em;
+    margin: 20px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+.hero-content p {
+    font-family: 'Inter', sans-serif;
+    margin: 10px 0 30px 0;
+    font-weight: 600;
+    font-size: 1.5em;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
 }

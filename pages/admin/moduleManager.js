@@ -27,6 +27,7 @@ const ModuleManager = () => {
     description: '',
     sections: [{ title: '', description: '', content: '' }],
     status: 'draft',
+    isPremium: true,
     lastUpdated: new Date().toISOString().split('T')[0]
   });
   const [isEditing, setIsEditing] = useState(false);
@@ -88,6 +89,7 @@ const ModuleManager = () => {
       description: module.description || '',
       sections: module.sections || [{ title: '', description: '', content: '' }],
       status: module.status || 'draft',
+      isPremium: module.isPremium ?? true,
       lastUpdated: module.lastUpdated || new Date().toISOString().split('T')[0]
     });
     setIsEditing(true);
@@ -107,6 +109,8 @@ const ModuleManager = () => {
         
         const method = editingModule._id ? 'PUT' : 'POST';
         
+        console.log('Saving module with isPremium:', editingModule.isPremium);
+        
         const response = await fetch(url, {
           method,
           headers: {
@@ -118,6 +122,7 @@ const ModuleManager = () => {
             description: editingModule.description || '',
             sections: editingModule.sections || [],
             status: editingModule.status || 'draft',
+            isPremium: Boolean(editingModule.isPremium),
             students: editingModule.students || 0,
             lastUpdated: new Date().toISOString()
           }),
@@ -316,6 +321,7 @@ const ModuleManager = () => {
                 description: '',
                 sections: [{ title: '', description: '', content: '' }],
                 status: 'draft',
+                isPremium: true,
                 lastUpdated: new Date().toISOString().split('T')[0]
               });
               setIsEditing(true);
@@ -378,20 +384,36 @@ const ModuleManager = () => {
           </DialogHeader>
           
           <div className="flex flex-col space-y-4 h-full overflow-hidden">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>Module Title</Label>
-                <Input
-                  value={editingModule?.title || ''}
-                  onChange={(e) => setEditingModule({
-                    ...editingModule,
-                    title: e.target.value
-                  })}
-                />
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Module Title</Label>
+                  <Input
+                    value={editingModule?.title || ''}
+                    onChange={(e) => setEditingModule({
+                      ...editingModule,
+                      title: e.target.value
+                    })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Access Level</Label>
+                  <select
+                    className="w-full p-2 rounded-md bg-zinc-800 border border-zinc-700"
+                    value={editingModule?.isPremium}
+                    onChange={(e) => setEditingModule({
+                      ...editingModule,
+                      isPremium: e.target.value === 'true'
+                    })}
+                  >
+                    <option value="false">Free</option>
+                    <option value="true">Premium Only</option>
+                  </select>
+                </div>
               </div>
               <div className="space-y-2">
                 <Label>Module Description</Label>
-                <Input
+                <Textarea
                   value={editingModule?.description || ''}
                   onChange={(e) => setEditingModule({
                     ...editingModule,

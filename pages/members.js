@@ -459,6 +459,9 @@ export default function MembersPage() {
     <>
       <Head>
         <title>Members Area - Course Modules</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@900&display=swap" rel="stylesheet" />
       </Head>
       
       <AffiliateDrawer />
@@ -488,10 +491,16 @@ export default function MembersPage() {
           </div>
         </header>
         <div className={styles.content}>
-          <h1 style={{ fontWeight: 600 }}>Welcome to Your Course</h1>
-          <p className={`${styles.subtitle} ${styles.globalFont}`} style={{ fontWeight: 500 }}>
-            Select a module to begin your journey
-          </p>
+          <h1 style={{ fontWeight: 800, fontFamily: "'Inter Tight', sans-serif" }}>
+            Welcome to your Course
+          </h1>
+          <h2 style={{ 
+            fontWeight: 800, 
+            fontFamily: "'Inter Tight', sans-serif",
+            textAlign: 'center'
+          }}>
+            Select a module to get started
+          </h2>
           
           <div className={styles.membershipContainer}>
             {membershipStatus === 'free' ? (
@@ -528,17 +537,17 @@ export default function MembersPage() {
                   href={`/modules/${module._id}`} 
                   className={styles.moduleLink}
                   style={{
-                    pointerEvents: membershipStatus === 'premium' || modules.indexOf(module) === 0 ? 'auto' : 'none',
-                    opacity: membershipStatus === 'premium' || modules.indexOf(module) === 0 ? 1 : 0.5
+                    pointerEvents: membershipStatus === 'premium' || !module.isPremium ? 'auto' : 'none',
+                    opacity: membershipStatus === 'premium' || !module.isPremium ? 1 : 0.5
                   }}
                 >
-                  {membershipStatus === 'premium' || modules.indexOf(module) === 0 ? (
+                  {membershipStatus === 'premium' || !module.isPremium ? (
                     'Start Learning'
                   ) : (
                     '🔒 Premium Only'
                   )}
                 </Link>
-                {membershipStatus !== 'premium' && modules.indexOf(module) !== 0 && (
+                {membershipStatus !== 'premium' && module.isPremium && (
                   <p className={styles.premiumNote}>Upgrade to access this module</p>
                 )}
               </div>

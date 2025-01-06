@@ -15,6 +15,15 @@ import {
 import { defaultLayoutIcons, DefaultVideoLayout } from '@vidstack/react/player/layouts/default';
 import '@vidstack/react/player/styles/default/theme.css';
 import '@vidstack/react/player/styles/default/layouts/video.css';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { BookOpen } from "lucide-react"
 
 function timeStringToSeconds(timeString) {
   if (!timeString) return 0;
@@ -39,7 +48,7 @@ const formatDate = (dateString) => {
 export default function DynamicModule() {
   const router = useRouter();
   const { id } = router.query;
-  const { isLoaded, isSignedIn } = useUser();
+  const { isLoaded, isSignedIn, user } = useUser();
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [module, setModule] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -50,6 +59,8 @@ export default function DynamicModule() {
   const [currentTime, setCurrentTime] = useState({});
   const [completedChapters, setCompletedChapters] = useState({});
   const [videoDurations, setVideoDurations] = useState({});
+  const [modules, setModules] = useState([]);
+  const [membershipStatus, setMembershipStatus] = useState(null);
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
@@ -58,8 +69,10 @@ export default function DynamicModule() {
     } else if (isLoaded && isSignedIn) {
       setIsAuthorized(true);
       if (id) {
-        fetchModule();
-        fetchModuleVideos(id);
+        fetchMembershipStatus().then((status) => {
+          fetchModule(status);
+          fetchModuleVideos(id);
+        });
       }
     }
   }, [id, isLoaded, isSignedIn]);
@@ -72,17 +85,22 @@ export default function DynamicModule() {
     };
   }, []);
 
-  const fetchModule = async () => {
+  const fetchModule = async (currentMembershipStatus) => {
     try {
       const response = await fetch(`https://beunghar-api-92744157839.asia-south1.run.app/api/modules/${id}`);
       if (!response.ok) {
         throw new Error('Failed to fetch module');
       }
       const data = await response.json();
+      
+      if (data.isPremium && currentMembershipStatus !== 'premium') {
+        router.push('/members');
+        return;
+      }
+      
       setModule(data);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching module:', error);
       setLoading(false);
     }
   };
@@ -147,6 +165,54 @@ export default function DynamicModule() {
     }));
   };
 
+  const fetchModules = async () => {
+    try {
+      const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/modules');
+      if (!response.ok) {
+        throw new Error('Failed to fetch modules');
+      }
+      const data = await response.json();
+      setModules(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Error fetching modules:', error);
+      setModules([]);
+    }
+  };
+
+  useEffect(() => {
+    if (isSignedIn) {
+      fetchModules();
+    }
+  }, [isSignedIn]);
+
+  const fetchMembershipStatus = async () => {
+    try {
+      if (!user) {
+        setMembershipStatus('free');
+        return;
+      }
+
+      const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/sync-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          email: user.primaryEmailAddress?.emailAddress || ''
+        })
+      });
+      
+      if (!response.ok) throw new Error('Failed to fetch membership status');
+      const data = await response.json();
+      setMembershipStatus(data.membershipStatus);
+      return data.membershipStatus;
+    } catch (error) {
+      setMembershipStatus('free');
+      return 'free';
+    }
+  };
+
   if (!isAuthorized || loading) {
     return (
       <div className={styles.loadingContainer}>
@@ -158,10 +224,16 @@ export default function DynamicModule() {
   if (!module) {
     return (
       <div className={styles.errorContainer}>
-        <h1>Module Not Found</h1>
-        <button onClick={() => router.push('/members')} className={styles.backButton}>
-          Back to Members Area
-        </button>
+        <div className={styles.errorContent}>
+          <h1 className={styles.errorTitle}>Module Not Found</h1>
+          <p className={styles.errorDescription}>Could not find the requested module.</p>
+          <button 
+            onClick={() => router.push('/members')} 
+            className={styles.errorButton}
+          >
+            Return to Members Area
+          </button>
+        </div>
       </div>
     );
   }
@@ -191,6 +263,71 @@ export default function DynamicModule() {
         <button onClick={() => router.push('/members')} className={styles.backButton}>
           ← Back to Members Area
         </button>
+        
+        <Sheet>
+          <SheetTrigger asChild>
+            <button className="inline-flex items-center justify-center rounded-md h-10 w-10 hover:bg-accent hover:text-accent-foreground mr-4">
+              <BookOpen className="h-5 w-5" />
+            </button>
+          </SheetTrigger>
+          <SheetContent className="z-[9999]">
+            <SheetHeader>
+              <SheetTitle>Available Modules</SheetTitle>
+              <SheetDescription>
+                Quick access to all course modules
+              </SheetDescription>
+            </SheetHeader>
+            <div className="mt-6 space-y-4">
+              {modules.map((module) => {
+                const isAccessible = !module.isPremium || membershipStatus === 'premium';
+                
+                return (
+                  <div
+                    key={module._id}
+                    className={`group rounded-lg border p-4 transition-colors ${
+                      isAccessible 
+                        ? 'hover:bg-accent cursor-pointer' 
+                        : 'opacity-75 cursor-not-allowed bg-zinc-900 border-zinc-800'
+                    }`}
+                    onClick={() => isAccessible && router.push(`/modules/${module._id}`)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className={`font-semibold ${isAccessible ? 'group-hover:text-accent-foreground' : 'text-zinc-400'}`}>
+                          {module.title || 'Untitled Module'}
+                        </h3>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {module.sections?.length || 0} sections
+                        </p>
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {!module.isPremium ? (
+                          <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                            Free
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20">
+                            Premium
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    {module.description && (
+                      <p className={`mt-2 text-sm line-clamp-2 ${isAccessible ? 'text-muted-foreground' : 'text-zinc-500'}`}>
+                        {module.description}
+                      </p>
+                    )}
+                    {!isAccessible && (
+                      <div className="mt-2 text-sm text-yellow-200 bg-yellow-950 p-2 rounded-md border border-yellow-900">
+                        This is a premium module. Please upgrade your membership to access this content.
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </SheetContent>
+        </Sheet>
       </header>
 
       <main className={styles.moduleContent}>

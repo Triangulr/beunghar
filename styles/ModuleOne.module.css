@@ -532,3 +532,61 @@
   margin-bottom: 2rem;
 }
 
+.errorContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.errorContent {
+  text-align: center;
+  max-width: 600px;
+}
+
+.errorTitle {
+  font-size: 4rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.15;
+  color: #ff6b00;
+}
+
+.errorDescription {
+  font-size: 1.5rem;
+  line-height: 1.5;
+  margin: 16px 0 32px;
+  color: #666;
+}
+
+.errorButton {
+  display: inline-block;
+  background-color: #ff6b00;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.errorButton:hover {
+  background-color: #ff8533;
+}
+
+.backButton {
+  cursor: pointer;
+}
+
+.moduleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  position: relative;
+  z-index: 10;
+}
+

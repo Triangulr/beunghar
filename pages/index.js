@@ -176,7 +176,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=Montserrat:wght@100;400;700&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet" />
       </Head>
       <header>
         <div className="container">
@@ -438,11 +438,11 @@ export default function Home() {
         <Accordion type="single" collapsible className="w-full space-y-4">
           <AccordionItem value="item-1" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
             <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
-              Comprehensive Curriculum
+              Comprehensive Modules
             </AccordionTrigger>
             <AccordionContent className="text-lg pb-6 text-white">
-              Our curriculum is carefully designed to cover all essential aspects of business success. From foundational principles to advanced strategies, 
-              you'll learn everything you need to build and scale your business. Each module builds upon the previous one, 
+              Our Curriculum provides short comprehensive knowledge regarding starting an online sales business. 
+              From foundational knowledge to advanced knowledge is taught. Each module builds upon the previous one, 
               ensuring a structured and thorough learning experience.
             </AccordionContent>
           </AccordionItem>
@@ -452,32 +452,46 @@ export default function Home() {
               Expert Instructors
             </AccordionTrigger>
             <AccordionContent className="text-lg pb-6 text-white">
-              Learn from successful entrepreneurs and industry leaders who have built multiple seven-figure businesses. 
-              Our instructors don't just teach theory – they share real-world experiences, strategies, and lessons 
-              learned from their own entrepreneurial journeys.
+              Learn from instructors with experience in this business that has made seven-figure sales revenue. 
+              Our instructors do not teach just knowledge based on textbooks, but from experience that they went 
+              through in building their business.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </motion.section>
+
+      <motion.section 
+        className="w-full max-w-3xl mx-auto px-4 py-16 bg-[#111111]"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
+        <h2 className="text-3xl font-bold text-center mb-8 text-white">Our Core Values</h2>
+        <Accordion type="single" collapsible className="w-full space-y-4">
+          <AccordionItem value="item-1" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
+            <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
+              "Mou ippon mindset"
+            </AccordionTrigger>
+            <AccordionContent className="text-lg pb-6 text-white">
+              We at beunghar.com strive for competitive greatness. Mou ippon was derived from a Japanese sports chant 
+              that meant "one more point." Sometimes, in business, we tend to lack that hunger for greatness, being 
+              obsessed with this game. We teach you to have the mindset of having room to improve, hungry for results. 
+              Although you are tired, lazy, or at your limit, you can do one more whether it is one more video to learn, 
+              one more sales call, or one more hour in building your business. And for veterans. It's not over yet. 
+              Disclaimer: This is not for the WEAK.
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-3" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
+          <AccordionItem value="item-2" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
             <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
-              Flexible Learning
+              "Ubuntu"
             </AccordionTrigger>
             <AccordionContent className="text-lg pb-6 text-white">
-              Study at your own pace with 24/7 access to course materials. Whether you're a full-time entrepreneur 
-              or building your business on the side, our platform allows you to learn whenever and wherever it's 
-              convenient for you. All content is available on-demand and can be accessed from any device.
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="item-4" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
-            <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
-              Community Support
-            </AccordionTrigger>
-            <AccordionContent className="text-lg pb-6 text-white">
-              Join a vibrant community of like-minded entrepreneurs. Network with peers, find accountability partners, 
-              and get support from mentors. Our active community forum and regular networking events ensure you're 
-              never alone on your entrepreneurial journey. Plus, gain access to exclusive resources and opportunities 
-              shared only within our community.
+              Ubuntu is not just a word, its a lifestyle "I am, because we are". Ubuntu is the essence of being human. 
+              I have to learn from other beings how to be human. A person is a person through other people. We are taught 
+              that beunghar.com is one. My shine is your shine, my success is your success. 'I can be my best only if you 
+              are at your best, and you can only be your best if I am at my best, because we are one. I can't be my best 
+              if you are not your best". Ubuntu promotes Respect, Unity, Empathy and interconnectedness.
             </AccordionContent>
           </AccordionItem>
         </Accordion>
@@ -497,43 +511,36 @@ export default function Home() {
               How long is the course?
             </AccordionTrigger>
             <AccordionContent className="text-lg pb-6 text-white">
-              The course lasts for 6 weeks, with new modules released each week. You'll have lifetime access to all materials, so you can learn at your own pace.
+              The beginner course would take you around 3 hours. You would have a lifetime access to the material on 
+              the intermediate and advance courses once signed up to the premium membership.
             </AccordionContent>
           </AccordionItem>
 
           <AccordionItem value="item-2" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
             <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
-              What if I fall behind?
+              Will I have enough time to do another business?
             </AccordionTrigger>
             <AccordionContent className="text-lg pb-6 text-white">
-              No problem! You can access all materials at any time and complete the course at your own pace. Our community and support team are always here to help you catch up.
+              There is always going to be busy seasons in our lives. The busier you are, its more reason to start. 
+              What is the difference between doing this business now and 2 years later? The unaccounted loss of time 
+              (which is the most valuable asset). If you start now when you're too busy, you have all the support, 
+              community, mentorship, and platform when you need it most. With experience managing this business during 
+              busy times, it becomes routine. You save literally 2 years of your time. Lastly, if you want this business 
+              to last and can't figure out how to do it during busy seasons, then it isn't going to last.
             </AccordionContent>
           </AccordionItem>
 
           <AccordionItem value="item-3" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
             <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
-              Is there a money-back guarantee?
+              I'm not sure if it's for me...
             </AccordionTrigger>
             <AccordionContent className="text-lg pb-6 text-white">
-              Yes! We offer a 30-day money-back guarantee. If you're not completely satisfied with the course, we'll refund your investment with no questions asked.
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="item-4" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
-            <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
-              Do I get lifetime access?
-            </AccordionTrigger>
-            <AccordionContent className="text-lg pb-6 text-white">
-              Absolutely! Once you enroll, you'll have lifetime access to all course materials, including future updates and improvements to the curriculum.
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="item-5" className="bg-[#333333] dark:bg-[#333333] rounded-lg px-6">
-            <AccordionTrigger className="text-xl py-6 accordion-trigger text-white">
-              Is there live support available?
-            </AccordionTrigger>
-            <AccordionContent className="text-lg pb-6 text-white">
-              Yes! We provide live support through our community platform, weekly Q&A sessions, and dedicated mentorship calls to ensure you get the help you need.
+              When you have new identities, that is when you have new priorities. If you identify yourself as a lazy 
+              idiot bastard who can't do shit, then your priorities would be just be lazy, unproductive shit. Whereas 
+              if you identify yourself as a successful billionaire, you would do whatever it takes to succeed. Pro tip: 
+              those who want to be rich spend on themselves on education, invest in skillsets. Skillset over asset. Now, 
+              would you like to use that $1000 outfit, or being rich as fuck? And don't get me wrong its going to hurt 
+              when you change. The question is if the pain of staying the same is greater than the pain of change?
             </AccordionContent>
           </AccordionItem>
         </Accordion>
@@ -550,16 +557,16 @@ export default function Home() {
             Our Modules
           </h2>
         </div>
-        <div className="container mx-auto max-w-7xl px-4">
+        <div className="flex justify-center w-full">
           <div className={`grid gap-8 ${
-            modules.length === 1 ? 'grid-cols-1 max-w-4xl mx-auto' :
-            modules.length === 2 ? 'grid-cols-2 max-w-6xl mx-auto' :
-            'grid-cols-1 md:grid-cols-3'
-          }`}>
+            modules.length === 1 ? 'grid-cols-1 w-[400px]' :
+            modules.length === 2 ? 'grid-cols-2 w-[850px]' :
+            'grid-cols-1 md:grid-cols-3 w-full max-w-[1300px]'
+          } justify-items-center`}>
             {Array.isArray(modules) && modules.map((module) => (
               <Card 
                 key={module._id} 
-                className="bg-[#333333] dark:bg-[#333333] transform hover:scale-105 transition-transform duration-200 flex flex-col min-w-[300px] text-center"
+                className="w-full bg-[#333333] dark:bg-[#333333] transform hover:scale-105 transition-transform duration-200 flex flex-col max-w-[400px] text-center"
               >
                 <CardHeader className="p-8">
                   <CardTitle className="text-white text-2xl mb-4 text-center">{module.title || 'Untitled Module'}</CardTitle>
@@ -607,31 +614,20 @@ export default function Home() {
               <CardHeader>
                 <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
                   <img 
-                    src="/img/big.jpg" 
-                    alt="Jane Doe" 
+                    src="/img/paskal.jpg" 
+                    alt="Paskal" 
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <CardTitle className="text-white">Jane Doe</CardTitle>
-                <CardDescription className="text-white/80">CEO & Founder</CardDescription>
+                <CardTitle className="text-white">Paskal</CardTitle>
+                <CardDescription className="text-white/80">Founder</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white mb-4">
-                  Some text that describes me lorem ipsum ipsum lorem.
+                  Was once a forex trader over three years with 6 figure income, quits trading and pursue entrepreneurial path. 
+                  Open restaurants and eventually making beunghar.com. He has helped hundreds of people to break free from the 
+                  rat race and live the life that they want.
                 </p>
-                <p className="text-white/80 mb-4">
-                  jane@example.com
-                </p>
-                <a 
-                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUJcmljayByb2xs" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="block w-full"
-                >
-                  <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
-                    Contact
-                  </button>
-                </a>
               </CardContent>
             </Card>
 
