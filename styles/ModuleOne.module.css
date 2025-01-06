@@ -590,3 +590,42 @@
   z-index: 10;
 }
 
+.lockedSection {
+  opacity: 0.95;
+  position: relative;
+  filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+/* Add an overlay to completely block interactions */
+.lockedSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 1000;
+  cursor: not-allowed;
+}
+
+/* Keep the section title clear */
+.lockedSection .sectionTitle {
+  filter: blur(0);
+  opacity: 1;
+  position: relative;
+  z-index: 2;
+}
+
+/* Ensure all interactive elements are blocked */
+.lockedSection * {
+  pointer-events: none !important;
+}
+
+/* Video container specific handling */
+.lockedSection .videoWrapper {
+  pointer-events: none !important;
+  position: relative;
+}
+

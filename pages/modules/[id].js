@@ -61,6 +61,19 @@ export default function DynamicModule() {
   const [videoDurations, setVideoDurations] = useState({});
   const [modules, setModules] = useState([]);
   const [membershipStatus, setMembershipStatus] = useState(null);
+  const [sectionLocks, setSectionLocks] = useState({});
+
+  useEffect(() => {
+    if (module?.sections && module.sections.length > 0) {
+      console.log('Initializing section locks for', module.sections.length, 'sections');
+      const initialLocks = {};
+      module.sections.forEach((_, index) => {
+        initialLocks[index] = index !== 0; // First section unlocked, rest locked
+      });
+      console.log('Setting initial locks:', initialLocks);
+      setSectionLocks(initialLocks);
+    }
+  }, [module]); // Only depend on module changes
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
@@ -140,8 +153,6 @@ export default function DynamicModule() {
     const duration = moduleVideos[index]?.duration;
     const chapters = moduleVideos[index]?.chapters || [];
     
-    console.log(`Video ${index} using chapters VTT:`, moduleVideos[index]?.chaptersVttUrl);
-    
     const completed = chapters.filter((chapter, i) => {
       const currentChapterStart = timeStringToSeconds(chapter.time);
       if (i === chapters.length - 1) {
@@ -163,6 +174,17 @@ export default function DynamicModule() {
       ...prev,
       [index]: completed.map(c => c.time)
     }));
+
+    if (duration && time >= (duration - 1)) {
+      setSectionLocks(prev => {
+        if (module?.sections && index + 1 < module.sections.length) {
+          const newLocks = { ...prev };
+          newLocks[index + 1] = false;
+          return newLocks;
+        }
+        return prev;
+      });
+    }
   };
 
   const fetchModules = async () => {
@@ -212,6 +234,10 @@ export default function DynamicModule() {
       return 'free';
     }
   };
+
+  useEffect(() => {
+    console.log('Section locks updated:', sectionLocks);
+  }, [sectionLocks]);
 
   if (!isAuthorized || loading) {
     return (
@@ -336,100 +362,113 @@ export default function DynamicModule() {
           <p className={styles.moduleSummary}>{module.description}</p>
           <p className={styles.lastUpdated}>Last updated: {formatDate(module.lastUpdated)}</p>
 
-          {module.sections?.map((section, index) => (
-            <div key={index}>
-              <div className={styles.moduleSection}>
-                <h2 className={styles.sectionTitle}>{section.title}</h2>
-                <p className={styles.sectionDescription}>{section.description}</p>
-                
-                {moduleVideos[index]?.videoUrl && (
-                  <div className={styles.videoWrapper}>
-                    <div className={styles.videoContainer}>
-                      <MediaPlayer
-                        title={section.title}
-                        src={moduleVideos[index].videoUrl}
-                        crossorigin=""
-                        playsinline
-                        viewType="video"
-                        streamType="on-demand"
-                        onTimeUpdate={handleTimeUpdate(index)}
-                        onDuration={handleDuration(index)}
-                      >
-                        <MediaProvider>
-                          {moduleVideos[index]?.chaptersVttUrl && (
-                            <Track
-                              key={`chapters-${index}`}
-                              src={moduleVideos[index].chaptersVttUrl}
-                              kind="chapters"
-                              default
-                              label={`Chapters for Section ${index + 1}`}
-                              crossOrigin="anonymous"
-                            />
-                          )}
-                        </MediaProvider>
-                        <DefaultVideoLayout 
-                          icons={defaultLayoutIcons}
-                          thumbnails={moduleVideos[index].videoUrl}
-                        />
-                      </MediaPlayer>
-                    </div>
-                    
-                    {moduleVideos[index]?.chapters && moduleVideos[index].chapters.length > 0 && (
-                      <div className={styles.chaptersTracker}>
-                        <div className={styles.overallProgress}>
-                          <div className={styles.mainProgressBar}>
-                            <div 
-                              className={styles.mainProgressFill}
-                              style={{ width: `${chapterProgress[index] || 0}%` }}
-                            />
-                          </div>
-                          <span className={styles.progressText}>
-                            {Math.round(chapterProgress[index] || 0)}% Complete
-                          </span>
-                        </div>
-                        
-                        <div className={styles.chaptersList}>
-                          {moduleVideos[index].chapters.map((chapter, chapterIndex) => (
-                            <div 
-                              key={chapterIndex}
-                              className={`${styles.chapterItem} ${
-                                completedChapters[index]?.includes(chapter.time) ? styles.active : ''
-                              }`}
-                            >
-                              <div className={styles.chapterCheckbox}>
-                                {completedChapters[index]?.includes(chapter.time) && (
-                                  <svg viewBox="0 0 24 24" fill="currentColor" className={styles.checkIcon}>
-                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                                  </svg>
-                                )}
-                              </div>
-                              <div className={styles.chapterInfo}>
-                                <span className={styles.chapterTitle}>{chapter.title}</span>
-                                <span className={styles.chapterTime}>
-                                  {formatTime(chapter.time)}
-                                </span>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
+          {module.sections?.map((section, index) => {
+            const isLocked = sectionLocks[index] === true;
+            
+            return (
+              <div key={index}>
+                <div 
+                  className={`${styles.moduleSection} ${isLocked ? styles.lockedSection : ''}`}
+                  style={{ 
+                    margin: '10px 0',
+                    padding: '20px'
+                  }}
+                >
+                  <h2 className={styles.sectionTitle}>
+                    {section.title}
+                  </h2>
+                  
+                  <p className={styles.sectionDescription}>{section.description}</p>
+                  
+                  {moduleVideos[index]?.videoUrl && (
+                    <div className={styles.videoWrapper}>
+                      <div className={styles.videoContainer}>
+                        <MediaPlayer
+                          title={section.title}
+                          src={moduleVideos[index].videoUrl}
+                          crossorigin=""
+                          playsinline
+                          viewType="video"
+                          streamType="on-demand"
+                          onTimeUpdate={handleTimeUpdate(index)}
+                          onDuration={handleDuration(index)}
+                        >
+                          <MediaProvider>
+                            {moduleVideos[index]?.chaptersVttUrl && (
+                              <Track
+                                key={`chapters-${index}`}
+                                src={moduleVideos[index].chaptersVttUrl}
+                                kind="chapters"
+                                default
+                                label={`Chapters for Section ${index + 1}`}
+                                crossOrigin="anonymous"
+                              />
+                            )}
+                          </MediaProvider>
+                          <DefaultVideoLayout 
+                            icons={defaultLayoutIcons}
+                            thumbnails={moduleVideos[index].videoUrl}
+                          />
+                        </MediaPlayer>
                       </div>
-                    )}
-                  </div>
-                )}
-                
-                <div className={styles.content}>
-                  <div className="prose prose-invert prose-zinc max-w-none">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {section.content || ''}
-                    </ReactMarkdown>
+                      
+                      {moduleVideos[index]?.chapters && moduleVideos[index].chapters.length > 0 && (
+                        <div className={styles.chaptersTracker}>
+                          <div className={styles.overallProgress}>
+                            <div className={styles.mainProgressBar}>
+                              <div 
+                                className={styles.mainProgressFill}
+                                style={{ width: `${chapterProgress[index] || 0}%` }}
+                              />
+                            </div>
+                            <span className={styles.progressText}>
+                              {Math.round(chapterProgress[index] || 0)}% Complete
+                            </span>
+                          </div>
+                          
+                          <div className={styles.chaptersList}>
+                            {moduleVideos[index].chapters.map((chapter, chapterIndex) => (
+                              <div 
+                                key={chapterIndex}
+                                className={`${styles.chapterItem} ${
+                                  completedChapters[index]?.includes(chapter.time) ? styles.active : ''
+                                }`}
+                              >
+                                <div className={styles.chapterCheckbox}>
+                                  {completedChapters[index]?.includes(chapter.time) && (
+                                    <svg viewBox="0 0 24 24" fill="currentColor" className={styles.checkIcon}>
+                                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                    </svg>
+                                  )}
+                                </div>
+                                <div className={styles.chapterInfo}>
+                                  <span className={styles.chapterTitle}>{chapter.title}</span>
+                                  <span className={styles.chapterTime}>
+                                    {formatTime(chapter.time)}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  
+                  <div className={styles.content}>
+                    <div className="prose prose-invert prose-zinc max-w-none">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {section.content || ''}
+                      </ReactMarkdown>
+                    </div>
                   </div>
                 </div>
+                {index < module.sections.length - 1 && (
+                  <hr className={styles.sectionDivider} />
+                )}
               </div>
-              {index < module.sections.length - 1 && (
-                <hr className={styles.sectionDivider} />
-              )}
-            </div>
-          ))}
+            );
+          })}
         </section>
       </main>
 
