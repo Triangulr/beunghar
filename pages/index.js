@@ -230,16 +230,18 @@ export default function Home() {
           <h1>
             Entrepreneurship on <span className="gradient-text">Steroids</span>
           </h1>
-          <h2>How I made $<CountUp
-            start={0}
-            end={83498.62}
-            duration={2.5}
-            decimals={2}
-            decimal="."
-            prefix=""
-            suffix=""
-            separator=","
-          /> in a Year</h2>
+          <h2 className="text-2xl">
+            How I made $<CountUp
+              start={0}
+              end={98786374}
+              duration={2.5}
+              decimals={2}
+              decimal="."
+              prefix=""
+              suffix=""
+              separator=","
+            /> in a Year
+          </h2>
           <p>Starting a business is difficult. It doesn't need to be. We have the System, Education, Mentorship, Community all in a box</p>
           <Button 
             className="relative overflow-hidden bg-gradient-to-r from-orange-400 to-orange-600 
