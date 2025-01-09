@@ -397,17 +397,17 @@ nav {
 }
 
 .hero-content h1 {
-    font-family: 'Humane', sans-serif;
-    font-size: 6em;
+    font-family: 'TheBoldFont', sans-serif;
+    font-size: 4em;
     margin: 20px;
-    font-weight: 700;
+    font-weight: normal;
     line-height: 1;
     letter-spacing: 0.05em;
 }
 
 .hero-content h2 {
     font-family: 'Inter', sans-serif;
-    font-size: 2.5em;
+    font-size: 2em;
     margin: 20px;
     font-weight: 900;
     line-height: 1;
@@ -1405,24 +1405,25 @@ button:not(.exclude-custom-cursor *),
 }
 
 @font-face {
-  font-family: 'Humane';
-  src: url('/fonts/Humane-VF.ttf') format('truetype');
-  font-weight: 100 900;
+  font-family: 'TheBoldFont';
+  src: url('/fonts/TheBoldFont.ttf') format('truetype');
+  font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 .hero-content h1 {
-    font-family: 'Humane', sans-serif;
-    font-size: 6em;
+    font-family: 'TheBoldFont', sans-serif;
+    font-size: 4em;
     margin: 20px;
-    font-weight: 700;
+    font-weight: normal;
     line-height: 1;
     letter-spacing: 0.05em;
 }
 
 .hero-content h2 {
     font-family: 'Inter', sans-serif;
-    font-size: 2.5em;
+    font-size: 2em;
     margin: 20px;
     font-weight: 900;
     line-height: 1;

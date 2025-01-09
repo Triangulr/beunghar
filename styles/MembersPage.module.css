@@ -97,6 +97,7 @@
   color: #ffab40;
   margin-bottom: 1rem;
   font-size: 1.8rem;
+  text-align: left;
 }
 
 .moduleCard p {
@@ -696,24 +697,32 @@
 }
 
 .uploadButton {
-  background: #ffab40;
-  color: #1e1e1e;
+  flex: 1;
+  padding: 0.5rem 1.25rem;
+  background: #FF9040;
+  color: white;
   border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 25px;
-  font-weight: 600;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  margin: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .uploadButton:hover {
-  background: #ff8000;
+  background: #FF7020;
   transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .uploadButton:disabled {
-  background: #666;
+  background: #FFB080;
   cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
 }
 
 .membersPage * {
@@ -882,21 +891,25 @@
 }
 
 .drawerBody {
-  padding: 1rem 0;
-  overflow-y: auto;
+  flex: 1;
+  padding: 0 24px;
+  margin-bottom: 24px;
+  height: 100%;
+  max-height: 70vh;
 }
 
 .closeButton {
-  background-color: #2a2a2a;
+  flex: 1;
+  padding: 0.5rem 1.25rem;
+  background: rgba(255, 255, 255, 0.1);
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  width: 100%;
-  margin-top: 1rem;
+  margin: 0;
 }
 
 .closeButton:hover {
@@ -972,4 +985,216 @@
 .moduleLink:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.sheetContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 1.5rem;
+  background: #2a2a2a !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100% !important;
+  max-width: 600px !important;
+  color: white;
+}
+
+.sheetBody {
+  flex: 1;
+  padding: 1rem;
+  padding-right: 1rem;
+}
+
+.affiliateIdSection,
+.affiliateLinkSection,
+.imageUploadSection {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sheetContainer h2,
+.sheetContainer h3 {
+  color: white !important;
+}
+
+.sheetContainer p {
+  color: #ccc !important;
+}
+
+.idInput,
+.linkInput {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.sheetContainer button:not(.uploadButton):not(.copyButton) {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sheetContainer button:not(.uploadButton):not(.copyButton):hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Update sheet footer to accommodate wider button */
+.sheetContainer :global(.sheet-footer) {
+  width: 100%;
+  padding: 1rem;
+}
+
+/* Update footer layout */
+.sheetFooter {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+/* Update button styles to be equal width */
+.uploadButton {
+  flex: 1;
+  padding: 0.5rem 1.25rem;
+  background: #FF9040;
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0; /* Remove margins */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.closeButton {
+  flex: 1;
+  padding: 0.5rem 1.25rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0; /* Remove margins */
+}
+
+/* Update affiliate ID section styles */
+.affiliateIdSection {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+}
+
+.affiliateIdSection :global(.card-header) {
+  padding-bottom: 0;
+}
+
+.affiliateIdSection :global(.card-title) {
+  color: white !important;
+}
+
+.affiliateIdSection :global(.card-description) {
+  color: #ccc !important;
+}
+
+.idInput {
+  background: rgba(0, 0, 0, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+}
+
+.idInput::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Add hover states for buttons */
+.affiliateIdSection :global(.button) {
+  transition: all 0.2s ease;
+}
+
+.affiliateIdSection :global(.button:hover) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.editButton,
+.saveButton,
+.cancelButton {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.editButton {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.saveButton {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+}
+
+.cancelButton {
+  background-color: #f44336;
+  border: none;
+  color: white;
+}
+
+.errorText {
+  color: #f44336;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Update button styles to ensure cursor is always visible */
+.editButton,
+.saveButton,
+.cancelButton,
+.copyButton {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer !important;
+  margin-left: 8px;
+}
+
+.editButton:hover,
+.saveButton:hover,
+.cancelButton:hover,
+.copyButton:hover {
+  cursor: pointer !important;
+}
+
+/* Ensure text input has text cursor */
+.linkInput {
+  cursor: text !important;
+}
+
+/* Add styles for the badge container */
+.badgeContainer {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+/* Add specific badge styles */
+.badge {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  height: fit-content;
 }

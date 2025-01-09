@@ -555,4 +555,30 @@
 
 .customScroll::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
+}
+
+/* Add these styles near the other form element styles (around line 260) */
+.adminDashboard select,
+.moduleManagerCard select,
+.dialogContent select {
+  cursor: pointer !important;
+  background-color: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.adminDashboard select:focus,
+.moduleManagerCard select:focus,
+.dialogContent select:focus {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Add to the cursor override section (around line 389) */
+.moduleManagerCard select,
+.dialogContent select {
+  cursor: pointer !important;
 } 

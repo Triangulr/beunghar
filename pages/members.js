@@ -6,16 +6,25 @@ import { useState, useEffect, useRef } from 'react';
 import Script from 'next/script';
 import Link from 'next/link';
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetFooter,
+  SheetClose,
+} from "@/components/ui/sheet"
 import { useToast } from "@/hooks/use-toast"
+import {
+  ScrollArea,
+  ScrollBar,
+} from "@/components/ui/scroll-area"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
 
 const SuccessModal = ({ onClose }) => {
   const [showUpgrading, setShowUpgrading] = useState(false);
@@ -60,12 +69,16 @@ const SuccessModal = ({ onClose }) => {
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 3000;
 
-const AffiliateDrawer = () => {
+const AffiliateSheet = () => {
   const { user } = useUser();
   const [uploading, setUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
   const fileInputRef = useRef(null);
   const { toast } = useToast()
+  const [affiliateId, setAffiliateId] = useState('');
+  const [isEditingId, setIsEditingId] = useState(false);
+  const [editableId, setEditableId] = useState('');
+  const [idError, setIdError] = useState('');
 
   // Fetch existing image on component mount
   useEffect(() => {
@@ -166,10 +179,8 @@ const AffiliateDrawer = () => {
 
   // Keep existing helper functions
   const getAffiliateLink = () => {
-    const firstName = user?.firstName?.toLowerCase() || '';
-    const lastName = user?.lastName?.toLowerCase() || '';
     const baseUrl = 'https://beunghar.com';
-    return `${baseUrl}/?ref=${firstName}${lastName}`;
+    return `${baseUrl}/?ref=${affiliateId || user?.id}`;
   };
 
   const handleCopyLink = async (link) => {
@@ -191,102 +202,207 @@ const AffiliateDrawer = () => {
     }
   }
 
+  useEffect(() => {
+    const fetchAffiliateId = async () => {
+      try {
+        const response = await fetch(`https://beunghar-api-92744157839.asia-south1.run.app/api/affiliate-id/${user.id}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.affiliateId) {
+            setAffiliateId(data.affiliateId);
+            setEditableId(data.affiliateId);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching affiliate ID:', error);
+      }
+    };
+
+    if (user?.id) {
+      fetchAffiliateId();
+    }
+  }, [user]);
+
+  const handleUpdateAffiliateId = async () => {
+    if (!editableId.trim()) {
+      setIdError('Affiliate ID cannot be empty');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/update-affiliate-id', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          affiliateId: editableId.trim()
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setAffiliateId(data.affiliateId);
+        setIsEditingId(false);
+        setIdError('');
+        toast({
+          title: "Success",
+          description: "Affiliate ID updated successfully",
+          duration: 2000,
+        });
+      } else {
+        const error = await response.json();
+        setIdError(error.detail || 'Failed to update affiliate ID');
+      }
+    } catch (error) {
+      setIdError('Failed to update affiliate ID');
+    }
+  };
+
   return (
-    <Drawer>
-      <DrawerTrigger asChild>
+    <Sheet>
+      <SheetTrigger asChild>
         <button className={styles.pillButton}>
           Affiliate Settings
         </button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <div className={styles.drawerContainer}>
-          <DrawerHeader>
-            <DrawerTitle>Affiliate Settings</DrawerTitle>
-            <DrawerDescription>
-              Manage your affiliate settings and banner image
-            </DrawerDescription>
-          </DrawerHeader>
+      </SheetTrigger>
+      <SheetContent side="right" className={styles.sheetContainer}>
+        <SheetHeader>
+          <SheetTitle>Affiliate Settings</SheetTitle>
+          <SheetDescription>
+            Manage your affiliate settings and banner image
+          </SheetDescription>
+        </SheetHeader>
 
-          <div className={styles.drawerBody}>
-            <div className={styles.affiliateLinkSection}>
-              <div className={styles.sectionHeader}>
-                <h3>Affiliate Link</h3>
-                <p className={styles.uploadDescription}>
-                  Share this link to earn commissions when people sign up through it.
-                </p>
-              </div>
-              <div className={styles.linkContainer}>
-                <input 
-                  type="text" 
-                  value={getAffiliateLink()} 
-                  readOnly 
-                  className={styles.linkInput}
-                />
-                <button 
-                  className={styles.copyButton}
-                  onClick={() => handleCopyLink(getAffiliateLink())}
-                >
-                  Copy
-                </button>
-              </div>
+        <ScrollArea className={styles.sheetBody}>
+          <div className={styles.affiliateLinkSection}>
+            <div className={styles.sectionHeader}>
+              <h3>Affiliate Link</h3>
+              <p className={styles.uploadDescription}>
+                Share this link to earn commissions when people sign up through it.
+              </p>
+            </div>
+            <div className={styles.linkContainer}>
+              {isEditingId ? (
+                <>
+                  <input
+                    type="text"
+                    value={editableId}
+                    onChange={(e) => setEditableId(e.target.value)}
+                    className={styles.linkInput}
+                    placeholder="Enter custom affiliate ID"
+                  />
+                  <button
+                    className={styles.saveButton}
+                    onClick={handleUpdateAffiliateId}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className={styles.cancelButton}
+                    onClick={() => {
+                      setIsEditingId(false);
+                      setEditableId(affiliateId || user?.id);
+                      setIdError('');
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <>
+                  <input
+                    type="text"
+                    value={getAffiliateLink()}
+                    readOnly
+                    className={styles.linkInput}
+                  />
+                  <button
+                    className={styles.editButton}
+                    onClick={() => setIsEditingId(true)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Edit ID
+                  </button>
+                  <button
+                    className={styles.copyButton}
+                    onClick={() => handleCopyLink(getAffiliateLink())}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Copy
+                  </button>
+                </>
+              )}
+            </div>
+            {idError && <p className={styles.errorText}>{idError}</p>}
+          </div>
+          
+          <div className={styles.imageUploadSection}>
+            <div className={styles.sectionHeader}>
+              <h3>Affiliate Banner</h3>
+              <p className={styles.uploadDescription}>
+                This banner will be shown to users who sign up using your affiliate link. 
+                Recommended size: 1200x300 pixels
+              </p>
             </div>
             
-            <div className={styles.imageUploadSection}>
-              <div className={styles.sectionHeader}>
-                <h3>Affiliate Banner</h3>
-                <p className={styles.uploadDescription}>
-                  This banner will be shown to users who sign up using your affiliate link. 
-                  Recommended size: 1200x300 pixels
-                </p>
+            {imageUrl ? (
+              <div className={styles.currentImage}>
+                <img 
+                  src={imageUrl} 
+                  alt="Affiliate banner" 
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    maxHeight: '200px',
+                    objectFit: 'contain',
+                    borderRadius: '8px',
+                  }}
+                />
               </div>
-              
-              {imageUrl ? (
-                <div className={styles.currentImage}>
-                  <img 
-                    src={imageUrl} 
-                    alt="Affiliate banner" 
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      maxHeight: '200px',
-                      objectFit: 'contain',
-                      borderRadius: '8px',
-                    }}
-                  />
-                </div>
-              ) : (
-                <div className={styles.uploadPlaceholder}>
-                  <p>Upload your affiliate banner</p>
-                </div>
-              )}
-              
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleImageUpload}
-                accept="image/*"
-                style={{ display: 'none' }}
-                id="affiliate-image-upload"
-              />
-            </div>
+            ) : (
+              <div className={styles.uploadPlaceholder}>
+                <p>Upload your affiliate banner</p>
+              </div>
+            )}
+            
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImageUpload}
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="affiliate-image-upload"
+            />
           </div>
+          <ScrollBar />
+        </ScrollArea>
 
-          <DrawerFooter>
-            <button 
-              className={styles.uploadButton}
-              onClick={() => fileInputRef.current.click()}
-              disabled={uploading}
-            >
-              {uploading ? 'Uploading...' : imageUrl ? 'Change Image' : 'Upload Image'}
-            </button>
-            <DrawerClose asChild>
-              <button className={styles.closeButton}>Close</button>
-            </DrawerClose>
-          </DrawerFooter>
-        </div>
-      </DrawerContent>
-    </Drawer>
+        <SheetFooter className={styles.sheetFooter}>
+          <button 
+            className={styles.uploadButton}
+            onClick={() => fileInputRef.current.click()}
+            disabled={uploading}
+          >
+            {uploading ? 'Uploading...' : imageUrl ? 'Change Image' : 'Upload Image'}
+          </button>
+          <SheetClose asChild>
+            <button className={styles.closeButton}>Close</button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
+};
+
+// Add these badge variant styles
+const difficultyStyles = {
+  Beginner: "bg-green-500/10 text-green-500 hover:bg-green-500/20",
+  Intermediate: "bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20",
+  Advanced: "bg-red-500/10 text-red-500 hover:bg-red-500/20"
 };
 
 export default function MembersPage() {
@@ -464,7 +580,7 @@ export default function MembersPage() {
         <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@900&display=swap" rel="stylesheet" />
       </Head>
       
-      <AffiliateDrawer />
+      <AffiliateSheet />
       
       {showSuccessModal && (
         <SuccessModal onClose={() => {
@@ -485,7 +601,7 @@ export default function MembersPage() {
               <img src="/logo/Beunghar-FINAL1.png" alt="Beunghar Logo" />
             </Link>
             <div className={styles.userButtonContainer}>
-              <AffiliateDrawer />
+              <AffiliateSheet />
               <UserButton signOutUrl="/members" />
             </div>
           </div>
@@ -524,9 +640,27 @@ export default function MembersPage() {
           <div className={styles.moduleGrid}>
             {Array.isArray(modules) && modules.map((module) => (
               <div key={module._id} className={styles.moduleCard}>
-                <h2 style={{ fontWeight: 600 }}>
-                  {module.title || 'Untitled Module'}
-                </h2>
+                <div className="flex items-start justify-between mb-2">
+                  <h2 className="text-lg font-semibold">
+                    {module.title || 'Untitled Module'}
+                  </h2>
+                  <div className="flex gap-2 mt-1">
+                    <Badge 
+                      variant="outline" 
+                      className={difficultyStyles[module.difficulty]}
+                    >
+                      {module.difficulty}
+                    </Badge>
+                    {module.isPremium && (
+                      <Badge 
+                        variant="outline" 
+                        className="bg-violet-500/10 text-violet-500 hover:bg-violet-500/20"
+                      >
+                        Premium
+                      </Badge>
+                    )}
+                  </div>
+                </div>
                 <p style={{ fontWeight: 500 }}>
                   {module.description || 'No description available'}
                 </p>

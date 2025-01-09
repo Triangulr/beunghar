@@ -177,6 +177,14 @@ export default function Home() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=Montserrat:wght@100;400;700&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet" />
+        <style jsx global>{`
+          @font-face {
+            font-family: 'TheBoldFont';
+            src: url('/fonts/TheBoldFont.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+          }
+        `}</style>
       </Head>
       <header>
         <div className="container">
@@ -228,7 +236,8 @@ export default function Home() {
         </video>
         <div className="hero-content">
           <h1>
-            Entrepreneurship on <span className="gradient-text">Steroids</span>
+            <span style={{ fontFamily: 'TheBoldFont' }}>Entrepreneurship on </span>
+            <span className="gradient-text" style={{ fontFamily: 'TheBoldFont' }}>Steroids</span>
           </h1>
           <h2 className="text-2xl">
             How I made $<CountUp
@@ -500,6 +509,75 @@ export default function Home() {
       </motion.section>
 
       <motion.section 
+        className="py-24 px-6 bg-[#111111] dark:bg-[#111111]"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-center mb-12 text-white">
+            About Us
+          </h2>
+        </div>
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <Card className="bg-[#333333] dark:bg-[#333333]">
+              <CardHeader>
+                <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
+                  <img 
+                    src="/img/paskal.jpg" 
+                    alt="Paskal" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <CardTitle className="text-white">Paskal</CardTitle>
+                <CardDescription className="text-white/80">Founder</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white mb-4">
+                  Was once a forex trader over three years with 6 figure income, quits trading and pursue entrepreneurial path. 
+                  Open restaurants and eventually making beunghar.com. He has helped hundreds of people to break free from the 
+                  rat race and live the life that they want.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-[#333333] dark:bg-[#333333]">
+              <CardHeader>
+                <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
+                  <img 
+                    src="/img/mike-ross.jpg" 
+                    alt="Mike Ross" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <CardTitle className="text-white">Mike Ross</CardTitle>
+                <CardDescription className="text-white/80">Art Director</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white mb-4">
+                  Some text that describes me lorem ipsum ipsum lorem.
+                </p>
+                <p className="text-white/80 mb-4">
+                  mike@example.com
+                </p>
+                <a 
+                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUJcmljayByb2xs" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block w-full"
+                >
+                  <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
+                    Contact
+                  </button>
+                </a>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </motion.section>
+
+      <motion.section 
         id="faq"
         className="w-full max-w-3xl mx-auto px-4 py-16 bg-[#111111]"
         initial={{ opacity: 0, y: 50 }}
@@ -595,75 +673,6 @@ export default function Home() {
                 <p>No modules available yet. Check back soon!</p>
               </div>
             )}
-          </div>
-        </div>
-      </motion.section>
-
-      <motion.section 
-        className="py-24 px-6 bg-[#111111] dark:bg-[#111111]"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-      >
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-center mb-12 text-white">
-            About Us
-          </h2>
-        </div>
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <Card className="bg-[#333333] dark:bg-[#333333]">
-              <CardHeader>
-                <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
-                  <img 
-                    src="/img/paskal.jpg" 
-                    alt="Paskal" 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <CardTitle className="text-white">Paskal</CardTitle>
-                <CardDescription className="text-white/80">Founder</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white mb-4">
-                  Was once a forex trader over three years with 6 figure income, quits trading and pursue entrepreneurial path. 
-                  Open restaurants and eventually making beunghar.com. He has helped hundreds of people to break free from the 
-                  rat race and live the life that they want.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#333333] dark:bg-[#333333]">
-              <CardHeader>
-                <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
-                  <img 
-                    src="/img/mike-ross.jpg" 
-                    alt="Mike Ross" 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <CardTitle className="text-white">Mike Ross</CardTitle>
-                <CardDescription className="text-white/80">Art Director</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white mb-4">
-                  Some text that describes me lorem ipsum ipsum lorem.
-                </p>
-                <p className="text-white/80 mb-4">
-                  mike@example.com
-                </p>
-                <a 
-                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUJcmljayByb2xs" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="block w-full"
-                >
-                  <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
-                    Contact
-                  </button>
-                </a>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </motion.section>

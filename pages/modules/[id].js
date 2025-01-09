@@ -24,6 +24,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { BookOpen } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 
 function timeStringToSeconds(timeString) {
   if (!timeString) return 0;
@@ -43,6 +44,13 @@ const formatDate = (dateString) => {
     hour12: true,
     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
   }).replace(' at ', ', ');
+};
+
+// Add these badge variant styles
+const difficultyStyles = {
+  Beginner: "bg-green-500/10 text-green-500 hover:bg-green-500/20",
+  Intermediate: "bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20",
+  Advanced: "bg-red-500/10 text-red-500 hover:bg-red-500/20"
 };
 
 export default function DynamicModule() {
@@ -312,29 +320,36 @@ export default function DynamicModule() {
                     key={module._id}
                     className={`group rounded-lg border p-4 transition-colors ${
                       isAccessible 
-                        ? 'hover:bg-accent cursor-pointer' 
+                        ? 'hover:bg-accent' 
                         : 'opacity-75 cursor-not-allowed bg-zinc-900 border-zinc-800'
                     }`}
                     onClick={() => isAccessible && router.push(`/modules/${module._id}`)}
                   >
                     <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className={`font-semibold ${isAccessible ? 'group-hover:text-accent-foreground' : 'text-zinc-400'}`}>
-                          {module.title || 'Untitled Module'}
-                        </h3>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {module.sections?.length || 0} sections
-                        </p>
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {!module.isPremium ? (
-                          <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                            Free
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20">
+                      <h3 className={`font-semibold ${isAccessible ? 'group-hover:text-accent-foreground' : 'text-zinc-400'}`}>
+                        {module.title || 'Untitled Module'}
+                      </h3>
+                      <div className="flex gap-2">
+                        <Badge 
+                          variant="outline" 
+                          className={difficultyStyles[module.difficulty]}
+                        >
+                          {module.difficulty}
+                        </Badge>
+                        {module.isPremium ? (
+                          <Badge 
+                            variant="outline" 
+                            className="bg-violet-500/10 text-violet-500 hover:bg-violet-500/20"
+                          >
                             Premium
-                          </span>
+                          </Badge>
+                        ) : (
+                          <Badge 
+                            variant="outline" 
+                            className="bg-green-500/10 text-green-500 hover:bg-green-500/20"
+                          >
+                            Free
+                          </Badge>
                         )}
                       </div>
                     </div>
@@ -470,6 +485,13 @@ export default function DynamicModule() {
             );
           })}
         </section>
+        
+        <div 
+          className="calendly-inline-widget" 
+          data-url="https://calendly.com/beunghar/meet-the-man?background_color=3e3d3d&text_color=f8f8f8&primary_color=d67d36" 
+          data-color-scheme="dark"
+          style={{ minWidth: "320px", height: "700px" }}
+        />
       </main>
 
       <Script

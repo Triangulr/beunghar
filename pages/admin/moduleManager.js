@@ -28,7 +28,8 @@ const ModuleManager = () => {
     sections: [{ title: '', description: '', content: '' }],
     status: 'draft',
     isPremium: true,
-    lastUpdated: new Date().toISOString().split('T')[0]
+    lastUpdated: new Date().toISOString().split('T')[0],
+    difficulty: 'Beginner',
   });
   const [isEditing, setIsEditing] = useState(false);
   const [previewTab, setPreviewTab] = useState("edit");
@@ -90,7 +91,8 @@ const ModuleManager = () => {
       sections: module.sections || [{ title: '', description: '', content: '' }],
       status: module.status || 'draft',
       isPremium: module.isPremium ?? true,
-      lastUpdated: module.lastUpdated || new Date().toISOString().split('T')[0]
+      lastUpdated: module.lastUpdated || new Date().toISOString().split('T')[0],
+      difficulty: module.difficulty || 'Beginner',
     });
     setIsEditing(true);
     
@@ -124,7 +126,8 @@ const ModuleManager = () => {
             status: editingModule.status || 'draft',
             isPremium: Boolean(editingModule.isPremium),
             students: editingModule.students || 0,
-            lastUpdated: new Date().toISOString()
+            lastUpdated: new Date().toISOString(),
+            difficulty: editingModule.difficulty || 'Beginner'
           }),
         });
 
@@ -322,7 +325,8 @@ const ModuleManager = () => {
                 sections: [{ title: '', description: '', content: '' }],
                 status: 'draft',
                 isPremium: true,
-                lastUpdated: new Date().toISOString().split('T')[0]
+                lastUpdated: new Date().toISOString().split('T')[0],
+                difficulty: 'Beginner'
               });
               setIsEditing(true);
             }}
@@ -397,6 +401,19 @@ const ModuleManager = () => {
                   />
                 </div>
                 <div className="space-y-2">
+                  <Label>Module Description</Label>
+                  <Textarea
+                    value={editingModule?.description || ''}
+                    onChange={(e) => setEditingModule({
+                      ...editingModule,
+                      description: e.target.value
+                    })}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
                   <Label>Access Level</Label>
                   <select
                     className="w-full p-2 rounded-md bg-zinc-800 border border-zinc-700"
@@ -410,16 +427,21 @@ const ModuleManager = () => {
                     <option value="true">Premium Only</option>
                   </select>
                 </div>
-              </div>
-              <div className="space-y-2">
-                <Label>Module Description</Label>
-                <Textarea
-                  value={editingModule?.description || ''}
-                  onChange={(e) => setEditingModule({
-                    ...editingModule,
-                    description: e.target.value
-                  })}
-                />
+                <div className="space-y-2">
+                  <Label>Difficulty Level</Label>
+                  <select
+                    className="w-full p-2 rounded-md bg-zinc-800 border border-zinc-700"
+                    value={editingModule?.difficulty || 'Beginner'}
+                    onChange={(e) => setEditingModule({
+                      ...editingModule,
+                      difficulty: e.target.value
+                    })}
+                  >
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                  </select>
+                </div>
               </div>
             </div>
 
