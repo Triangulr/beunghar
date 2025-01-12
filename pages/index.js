@@ -778,7 +778,7 @@ export default function Home() {
                 className="h-8 w-auto"
               />
               <div className="flex space-x-6">
-                <a href="#twitter" className="text-slate-400 hover:text-white transition-colors">Twitter</a>
+                <a href="https://x.com/beungharcom" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">Twitter</a>
                 <a href="#linkedin" className="text-slate-400 hover:text-white transition-colors">LinkedIn</a>
                 <a href="#facebook" className="text-slate-400 hover:text-white transition-colors">Facebook</a>
               </div>

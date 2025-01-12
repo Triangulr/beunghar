@@ -395,7 +395,7 @@ export default function DynamicModule() {
                   
                   <p className={styles.sectionDescription}>{section.description}</p>
                   
-                  {moduleVideos[index]?.videoUrl && (
+                  {moduleVideos[index]?.videoUrl && !isLocked && (
                     <div className={styles.videoWrapper}>
                       <div className={styles.videoContainer}>
                         <MediaPlayer
@@ -467,6 +467,14 @@ export default function DynamicModule() {
                           </div>
                         </div>
                       )}
+                    </div>
+                  )}
+                  
+                  {moduleVideos[index]?.videoUrl && isLocked && (
+                    <div className={styles.videoWrapper}>
+                      <div className={styles.lockedVideoMessage}>
+                        Complete the previous section to unlock this video
+                      </div>
                     </div>
                   )}
                   
