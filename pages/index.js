@@ -508,6 +508,58 @@ export default function Home() {
         </Accordion>
       </motion.section>
 
+      {/* Modules Section - Moved here, above About Us */}
+      <motion.section 
+        className="py-24 px-6 bg-[#111111] dark:bg-[#111111]"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-center mb-12 text-white">
+            Our Modules
+          </h2>
+        </div>
+        <div className="flex justify-center w-full">
+          <div className={`grid gap-8 ${
+            modules.length === 1 ? 'grid-cols-1 w-[400px]' :
+            modules.length === 2 ? 'grid-cols-2 w-[850px]' :
+            'grid-cols-1 md:grid-cols-3 w-full max-w-[1300px]'
+          } justify-items-center`}>
+            {Array.isArray(modules) && modules.map((module) => (
+              <Card 
+                key={module._id} 
+                className="w-full bg-[#333333] dark:bg-[#333333] transform hover:scale-105 transition-transform duration-200 flex flex-col max-w-[400px] text-center"
+              >
+                <CardHeader className="p-8">
+                  <CardTitle className="text-white text-2xl mb-4 text-center">{module.title || 'Untitled Module'}</CardTitle>
+                  <CardDescription className="text-white/80 text-lg text-center">
+                    {module.description || 'No description available'}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-grow flex flex-col justify-between p-8 pt-0">
+                  <p className="text-white/90 text-lg mb-8 text-center">
+                    {module.sections?.length || 0} sections
+                  </p>
+                  <Button 
+                    className="w-full bg-black/40 text-white hover:bg-black/50 py-6 rounded-md hover:opacity-90 transition-opacity text-lg"
+                    onClick={() => navigateToModule(module._id)}
+                  >
+                    Start Learning
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+
+            {(!modules || modules.length === 0) && (
+              <div className="col-span-full text-center text-white/90 py-8">
+                <p>No modules available yet. Check back soon!</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </motion.section>
+
       <motion.section 
         className="py-24 px-6 bg-[#111111] dark:bg-[#111111]"
         initial={{ opacity: 0, y: 50 }}
@@ -577,6 +629,7 @@ export default function Home() {
         </div>
       </motion.section>
 
+      {/* FAQ Section */}
       <motion.section 
         id="faq"
         className="w-full max-w-3xl mx-auto px-4 py-16 bg-[#111111]"
@@ -624,57 +677,6 @@ export default function Home() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-      </motion.section>
-
-      <motion.section 
-        className="py-24 px-6 bg-[#111111] dark:bg-[#111111]"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-      >
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-center mb-12 text-white">
-            Our Modules
-          </h2>
-        </div>
-        <div className="flex justify-center w-full">
-          <div className={`grid gap-8 ${
-            modules.length === 1 ? 'grid-cols-1 w-[400px]' :
-            modules.length === 2 ? 'grid-cols-2 w-[850px]' :
-            'grid-cols-1 md:grid-cols-3 w-full max-w-[1300px]'
-          } justify-items-center`}>
-            {Array.isArray(modules) && modules.map((module) => (
-              <Card 
-                key={module._id} 
-                className="w-full bg-[#333333] dark:bg-[#333333] transform hover:scale-105 transition-transform duration-200 flex flex-col max-w-[400px] text-center"
-              >
-                <CardHeader className="p-8">
-                  <CardTitle className="text-white text-2xl mb-4 text-center">{module.title || 'Untitled Module'}</CardTitle>
-                  <CardDescription className="text-white/80 text-lg text-center">
-                    {module.description || 'No description available'}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow flex flex-col justify-between p-8 pt-0">
-                  <p className="text-white/90 text-lg mb-8 text-center">
-                    {module.sections?.length || 0} sections
-                  </p>
-                  <Button 
-                    className="w-full bg-black/40 text-white hover:bg-black/50 py-6 rounded-md hover:opacity-90 transition-opacity text-lg"
-                    onClick={() => navigateToModule(module._id)}
-                  >
-                    Start Learning
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-
-            {(!modules || modules.length === 0) && (
-              <div className="col-span-full text-center text-white/90 py-8">
-                <p>No modules available yet. Check back soon!</p>
-              </div>
-            )}
-          </div>
-        </div>
       </motion.section>
 
       <footer className="bg-[#111111] text-white">
