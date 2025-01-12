@@ -242,50 +242,89 @@ const ModuleManager = () => {
 
   const handleVideoUpload = async (moduleId, sectionIndex, file) => {
     try {
-      if (!moduleId) {
-        alert('Please save the module first before uploading videos');
-        return;
-      }
-
-      if (!user?.id) {
-        alert('You must be logged in to upload videos');
-        return;
-      }
-
-      setUploadingVideo({ moduleId, sectionIndex });
-      
-      const formData = new FormData();
-      formData.append('file', file);
-      
-      const response = await fetch(
-        `https://beunghar-api-92744157839.asia-south1.run.app/api/modules/upload-video?module_id=${moduleId}&section_index=${sectionIndex}&user_id=${user.id}`,
-        {
-          method: 'POST',
-          headers: {
-            'user-id': user.id,
-          },
-          body: formData,
+        if (!moduleId) {
+            alert('Please save the module first before uploading videos');
+            return;
         }
-      );
 
-      if (response.status === 403) {
-        throw new Error('Unauthorized - Admin access required');
-      }
+        if (!user?.id) {
+            alert('You must be logged in to upload videos');
+            return;
+        }
 
-      if (!response.ok) {
-        throw new Error('Failed to upload video');
-      }
+        setUploadingVideo({ moduleId, sectionIndex });
+        
+        // Get signed URL with CORS headers
+        const urlResponse = await fetch(
+            'https://beunghar-api-92744157839.asia-south1.run.app/api/modules/get-upload-url',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'user-id': user.id,
+                },
+                body: JSON.stringify({
+                    moduleId,
+                    sectionIndex,
+                    fileType: file.type,
+                    origin: window.location.origin
+                }),
+            }
+        );
 
-      const data = await response.json();
-      
-      // Update the section with the video URL
-      handleSectionChange(sectionIndex, 'videoUrl', data.videoUrl);
-      
+        if (!urlResponse.ok) {
+            throw new Error('Failed to get upload URL');
+        }
+
+        const { uploadUrl, blobName } = await urlResponse.json();
+
+        // Upload directly to Google Cloud Storage with CORS headers
+        const uploadResponse = await fetch(uploadUrl, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': file.type,
+                'Origin': window.location.origin,
+                'Access-Control-Request-Method': 'PUT',
+            },
+            mode: 'cors',
+            body: file,
+        });
+
+        if (!uploadResponse.ok) {
+            throw new Error('Failed to upload video');
+        }
+
+        // Confirm upload
+        const confirmResponse = await fetch(
+            'https://beunghar-api-92744157839.asia-south1.run.app/api/modules/confirm-upload',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'user-id': user.id,
+                },
+                body: JSON.stringify({
+                    moduleId,
+                    sectionIndex,
+                    blobName
+                }),
+            }
+        );
+
+        if (!confirmResponse.ok) {
+            throw new Error('Failed to confirm upload');
+        }
+
+        const data = await confirmResponse.json();
+        
+        // Update the section with the video URL
+        handleSectionChange(sectionIndex, 'videoUrl', data.videoUrl);
+        
     } catch (error) {
-      console.error('Error uploading video:', error);
-      alert(error.message || 'Failed to upload video');
+        console.error('Error uploading video:', error);
+        alert(error.message || 'Failed to upload video');
     } finally {
-      setUploadingVideo(null);
+        setUploadingVideo(null);
     }
   };
 
@@ -507,6 +546,7 @@ const ModuleManager = () => {
                                 className="w-full h-full rounded bg-zinc-800 object-cover"
                                 src={section.videoUrl}
                                 controls
+                                crossOrigin="anonymous"
                               />
                               {uploadingVideo?.sectionIndex === index && (
                                 <div className="absolute inset-0 bg-black/50 rounded flex items-center justify-center">
