@@ -196,7 +196,7 @@ export default function Home() {
           <nav1 className="flex-1 flex justify-center">
             <div className="nav-container">
               <div className="logo">
-                <img src="/logo/Beunghar-FINAL6.png" alt="Logo" />
+                <img src="/logo/Beunghar-FINAL7.png" alt="Logo" />
               </div>
             </div>
           </nav1>              
@@ -219,7 +219,7 @@ export default function Home() {
           </nav>
         </div>
       </header>
-
+      
       <motion.section 
         id="home" 
         className="hero-section"
@@ -285,9 +285,13 @@ export default function Home() {
           </Button>
         </div>
       </motion.section>
+   
+      
+   <div className="stripes">
+    
 
-      <motion.section 
-        id="video-section" 
+      <motion.section
+        id="video-section"
         className="video-section"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -297,7 +301,8 @@ export default function Home() {
           <source src="/video/testing2_30fps.mp4" type="video/mp4" />
         </video>
       </motion.section>
-
+    </div>
+    
       <section id="reviews" className="py-24 px-6 bg-[#111111] dark:bg-[#111111] overflow-hidden">
         <div className="max-w-4xl mx-auto text-center mb-16">
           <motion.h2
@@ -438,7 +443,7 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-
+      
       <motion.section 
         className="w-full max-w-3xl mx-auto px-4 py-16 bg-[#111111]"
         initial={{ opacity: 0, y: 50 }}
@@ -571,7 +576,7 @@ export default function Home() {
             About Us
           </h2>
         </div>
-        <div className="container mx-auto">
+        <div className="container1 mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             <Card className="bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
@@ -678,7 +683,7 @@ export default function Home() {
           </AccordionItem>
         </Accordion>
       </motion.section>
-
+      <div class="divider-wave"></div>
       <footer className="bg-[#111111] text-white">
         {/* CTA Section */}
         <div className="bg-radial-at-center from-[#111111] via-[#111111] to-[#111111] min-h-[200px] flex items-center justify-center">
