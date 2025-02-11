@@ -15,11 +15,24 @@ const video = document.getElementById('dynamic-video');
         });
     }
 
-    // Progress bar dynamic update
-    const progressFill = document.querySelector('.progress-fill');
-    if (progressFill) {
-        progressFill.style.width = '70%'; // Example: Update progress dynamically
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+        const header = document.querySelector("header");
+    
+        if (!header) return;
+    
+        function updateHeader() {
+            requestAnimationFrame(() => {
+                if (window.scrollY > 50) {
+                    header.classList.add("scrolled");
+                } else {
+                    header.classList.remove("scrolled");
+                }
+            });
+        }
+    
+        window.addEventListener("scroll", updateHeader, { passive: true });
+        updateHeader();
+    });
 
     // Load the default section
     showSection('home')

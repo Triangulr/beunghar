@@ -187,7 +187,7 @@ export default function Home() {
         `}</style>
       </Head>
       <header>
-        <div className="container">
+        <div className="container4">
           <div className="header-left">
             <a href="mailto:info@beunghar.com" className="text-white hover:text-orange-400 transition-colors">
               info@beunghar.com
@@ -297,6 +297,7 @@ export default function Home() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
+ 
         <video id="dynamic-video" className="dynamic-video" autoPlay muted loop>
           <source src="/video/testing2_30fps.mp4" type="video/mp4" />
         </video>
@@ -582,7 +583,7 @@ export default function Home() {
               <CardHeader>
                 <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
                   <img 
-                    src="/img/paskal.jpg" 
+                    src="img/paskal.jpg" 
                     alt="Paskal" 
                     className="w-full h-full object-cover"
                   />
@@ -793,7 +794,7 @@ export default function Home() {
         </div>
       </footer>
 
-      <Script src="/script.js" defer />
+      <script src="script.js"></script>
     </div>
   );
 }
