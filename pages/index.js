@@ -285,9 +285,10 @@ export default function Home() {
           </Button>
         </div>
       </motion.section>
-   
       
-   <div className="stripes">
+      <div className="glowing-line" />
+      
+      <div className="stripes">
     
 
       <motion.section

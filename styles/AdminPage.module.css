@@ -581,4 +581,133 @@
 .moduleManagerCard select,
 .dialogContent select {
   cursor: pointer !important;
+}
+
+/* Mobile-friendly adjustments */
+@media screen and (max-width: 768px) {
+  .adminContainer {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem;
+  }
+
+  .mainContent {
+    padding: 60px 16px 16px 16px;
+  }
+
+  .headerContent {
+    padding: 0.5rem;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    max-height: none;
+  }
+
+  .leftSection {
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 0; /* Prevents flex items from overflowing */
+  }
+
+  .logo {
+    margin-left: 0;
+  }
+
+  .logo img {
+    height: 32px;
+  }
+
+  /* Adjust navigation menu for mobile */
+  .adminContainer :global(.navigation-menu) {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .adminContainer :global(.navigation-menu-list) {
+    gap: 0.5rem;
+  }
+
+  .adminContainer :global(.navigation-menu-trigger),
+  .adminContainer :global(.navigation-menu-link) {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .userButtonContainer {
+    margin-right: 0;
+  }
+
+  .cardGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 0 8px;
+  }
+
+  .moduleManagerCard {
+    margin: 12px 0;
+  }
+
+  /* Adjust header for mobile */
+  .header {
+    position: fixed;
+    z-index: 1000;
+  }
+
+  /* Dialog adjustments for mobile */
+  .dialogContent {
+    max-width: 95vw;
+    margin: 16px;
+    padding: 16px;
+  }
+
+  /* Form elements adjustments */
+  .adminDashboard select,
+  .moduleManagerCard select,
+  .dialogContent select {
+    padding: 0.5rem;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .adminDashboard input[type="text"],
+  .adminDashboard input[type="email"],
+  .adminDashboard input[type="password"],
+  .adminDashboard textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 0.5rem;
+  }
+}
+
+/* Additional mobile optimizations */
+@media screen and (max-width: 480px) {
+  .headerContent {
+    padding: 0.25rem;
+  }
+
+  .logo img {
+    height: 28px;
+  }
+
+  .mainContent {
+    padding-top: 50px;
+  }
+
+  /* Adjust any complex UI elements for very small screens */
+  .cardGrid {
+    margin-top: 12px;
+  }
+
+  .moduleManagerCard {
+    margin: 8px 0;
+  }
+
+  .adminContainer :global(.navigation-menu-trigger),
+  .adminContainer :global(.navigation-menu-link) {
+    padding: 0.25rem;
+    font-size: 0.75rem;
+  }
 } 
