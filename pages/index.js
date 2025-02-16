@@ -22,6 +22,7 @@ import CountUp from 'react-countup';
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [modules, setModules] = useState([]);
+  const [affiliateImage, setAffiliateImage] = useState(null);
   const router = useRouter();
 
   const toggleMenu = () => {
@@ -168,6 +169,31 @@ export default function Home() {
 
     fetchModules();
   }, []);
+
+  useEffect(() => {
+    const fetchAffiliateImage = async (ref) => {
+      try {
+        const response = await fetch(`https://beunghar-api-92744157839.asia-south1.run.app/api/affiliate-image/${ref}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.imageUrl) {
+            setAffiliateImage(data.imageUrl);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching affiliate image:', error);
+      }
+    };
+
+    // Get ref from URL query parameters
+    const { ref } = router.query;
+    if (ref) {
+      fetchAffiliateImage(ref);
+      
+      // Optionally store ref in localStorage for persistence
+      localStorage.setItem('affiliateRef', ref);
+    }
+  }, [router.query]);
 
   return (
     <div className="home-page">
@@ -605,13 +631,17 @@ export default function Home() {
               <CardHeader>
                 <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
                   <img 
-                    src="/img/mike-ross.jpg" 
-                    alt="Mike Ross" 
+                    src={affiliateImage || "/img/mike-ross.jpg"} 
+                    alt="Team Member" 
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <CardTitle className="text-white">Mike Ross</CardTitle>
-                <CardDescription className="text-white/80">Art Director</CardDescription>
+                <CardTitle className="text-white">
+                  {affiliateImage ? "Your Affiliate Partner" : "Mike Ross"}
+                </CardTitle>
+                <CardDescription className="text-white/80">
+                  {affiliateImage ? "Affiliate Partner" : "Art Director"}
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white mb-4">

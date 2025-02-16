@@ -267,11 +267,15 @@ const AffiliateSheet = () => {
           Affiliate Settings
         </button>
       </SheetTrigger>
-      <SheetContent side="right" className={styles.sheetContainer}>
+      <SheetContent 
+        side="right" 
+        className={`${styles.sheetContainer} !mt-[64px] [&>button]:hidden`}
+        closeButton={false}
+      >
         <SheetHeader>
           <SheetTitle>Affiliate Settings</SheetTitle>
           <SheetDescription>
-            Manage your affiliate settings and banner image
+            Manage your affiliate settings and profile image
           </SheetDescription>
         </SheetHeader>
 
@@ -342,10 +346,10 @@ const AffiliateSheet = () => {
           
           <div className={styles.imageUploadSection}>
             <div className={styles.sectionHeader}>
-              <h3>Affiliate Banner</h3>
-              <p className={styles.uploadDescription}>
-                This banner will be shown to users who sign up using your affiliate link. 
-                Recommended size: 1200x300 pixels
+              <h3 style={{ textAlign: 'left' }}>Affiliate Banner</h3>
+              <p className={styles.uploadDescription} style={{ textAlign: 'left' }}>
+                This banner will be shown to users who use your affiliate link. 
+                Recommended size: 400x400 pixels
               </p>
             </div>
             
@@ -364,10 +368,22 @@ const AffiliateSheet = () => {
                 />
               </div>
             ) : (
-              <div className={styles.uploadPlaceholder}>
-                <p>Upload your affiliate banner</p>
+              <div className={styles.uploadPlaceholder} style={{ textAlign: 'left' }}>
+                <p>No profile image has been uploaded</p>
               </div>
             )}
+            
+            <button 
+              className={styles.uploadButton}
+              onClick={() => fileInputRef.current.click()}
+              disabled={uploading}
+              style={{
+                width: '100%',
+                marginTop: '1rem'
+              }}
+            >
+              {uploading ? 'Uploading...' : imageUrl ? 'Change Image' : 'Upload Image'}
+            </button>
             
             <input
               type="file"
@@ -378,21 +394,7 @@ const AffiliateSheet = () => {
               id="affiliate-image-upload"
             />
           </div>
-          <ScrollBar />
         </ScrollArea>
-
-        <SheetFooter className={styles.sheetFooter}>
-          <button 
-            className={styles.uploadButton}
-            onClick={() => fileInputRef.current.click()}
-            disabled={uploading}
-          >
-            {uploading ? 'Uploading...' : imageUrl ? 'Change Image' : 'Upload Image'}
-          </button>
-          <SheetClose asChild>
-            <button className={styles.closeButton}>Close</button>
-          </SheetClose>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );
