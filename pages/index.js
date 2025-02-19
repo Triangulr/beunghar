@@ -155,7 +155,7 @@ export default function Home() {
   useEffect(() => {
     const fetchModules = async () => {
       try {
-        const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/modules');
+        const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/publicModules');
         if (!response.ok) {
           throw new Error('Failed to fetch modules');
         }
@@ -275,7 +275,9 @@ export default function Home() {
               prefix=""
               suffix=""
               separator=","
-            /> in a Year
+            />
+            <span className="hidden md:inline"> </span>
+            <span className="block md:inline">in a Year</span>
           </h2>
           <p>Starting a business is difficult. It doesn't need to be. We have the System, Education, Mentorship, Community all in a box</p>
           <Button 
@@ -572,7 +574,7 @@ export default function Home() {
                 </CardHeader>
                 <CardContent className="flex-grow flex flex-col justify-between p-8 pt-0">
                   <p className="text-white/90 text-lg mb-8 text-center">
-                    {module.sections?.length || 0} sections
+                    {module.sections || 0} sections
                   </p>
                   <Button 
                     className="w-full bg-black/40 text-white hover:bg-black/50 py-6 rounded-md hover:opacity-90 transition-opacity text-lg"
