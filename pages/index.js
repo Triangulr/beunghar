@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -18,11 +18,14 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import CountUp from 'react-countup';
 import { ContainerScroll } from '@/components/ui/container-scroll-animation';
+import { Volume2 } from 'lucide-react';
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [modules, setModules] = useState([]);
   const [affiliateImage, setAffiliateImage] = useState(null);
+  const [introVideoMuted, setIntroVideoMuted] = useState(true);
+  const videoRef = useRef(null);
   const router = useRouter();
 
   const toggleMenu = () => {
@@ -217,6 +220,13 @@ export default function Home() {
     };
   }, []);
 
+  const handleVideoClick = () => {
+    if (videoRef.current) {
+      videoRef.current.volume = 0.5;
+      setIntroVideoMuted(false);
+    }
+  };
+
   return (
     <div className="home-page">
       <Head>
@@ -231,6 +241,18 @@ export default function Home() {
             src: url('/fonts/TheBoldFont.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
+          }
+          
+          .video-container * {
+            cursor: none !important;
+          }
+          
+          .video-container .custom-cursor {
+            display: none !important;
+          }
+          
+          .video-container video::-webkit-media-controls-panel {
+            cursor: auto !important;
           }
         `}</style>
       </Head>
@@ -346,15 +368,28 @@ export default function Home() {
             </h1>
           }
         >
-          <div className="relative rounded-xl overflow-hidden shadow-2xl w-full max-w-4xl mx-auto">
+          <div className="relative rounded-xl overflow-hidden shadow-2xl w-full max-w-4xl mx-auto video-container">
+            {introVideoMuted && (
+              <div 
+                className="absolute inset-0 bg-black/50 flex items-center justify-center cursor-pointer z-10 video-overlay"
+                onClick={handleVideoClick}
+              >
+                <div className="text-white text-center px-4 py-2 rounded-lg bg-black/60 backdrop-blur-sm">
+                  <Volume2 className="w-8 h-8 mx-auto mb-2" />
+                  Click to Enable Audio
+                </div>
+              </div>
+            )}
             <video 
+              ref={videoRef}
               className="w-full aspect-video"
               controls
               playsInline
               preload="metadata"
               autoPlay
-              muted
+              muted={introVideoMuted}
               loop
+              onClick={handleVideoClick}
             >
               <source src="/video/Beunghar vid.mp4" type="video/mp4" />
               Your browser does not support the video tag.
