@@ -69,8 +69,11 @@ body:not(.members-page) header {
 }
 
 body:not(.members-page) header.scrolled {
-    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     padding: 1px 0;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 /* Remove or modify this rule that's hiding the header */
@@ -1392,8 +1395,6 @@ a, button, .accordion-trigger, [role="button"] {
 .home-page [role="button"] {
   cursor: none !important;
 }
-
-/* Add these styles */
 
 /* When menu is active, hide scrollbar but maintain padding */
 body.no-scroll {

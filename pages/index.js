@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Script from 'next/script';
 import { useEffect, useState } from 'react';
 import {
   Accordion,
@@ -18,6 +17,7 @@ import { Button } from "@/components/ui/button"
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import CountUp from 'react-countup';
+import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -195,6 +195,28 @@ export default function Home() {
     }
   }, [router.query]);
 
+  useEffect(() => {
+    const updateHeader = () => {
+      requestAnimationFrame(() => {
+        const header = document.querySelector("header");
+        if (!header) return;
+        
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+    };
+
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    updateHeader(); // Initial check
+
+    return () => {
+      window.removeEventListener("scroll", updateHeader);
+    };
+  }, []);
+
   return (
     <div className="home-page">
       <Head>
@@ -317,31 +339,28 @@ export default function Home() {
       <div className="glowing-line" />
       
       <div className="stripes">
-        <motion.section
-          id="video-section"
-          className="video-section py-16 px-4"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+        <ContainerScroll
+          titleComponent={
+            <h1 className="text-4xl font-semibold text-center mb-8 text-white">
+              Watch Our Introduction
+            </h1>
+          }
         >
-          <div className="max-w-4xl mx-auto">
-            <div className="relative rounded-xl overflow-hidden shadow-2xl bg-[#222222]">
-              <video 
-                id="dynamic-video" 
-                className="w-full aspect-video"
-                controls
-                playsInline
-                preload="metadata"
-                autoPlay
-                muted
-                loop
-              >
-                <source src="/video/Beunghar vid.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
+          <div className="relative rounded-xl overflow-hidden shadow-2xl w-full max-w-4xl mx-auto">
+            <video 
+              className="w-full aspect-video"
+              controls
+              playsInline
+              preload="metadata"
+              autoPlay
+              muted
+              loop
+            >
+              <source src="/video/Beunghar vid.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
-        </motion.section>
+        </ContainerScroll>
       </div>
     
       <section id="reviews" className="py-24 px-6 bg-[#111111] dark:bg-[#111111] overflow-hidden">
@@ -837,8 +856,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      <script src="script.js"></script>
     </div>
   );
 }
