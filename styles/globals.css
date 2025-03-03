@@ -711,6 +711,7 @@ nav {
     display: flex;
     padding: 20px;
     justify-content: center;
+    background: transparent;
 }
 
 .dynamic-video {
@@ -718,8 +719,13 @@ nav {
     height: 50%;
     border-radius: 15px;
     display: block;
+    background: transparent;
 }
 
+/* Update the video container background */
+.relative.rounded-xl.overflow-hidden.shadow-2xl {
+    background: transparent !important;
+}
 
 .testimonials-section {
     background-color: #111111;

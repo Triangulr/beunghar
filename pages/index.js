@@ -258,7 +258,7 @@ export default function Home() {
         </div>
         <div className="background-overlay"></div>
         <video autoPlay muted loop className="background-video">
-          <source src="/video/testing-vid_24fps (1) (1).mp4" type="video/mp4" />
+          <source src="/video/Beunghar vid.mp4" type="video/mp4" />
         </video>
         <div className="hero-content">
           <h1>
@@ -317,21 +317,32 @@ export default function Home() {
       <div className="glowing-line" />
       
       <div className="stripes">
-    
-
-      <motion.section
-        id="video-section"
-        className="video-section"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
- 
-        <video id="dynamic-video" className="dynamic-video" autoPlay muted loop>
-          <source src="/video/testing2_30fps.mp4" type="video/mp4" />
-        </video>
-      </motion.section>
-    </div>
+        <motion.section
+          id="video-section"
+          className="video-section py-16 px-4"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="max-w-4xl mx-auto">
+            <div className="relative rounded-xl overflow-hidden shadow-2xl bg-[#222222]">
+              <video 
+                id="dynamic-video" 
+                className="w-full aspect-video"
+                controls
+                playsInline
+                preload="metadata"
+                autoPlay
+                muted
+                loop
+              >
+                <source src="/video/Beunghar vid.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </motion.section>
+      </div>
     
       <section id="reviews" className="py-24 px-6 bg-[#111111] dark:bg-[#111111] overflow-hidden">
         <div className="max-w-4xl mx-auto text-center mb-16">
