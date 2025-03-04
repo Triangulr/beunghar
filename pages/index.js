@@ -19,6 +19,12 @@ import { useRouter } from 'next/router';
 import CountUp from 'react-countup';
 import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 import { Volume2 } from 'lucide-react';
+import tailwindColors from 'tailwindcss/colors';
+
+export const formatThemeColors = (color) => {
+    return tailwindColors[color];
+};
+
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -258,9 +264,10 @@ export default function Home() {
       </Head>
       <header>
         <div className="container4">
+        <img src="/img/message.png" alt="Message Icon" class="animated-icon"/>
           <div className="header-left">
             <a href="mailto:info@beunghar.com" className="text-white hover:text-orange-400 transition-colors">
-              info@beunghar.com
+            info@beunghar.com
             </a>
           </div>
           <nav1 className="flex-1 flex justify-center">
@@ -672,7 +679,7 @@ export default function Home() {
           </h2>
         </div>
         <div className="container1 mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
             <Card className="bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
                 <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
@@ -682,14 +689,31 @@ export default function Home() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <CardTitle className="text-white">Paskal</CardTitle>
+                <CardTitle className="text-white">Andry Barlian/ Mang Idjot</CardTitle>
                 <CardDescription className="text-white/80">Founder</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white mb-4">
-                  Was once a forex trader over three years with 6 figure income, quits trading and pursue entrepreneurial path. 
-                  Open restaurants and eventually making beunghar.com. He has helped hundreds of people to break free from the 
-                  rat race and live the life that they want.
+                was once a serial "boss" owns a textile factory, was a contractor owning many housing complex and was also a restaurant owner. Now by founding beunghar.com he has break free from the hustle life and now are living the freedom lifestyle travelling throughout the world
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-[#333333] dark:bg-[#333333]">
+              <CardHeader>
+                <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
+                  <img 
+                    src="img/paskal.jpg" 
+                    alt="Paskal" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <CardTitle className="text-white">Andry Barlian/ Mang Idjot</CardTitle>
+                <CardDescription className="text-white/80">Founder</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white mb-4">
+                was once a serial "boss" owns a textile factory, was a contractor owning many housing complex and was also a restaurant owner. Now by founding beunghar.com he has break free from the hustle life and now are living the freedom lifestyle travelling throughout the world
                 </p>
               </CardContent>
             </Card>

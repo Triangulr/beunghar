@@ -10,6 +10,10 @@ module.exports = {
   prefix: "",
   theme: {
   	extend: {
+		backgroundImage: {
+			'gradient-conic':
+			  'conic-gradient(var(--conic-position, from 45deg), var(--tw-gradient-stops))'
+		  },
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
