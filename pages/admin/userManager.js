@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, Shield, ShieldOff, ChevronLeft, ChevronRight, MoreVertical, Crown, CrownOff } from "lucide-react";
+import { Search, Shield, ShieldOff, ChevronLeft, ChevronRight, MoreVertical, Crown, UserX, Loader2 } from "lucide-react";
 import styles from '../../styles/AdminPage.module.css';
 import { useUser } from '@clerk/nextjs';
 import { useToast } from "@/hooks/use-toast";
@@ -25,8 +25,19 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const API_BASE_URL = 'https://beunghar-api-92744157839.asia-south1.run.app';
 
+const getLastSeenText = (lastActiveAt) => {
+  if (!lastActiveAt) return 'Never';
+  const lastActive = new Date(lastActiveAt);
+  const now = new Date();
+  const diffTime = Math.abs(now - lastActive);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays === 0 ? 'Today' : `${diffDays} days ago`;
+};
+
 const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAdminLoading, setIsAdminLoading] = useState(false);
+  const [isPremiumLoading, setIsPremiumLoading] = useState(false);
 
   // Defensive check for user data
   if (!user || typeof user !== 'object') {
@@ -39,6 +50,26 @@ const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium }) => {
     name: user.name || 'Unknown User',
     isAdmin: !!user.isAdmin,
     membershipStatus: user.membershipStatus || 'free'
+  };
+
+  const handleToggleAdmin = async () => {
+    setIsAdminLoading(true);
+    try {
+      await onToggleAdmin?.();
+    } finally {
+      setIsAdminLoading(false);
+      setIsOpen(false);
+    }
+  };
+
+  const handleTogglePremium = async () => {
+    setIsPremiumLoading(true);
+    try {
+      await onTogglePremium?.();
+    } finally {
+      setIsPremiumLoading(false);
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -54,15 +85,25 @@ const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium }) => {
 
       <AnimatePresence>
         {isOpen && (
-          <div
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center"
           >
-            <div
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               className="fixed inset-0 bg-black/50"
               onClick={() => setIsOpen(false)}
             />
             
-            <div
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.2 }}
               className="relative z-50 w-full max-w-lg bg-background p-6 rounded-lg shadow-lg"
             >
               <div className="space-y-4">
@@ -82,13 +123,13 @@ const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium }) => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => {
-                        onToggleAdmin?.();
-                        setIsOpen(false);
-                      }}
+                      onClick={handleToggleAdmin}
+                      disabled={isAdminLoading}
                       className="min-w-[120px]"
                     >
-                      {userData.isAdmin ? (
+                      {isAdminLoading ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : userData.isAdmin ? (
                         <>
                           <ShieldOff className="w-4 h-4 mr-2" />
                           Remove Admin
@@ -112,15 +153,15 @@ const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium }) => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => {
-                        onTogglePremium?.();
-                        setIsOpen(false);
-                      }}
+                      onClick={handleTogglePremium}
+                      disabled={isPremiumLoading}
                       className="min-w-[120px]"
                     >
-                      {userData.membershipStatus === 'premium' ? (
+                      {isPremiumLoading ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : userData.membershipStatus === 'premium' ? (
                         <>
-                          <CrownOff className="w-4 h-4 mr-2" />
+                          <UserX className="w-4 h-4 mr-2" />
                           Remove Premium
                         </>
                       ) : (
@@ -143,8 +184,8 @@ const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium }) => {
                   </Button>
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
@@ -323,7 +364,11 @@ export default function UserManager() {
   };
 
   if (loading) {
-    return <div className={styles.loading}>Loading users...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+      </div>
+    );
   }
 
   return (
@@ -361,7 +406,7 @@ export default function UserManager() {
           <TableRow className="border-border hover:bg-muted/50">
             <TableHead className="text-muted-foreground">Name</TableHead>
             <TableHead className="text-muted-foreground">Email</TableHead>
-            <TableHead className="text-muted-foreground">Status</TableHead>
+            <TableHead className="text-muted-foreground">Last Seen On</TableHead>
             <TableHead className="text-muted-foreground">Role</TableHead>
             <TableHead className="text-muted-foreground">Membership</TableHead>
             <TableHead className="text-muted-foreground">Actions</TableHead>
@@ -373,8 +418,8 @@ export default function UserManager() {
               <TableCell className="text-foreground">{user.name}</TableCell>
               <TableCell className="text-foreground">{user.email}</TableCell>
               <TableCell>
-                <Badge variant={user.status === 'active' ? 'success' : 'secondary'}>
-                  {user.status}
+                <Badge variant={user.last_active_at ? 'success' : 'secondary'}>
+                  {getLastSeenText(user.last_active_at)}
                 </Badge>
               </TableCell>
               <TableCell>
