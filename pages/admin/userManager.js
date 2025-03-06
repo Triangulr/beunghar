@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, Shield, ShieldOff, ChevronLeft, ChevronRight, MoreVertical, Crown, UserX, Loader2 } from "lucide-react";
+import { Search, Shield, ShieldOff, ChevronLeft, ChevronRight, MoreVertical, Crown, UserX, Loader2, CircleOff, Lock } from "lucide-react";
 import styles from '../../styles/AdminPage.module.css';
 import { useUser } from '@clerk/nextjs';
 import { useToast } from "@/hooks/use-toast";
@@ -34,10 +34,13 @@ const getLastSeenText = (lastActiveAt) => {
   return diffDays === 0 ? 'Today' : `${diffDays} days ago`;
 };
 
-const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium }) => {
+const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium, onToggleBan }) => {
+  const { user: currentUser } = useUser();
+  const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [isAdminLoading, setIsAdminLoading] = useState(false);
   const [isPremiumLoading, setIsPremiumLoading] = useState(false);
+  const [isBanLoading, setIsBanLoading] = useState(false);
 
   // Defensive check for user data
   if (!user || typeof user !== 'object') {
@@ -49,7 +52,10 @@ const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium }) => {
   const userData = {
     name: user.name || 'Unknown User',
     isAdmin: !!user.isAdmin,
-    membershipStatus: user.membershipStatus || 'free'
+    membershipStatus: user.membershipStatus || 'free',
+    status: user.status || 'active',
+    banned: !!user.banned,
+    locked: !!user.locked
   };
 
   const handleToggleAdmin = async () => {
@@ -69,6 +75,46 @@ const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium }) => {
     } finally {
       setIsPremiumLoading(false);
       setIsOpen(false);
+    }
+  };
+
+  const handleToggleBan = async () => {
+    setIsBanLoading(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/users/${user.id}/toggle-ban`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'user-id': currentUser.id
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to toggle ban status');
+      }
+
+      const result = await response.json();
+      
+      // Call the parent component's handler with the new ban status
+      await onToggleBan?.(user.id, result.banned);
+      
+      toast({
+        title: "Success",
+        description: `User has been ${result.banned ? 'banned' : 'unbanned'} successfully.`,
+        duration: 2000,
+      });
+      
+      setIsOpen(false);
+    } catch (error) {
+      console.error('Error toggling ban status:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update user ban status. Please try again.",
+        variant: "destructive",
+        duration: 2000,
+      });
+    } finally {
+      setIsBanLoading(false);
     }
   };
 
@@ -168,6 +214,41 @@ const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium }) => {
                         <>
                           <Crown className="w-4 h-4 mr-2" />
                           Make Premium
+                        </>
+                      )}
+                    </Button>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-medium">Account Status</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {userData.banned ? 'Unban this user and restore access?' : 'Ban this user from accessing the platform?'}
+                      </p>
+                      {userData.locked && (
+                        <p className="text-sm text-destructive mt-1">
+                          Note: This account is also locked by Clerk.
+                        </p>
+                      )}
+                    </div>
+                    <Button
+                      variant={userData.banned ? "outline" : "destructive"}
+                      size="sm"
+                      onClick={handleToggleBan}
+                      disabled={isBanLoading || userData.locked}
+                      className="min-w-[120px]"
+                    >
+                      {isBanLoading ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : userData.banned ? (
+                        <>
+                          <Shield className="w-4 h-4 mr-2" />
+                          Unban User
+                        </>
+                      ) : (
+                        <>
+                          <UserX className="w-4 h-4 mr-2" />
+                          Ban User
                         </>
                       )}
                     </Button>
@@ -356,6 +437,21 @@ export default function UserManager() {
     }
   };
 
+  const handleToggleBan = async (userId, isBanned) => {
+    const updatedUsers = users.map(user => {
+      if (user.id === userId) {
+        return {
+          ...user,
+          banned: isBanned,
+          status: isBanned ? 'inactive' : 'active'
+        };
+      }
+      return user;
+    });
+    setUsers(updatedUsers);
+    setFilteredUsers(updatedUsers);
+  };
+
   // Get current page users
   const getCurrentPageUsers = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -406,7 +502,7 @@ export default function UserManager() {
           <TableRow className="border-border hover:bg-muted/50">
             <TableHead className="text-muted-foreground">Name</TableHead>
             <TableHead className="text-muted-foreground">Email</TableHead>
-            <TableHead className="text-muted-foreground">Last Seen On</TableHead>
+            <TableHead className="text-muted-foreground">Last Seen</TableHead>
             <TableHead className="text-muted-foreground">Role</TableHead>
             <TableHead className="text-muted-foreground">Membership</TableHead>
             <TableHead className="text-muted-foreground">Actions</TableHead>
@@ -415,7 +511,27 @@ export default function UserManager() {
         <TableBody>
           {getCurrentPageUsers().map((user) => (
             <TableRow key={user.id} className="border-border hover:bg-muted/50">
-              <TableCell className="text-foreground">{user.name}</TableCell>
+              <TableCell className="text-foreground">
+                <div className="flex items-center gap-2">
+                  {user.name}
+                  {user.banned && (
+                    <div className="group relative">
+                      <CircleOff className="w-4 h-4 text-destructive" />
+                      <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-background border border-border px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                        Banned User
+                      </span>
+                    </div>
+                  )}
+                  {user.locked && (
+                    <div className="group relative">
+                      <Lock className="w-4 h-4 text-destructive" />
+                      <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-background border border-border px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                        Locked by Clerk
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </TableCell>
               <TableCell className="text-foreground">{user.email}</TableCell>
               <TableCell>
                 <Badge variant={user.last_active_at ? 'success' : 'secondary'}>
@@ -446,6 +562,7 @@ export default function UserManager() {
                     user={user}
                     onToggleAdmin={() => toggleAdminStatus(user.id, user.isAdmin)}
                     onTogglePremium={() => togglePremiumStatus(user.id, user.membershipStatus === 'premium')}
+                    onToggleBan={handleToggleBan}
                   />
                 </div>
               </TableCell>
