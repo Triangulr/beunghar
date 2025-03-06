@@ -710,4 +710,52 @@
     padding: 0.25rem;
     font-size: 0.75rem;
   }
+}
+
+.userManagerContainer {
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.userManagerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  width: 300px;
+}
+
+.searchInput {
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.searchInput:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 16px;
+  color: var(--muted-foreground);
 } 

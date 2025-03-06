@@ -269,7 +269,7 @@ const AffiliateSheet = () => {
       </SheetTrigger>
       <SheetContent 
         side="right" 
-        className={`${styles.sheetContainer} !mt-[64px] [&>button]:hidden`}
+        className={`${styles.sheetContainer} !mt-[64px] [&>button]:hidden w-full sm:max-w-[600px]`}
         closeButton={false}
       >
         <SheetHeader>

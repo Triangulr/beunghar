@@ -17,6 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from "recharts"
 import { TrendingUp, TrendingDown, Eye, Pencil, Trash2 } from "lucide-react"
 import ModuleManager from './admin/moduleManager';
+import UserManager from './admin/userManager';
 
 function VisitorCard() {
   const [visitorCount, setVisitorCount] = useState(0);
@@ -524,6 +525,15 @@ export default function AdminDashboard() {
                     Modules
                   </NavigationMenuLink>
                 </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink 
+                    className={navigationMenuTriggerStyle()}
+                    onClick={() => setActiveView('users')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Users
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </div>
@@ -541,6 +551,8 @@ export default function AdminDashboard() {
           </div>
         ) : activeView === 'modules' ? (
           <ModuleManager />
+        ) : activeView === 'users' ? (
+          <UserManager />
         ) : null}
       </div>
     </div>
