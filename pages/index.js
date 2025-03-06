@@ -30,6 +30,8 @@ export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [modules, setModules] = useState([]);
   const [affiliateImage, setAffiliateImage] = useState(null);
+  const [affiliateName, setAffiliateName] = useState('');
+  const [affiliateDescription, setAffiliateDescription] = useState('');
   const [introVideoMuted, setIntroVideoMuted] = useState(true);
   const videoRef = useRef(null);
   const router = useRouter();
@@ -187,6 +189,12 @@ export default function Home() {
           const data = await response.json();
           if (data.imageUrl) {
             setAffiliateImage(data.imageUrl);
+          }
+          if (data.name) {
+            setAffiliateName(data.name);
+          }
+          if (data.description) {
+            setAffiliateDescription(data.description);
           }
         }
       } catch (error) {
@@ -370,19 +378,19 @@ export default function Home() {
       <div className="stripes">
         <ContainerScroll
           titleComponent={
-            <h1 className="text-4xl font-semibold text-center mb-8 text-white">
+            <h1 className="text-4xl font-semibold text-center mb-4 sm:mb-8 text-white px-4">
               Watch Our Introduction
             </h1>
           }
         >
-          <div className="relative rounded-xl overflow-hidden shadow-2xl w-full max-w-4xl mx-auto video-container">
+          <div className="relative rounded-xl overflow-hidden shadow-2xl w-full max-w-[95%] sm:max-w-4xl mx-auto video-container px-2 sm:px-0">
             {introVideoMuted && (
               <div 
                 className="absolute inset-0 bg-black/50 flex items-center justify-center cursor-pointer z-10 video-overlay"
                 onClick={handleVideoClick}
               >
                 <div className="text-white text-center px-4 py-2 rounded-lg bg-black/60 backdrop-blur-sm">
-                  <Volume2 className="w-8 h-8 mx-auto mb-2" />
+                  <Volume2 className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2" />
                   Click to Enable Audio
                 </div>
               </div>
@@ -738,7 +746,7 @@ export default function Home() {
                   />
                 </div>
                 <CardTitle className="text-white">
-                  {affiliateImage ? "Your Affiliate Partner" : "Mike Ross"}
+                  {affiliateImage ? (affiliateName || "Your Affiliate Partner") : "Mike Ross"}
                 </CardTitle>
                 <CardDescription className="text-white/80">
                   {affiliateImage ? "Affiliate Partner" : "Art Director"}
@@ -746,21 +754,8 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <p className="text-white mb-4">
-                  Some text that describes me lorem ipsum ipsum lorem.
+                  {affiliateImage ? (affiliateDescription || "Your affiliate partner is here to help you succeed.") : "Some text that describes me lorem ipsum ipsum lorem."}
                 </p>
-                <p className="text-white/80 mb-4">
-                  mike@example.com
-                </p>
-                <a 
-                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUJcmljayByb2xs" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="block w-full"
-                >
-                  <button className="w-full bg-black/40 text-white hover:bg-black/50 py-2 rounded-md hover:opacity-90 transition-opacity">
-                    Contact
-                  </button>
-                </a>
               </CardContent>
             </div>
             </div>

@@ -1236,3 +1236,49 @@
     width: 100%;
   }
 }
+
+.descriptionSection,
+.linkSection {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.linkSection {
+  margin-bottom: 1rem;
+}
+
+.descriptionInput {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  font-size: 0.875rem;
+  resize: vertical;
+}
+
+.descriptionInput:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.description {
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  min-height: 60px;
+  white-space: pre-wrap;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}

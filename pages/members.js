@@ -79,8 +79,14 @@ const AffiliateSheet = () => {
   const [isEditingId, setIsEditingId] = useState(false);
   const [editableId, setEditableId] = useState('');
   const [idError, setIdError] = useState('');
+  const [description, setDescription] = useState('');
+  const [isEditingDescription, setIsEditingDescription] = useState(false);
+  const [editableDescription, setEditableDescription] = useState('');
+  const [name, setName] = useState('');
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editableName, setEditableName] = useState('');
 
-  // Fetch existing image on component mount
+  // Fetch existing image and affiliate info on component mount
   useEffect(() => {
     const fetchUserAsset = async () => {
       try {
@@ -96,8 +102,32 @@ const AffiliateSheet = () => {
       }
     };
 
+    const fetchAffiliateInfo = async () => {
+      try {
+        const response = await fetch(`https://beunghar-api-92744157839.asia-south1.run.app/api/affiliate-id/${user.id}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.affiliateId) {
+            setAffiliateId(data.affiliateId);
+            setEditableId(data.affiliateId);
+          }
+          if (data.description) {
+            setDescription(data.description);
+            setEditableDescription(data.description);
+          }
+          if (data.name) {
+            setName(data.name);
+            setEditableName(data.name);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching affiliate ID:', error);
+      }
+    };
+
     if (user?.id) {
       fetchUserAsset();
+      fetchAffiliateInfo();
     }
   }, [user]);
 
@@ -202,28 +232,7 @@ const AffiliateSheet = () => {
     }
   }
 
-  useEffect(() => {
-    const fetchAffiliateId = async () => {
-      try {
-        const response = await fetch(`https://beunghar-api-92744157839.asia-south1.run.app/api/affiliate-id/${user.id}`);
-        if (response.ok) {
-          const data = await response.json();
-          if (data.affiliateId) {
-            setAffiliateId(data.affiliateId);
-            setEditableId(data.affiliateId);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching affiliate ID:', error);
-      }
-    };
-
-    if (user?.id) {
-      fetchAffiliateId();
-    }
-  }, [user]);
-
-  const handleUpdateAffiliateId = async () => {
+  const handleUpdateAffiliateInfo = async () => {
     if (!editableId.trim()) {
       setIdError('Affiliate ID cannot be empty');
       return;
@@ -237,26 +246,32 @@ const AffiliateSheet = () => {
         },
         body: JSON.stringify({
           userId: user.id,
-          affiliateId: editableId.trim()
+          affiliateId: editableId.trim(),
+          description: editableDescription.trim(),
+          name: editableName.trim()
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
         setAffiliateId(data.affiliateId);
+        setDescription(data.description);
+        setName(data.name);
         setIsEditingId(false);
+        setIsEditingDescription(false);
+        setIsEditingName(false);
         setIdError('');
         toast({
           title: "Success",
-          description: "Affiliate ID updated successfully",
+          description: "Affiliate information updated successfully",
           duration: 2000,
         });
       } else {
         const error = await response.json();
-        setIdError(error.detail || 'Failed to update affiliate ID');
+        setIdError(error.detail || 'Failed to update affiliate information');
       }
     } catch (error) {
-      setIdError('Failed to update affiliate ID');
+      setIdError('Failed to update affiliate information');
     }
   };
 
@@ -275,73 +290,173 @@ const AffiliateSheet = () => {
         <SheetHeader>
           <SheetTitle>Affiliate Settings</SheetTitle>
           <SheetDescription>
-            Manage your affiliate settings and profile image
+            Manage your affiliate settings, profile image, name, and description
           </SheetDescription>
         </SheetHeader>
 
         <ScrollArea className={styles.sheetBody}>
           <div className={styles.affiliateLinkSection}>
             <div className={styles.sectionHeader}>
-              <h3>Affiliate Link</h3>
+              <h3>Affiliate Name</h3>
               <p className={styles.uploadDescription}>
-                Share this link to earn commissions when people sign up through it.
+                Set your name that will be shown to users who visit through your affiliate link.
               </p>
-            </div>
-            <div className={styles.linkContainer}>
-              {isEditingId ? (
+              {isEditingName ? (
                 <>
                   <input
                     type="text"
-                    value={editableId}
-                    onChange={(e) => setEditableId(e.target.value)}
+                    value={editableName}
+                    onChange={(e) => setEditableName(e.target.value)}
                     className={styles.linkInput}
-                    placeholder="Enter custom affiliate ID"
+                    placeholder="Enter your name"
                   />
-                  <button
-                    className={styles.saveButton}
-                    onClick={handleUpdateAffiliateId}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    Save
-                  </button>
-                  <button
-                    className={styles.cancelButton}
-                    onClick={() => {
-                      setIsEditingId(false);
-                      setEditableId(affiliateId || user?.id);
-                      setIdError('');
-                    }}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    Cancel
-                  </button>
+                  <div className={styles.buttonContainer}>
+                    <button
+                      className={styles.saveButton}
+                      onClick={handleUpdateAffiliateInfo}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className={styles.cancelButton}
+                      onClick={() => {
+                        setIsEditingName(false);
+                        setEditableName(name);
+                      }}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </>
               ) : (
                 <>
-                  <input
-                    type="text"
-                    value={getAffiliateLink()}
-                    readOnly
-                    className={styles.linkInput}
-                  />
+                  <p className={styles.description}>
+                    {name || 'No name set'}
+                  </p>
                   <button
                     className={styles.editButton}
-                    onClick={() => setIsEditingId(true)}
+                    onClick={() => setIsEditingName(true)}
                     style={{ cursor: 'pointer' }}
                   >
-                    Edit ID
-                  </button>
-                  <button
-                    className={styles.copyButton}
-                    onClick={() => handleCopyLink(getAffiliateLink())}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    Copy
+                    Edit Name
                   </button>
                 </>
               )}
             </div>
-            {idError && <p className={styles.errorText}>{idError}</p>}
+
+            <div className={styles.descriptionSection}>
+              <h3>Affiliate Description</h3>
+              <p className={styles.uploadDescription}>
+                Add a description that will be shown to users who visit through your affiliate link.
+              </p>
+              {isEditingDescription ? (
+                <>
+                  <textarea
+                    value={editableDescription}
+                    onChange={(e) => setEditableDescription(e.target.value)}
+                    className={styles.descriptionInput}
+                    placeholder="Enter your affiliate description"
+                    rows={4}
+                  />
+                  <div className={styles.buttonContainer}>
+                    <button
+                      className={styles.saveButton}
+                      onClick={handleUpdateAffiliateInfo}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className={styles.cancelButton}
+                      onClick={() => {
+                        setIsEditingDescription(false);
+                        setEditableDescription(description);
+                      }}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className={styles.description}>
+                    {description || 'No description set'}
+                  </p>
+                  <button
+                    className={styles.editButton}
+                    onClick={() => setIsEditingDescription(true)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Edit Description
+                  </button>
+                </>
+              )}
+            </div>
+
+            <div className={styles.linkSection}>
+              <h3>Affiliate Link</h3>
+              <p className={styles.uploadDescription} style={{ marginBottom: '1rem' }}>
+                Share this link to earn commissions when people sign up through it.
+              </p>
+              <div className={styles.linkContainer}>
+                {isEditingId ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editableId}
+                      onChange={(e) => setEditableId(e.target.value)}
+                      className={styles.linkInput}
+                      placeholder="Enter custom affiliate ID"
+                    />
+                    <button
+                      className={styles.saveButton}
+                      onClick={handleUpdateAffiliateInfo}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className={styles.cancelButton}
+                      onClick={() => {
+                        setIsEditingId(false);
+                        setEditableId(affiliateId || user?.id);
+                        setIdError('');
+                      }}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <input
+                      type="text"
+                      value={getAffiliateLink()}
+                      readOnly
+                      className={styles.linkInput}
+                    />
+                    <button
+                      className={styles.editButton}
+                      onClick={() => setIsEditingId(true)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Edit ID
+                    </button>
+                    <button
+                      className={styles.copyButton}
+                      onClick={() => handleCopyLink(getAffiliateLink())}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Copy
+                    </button>
+                  </>
+                )}
+              </div>
+              {idError && <p className={styles.errorText}>{idError}</p>}
+            </div>
           </div>
           
           <div className={styles.imageUploadSection}>
