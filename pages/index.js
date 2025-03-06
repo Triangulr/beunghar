@@ -680,6 +680,8 @@ export default function Home() {
         </div>
         <div className="container1 mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <div class="container5">
+              <div class="box">
             <Card className="bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
                 <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
@@ -698,8 +700,12 @@ export default function Home() {
                 </p>
               </CardContent>
             </Card>
+            </div>
+            </div>
 
             <Card className="bg-[#333333] dark:bg-[#333333]">
+            <div class="container5">
+            <div class="box">
               <CardHeader>
                 <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
                   <img 
@@ -716,9 +722,13 @@ export default function Home() {
                 was once a serial "boss" owns a textile factory, was a contractor owning many housing complex and was also a restaurant owner. Now by founding beunghar.com he has break free from the hustle life and now are living the freedom lifestyle travelling throughout the world
                 </p>
               </CardContent>
+            </div>
+            </div>
             </Card>
 
             <Card className="bg-[#333333] dark:bg-[#333333]">
+            <div class="container5">
+            <div class="box">
               <CardHeader>
                 <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
                   <img 
@@ -752,6 +762,8 @@ export default function Home() {
                   </button>
                 </a>
               </CardContent>
+            </div>
+            </div>
             </Card>
           </div>
         </div>
