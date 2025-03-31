@@ -25,70 +25,95 @@ function VisitorCard() {
   const [timeSpan, setTimeSpan] = useState("24h");
   const [loading, setLoading] = useState(true);
   const [trend, setTrend] = useState({ percentage: 0, increasing: true });
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const generateTimePoints = (timeSpan, data) => {
-      const points = [];
+    const generateFallbackData = (timeSpan) => {
       const now = new Date();
+      const points = [];
       
-      switch(timeSpan) {
-        case '24h':
-          // For 24h view, use the time strings directly
-          return data;
-        case '7d':
-          // Generate last 7 days
-          for (let i = 6; i >= 0; i--) {
-            const date = new Date(now);
-            date.setDate(date.getDate() - i);
-            points.push({
-              date: date.toLocaleDateString(),
-              visitors: data[0]?.visitors || 0 // Use the current visitor count
-            });
-          }
-          break;
-        case '30d':
-          // Generate last 30 days
-          for (let i = 29; i >= 0; i--) {
-            const date = new Date(now);
-            date.setDate(date.getDate() - i);
-            points.push({
-              date: date.toLocaleDateString(),
-              visitors: data[0]?.visitors || 0 // Use the current visitor count
-            });
-          }
-          break;
+      if (timeSpan === '24h') {
+        for (let i = 0; i < 24; i++) {
+          const hour = (now.getHours() - 23 + i + 24) % 24;
+          points.push({
+            date: `${hour}:00`,
+            visitors: Math.floor(Math.random() * 10) + 1 // Random number between 1-10
+          });
+        }
+      } else if (timeSpan === '7d') {
+        for (let i = 6; i >= 0; i--) {
+          const date = new Date(now);
+          date.setDate(date.getDate() - i);
+          points.push({
+            date: date.toLocaleDateString(),
+            visitors: Math.floor(Math.random() * 10) + 1
+          });
+        }
+      } else {
+        for (let i = 29; i >= 0; i--) {
+          const date = new Date(now);
+          date.setDate(date.getDate() - i);
+          points.push({
+            date: date.toLocaleDateString(),
+            visitors: Math.floor(Math.random() * 10) + 1
+          });
+        }
       }
+      
       return points;
     };
 
     const fetchVisitorStats = async () => {
+      setLoading(true);
+      setError(null);
+      
       try {
         const response = await fetch(`https://beunghar-api-92744157839.asia-south1.run.app/api/visitor-stats?time_span=${timeSpan}`);
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('API error:', errorData);
+          throw new Error(errorData.detail || 'Failed to fetch visitor stats');
+        }
+        
         const data = await response.json();
         console.log('Raw visitor data:', data);
         
-        setVisitorCount(data.uniqueVisitors);
+        // Check if we have valid data
+        if (data && data.visitorData && Array.isArray(data.visitorData)) {
+          setVisitorCount(data.uniqueVisitors || 0);
+          setVisitorData(data.visitorData);
+          
+          console.log('Processed visitor data:', data.visitorData);
         
-        // Generate appropriate data points based on timeSpan
-        const localVisitorData = generateTimePoints(timeSpan, data.visitorData);
-        
-        console.log('Processed visitor data:', localVisitorData);
-        setVisitorData(localVisitorData);
-        
-        // Calculate trend
-        if (data.visitorData.length >= 2) {
-          const latest = data.visitorData[data.visitorData.length - 1].visitors;
-          const previous = data.visitorData[data.visitorData.length - 2].visitors;
-          const change = previous === 0 ? 0 : ((latest - previous) / previous) * 100;
-          setTrend({
-            percentage: Math.abs(change).toFixed(1),
-            increasing: change > 0
-          });
+          // Calculate trend
+          if (data.visitorData.length >= 2) {
+            const latest = data.visitorData[data.visitorData.length - 1].visitors;
+            const previous = data.visitorData[data.visitorData.length - 2].visitors;
+            const change = previous === 0 ? 0 : ((latest - previous) / previous) * 100;
+            setTrend({
+              percentage: Math.abs(change).toFixed(1),
+              increasing: change > 0
+            });
+          }
+        } else {
+          // If we don't have valid data, use fallback
+          console.warn('Invalid data from API, using fallback');
+          const fallbackData = generateFallbackData(timeSpan);
+          setVisitorData(fallbackData);
+          setVisitorCount(fallbackData.reduce((sum, item) => sum + item.visitors, 0));
+          setError('No valid data available. Showing sample data.');
         }
         
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching visitor stats:', error);
+        setError(error.message || 'Failed to load visitor data');
+        
+        // Use fallback data on error
+        const fallbackData = generateFallbackData(timeSpan);
+        setVisitorData(fallbackData);
+        setVisitorCount(fallbackData.reduce((sum, item) => sum + item.visitors, 0));
+      } finally {
         setLoading(false);
       }
     };
@@ -99,7 +124,10 @@ function VisitorCard() {
   return (
     <Card className={styles.statsCard}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">Unique Visitors</CardTitle>
+        <CardTitle className="text-sm font-medium">
+          Unique Visitors
+          {error && <span title={error} style={{ marginLeft: '8px', cursor: 'help', color: '#f87171' }}>⚠️</span>}
+        </CardTitle>
         <Select value={timeSpan} onValueChange={setTimeSpan}>
           <SelectTrigger className="w-[100px] h-8 text-xs">
             <SelectValue placeholder="Time span" />
@@ -114,9 +142,10 @@ function VisitorCard() {
       <CardContent>
         <div className="text-2xl font-bold mb-8">
           {loading ? "Loading..." : visitorCount}
+          {error && <span style={{ fontSize: '0.8rem', marginLeft: '8px', color: '#f87171' }}>(Sample Data)</span>}
         </div>
         <div className="h-[200px] w-full">
-          {!loading && (
+          {!loading && visitorData && visitorData.length > 0 && (
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={visitorData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -141,6 +170,16 @@ function VisitorCard() {
                 />
               </AreaChart>
             </ResponsiveContainer>
+          )}
+          {!loading && (!visitorData || visitorData.length === 0) && (
+            <div className="flex h-full items-center justify-center text-muted-foreground">
+              No data available
+            </div>
+          )}
+          {loading && (
+            <div className="flex h-full items-center justify-center text-muted-foreground">
+              Loading data...
+            </div>
           )}
         </div>
         <div className="mt-4 flex items-center text-sm text-muted-foreground">

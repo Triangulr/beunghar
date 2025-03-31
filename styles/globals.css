@@ -861,6 +861,60 @@ nav {
 }
 
 
+/* Quote Section Styling */
+.quotes-section {
+    background: #f8f9fa; /* Light gray background */
+    padding: 50px 20px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+.quote {
+    font-size: 1.5rem;
+    font-style: italic;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto 20px;
+    position: relative;
+    padding: 20px;
+}
+
+.quote::before, .quote::after {
+    content: '\201C'; /* Left double quote */
+    font-size: 3rem;
+    color: #ff6200;
+    position: absolute;
+}
+
+.quote::before {
+    left: -10px;
+    top: 0;
+}
+
+.quote::after {
+    content: '\201D'; /* Right double quote */
+    right: -10px;
+    bottom: 0;
+}
+
+.author {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ff6200;
+    margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .quote {
+        font-size: 1.2rem;
+    }
+    .author {
+        font-size: 1rem;
+    }
+}
+
+
 .modules {
     text-align: center;
     margin: 85px auto;

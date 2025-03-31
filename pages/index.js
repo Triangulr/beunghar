@@ -21,7 +21,7 @@ import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 import { Volume2 } from 'lucide-react';
 import tailwindColors from 'tailwindcss/colors';
 
-export const formatThemeColors = (color) => {
+export const formatThemeColors = (color) => {35
     return tailwindColors[color];
 };
 
@@ -722,12 +722,12 @@ export default function Home() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <CardTitle className="text-white">Andry Barlian/ Mang Idjot</CardTitle>
+                <CardTitle className="text-white">Paskalis Betrand</CardTitle>
                 <CardDescription className="text-white/80">Founder</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white mb-4">
-                was once a serial "boss" owns a textile factory, was a contractor owning many housing complex and was also a restaurant owner. Now by founding beunghar.com he has break free from the hustle life and now are living the freedom lifestyle travelling throughout the world
+                text will appear here
                 </p>
               </CardContent>
             </div>
