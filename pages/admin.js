@@ -531,7 +531,7 @@ export default function AdminDashboard() {
 
   return (
     <div className={styles.adminContainer}>
-      <header className={styles.header}>
+      <header className={styles.header} style={{ backgroundColor: 'rgba(0, 0, 0, 0.85)' }}>
         <div className={styles.headerContent}>
           <div className={styles.leftSection}>
             <div className={styles.logo}>

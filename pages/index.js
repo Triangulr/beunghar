@@ -196,6 +196,10 @@ export default function Home() {
           if (data.description) {
             setAffiliateDescription(data.description);
           }
+          if (data.userId) {
+            // Also store the user ID of the affiliate creator
+            localStorage.setItem('affiliatorUserId', data.userId);
+          }
         }
       } catch (error) {
         console.error('Error fetching affiliate image:', error);
@@ -207,7 +211,7 @@ export default function Home() {
     if (ref) {
       fetchAffiliateImage(ref);
       
-      // Optionally store ref in localStorage for persistence
+      // Store affiliate ID in localStorage for persistence
       localStorage.setItem('affiliateRef', ref);
     }
   }, [router.query]);

@@ -545,12 +545,21 @@ export default function MembersPage() {
     if (!user || retries >= MAX_RETRIES) return false;
 
     try {
+      // Get affiliate data from localStorage if available
+      const affiliateRef = localStorage.getItem('affiliateRef');
+      const affiliatorUserId = localStorage.getItem('affiliatorUserId');
+
       const response = await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/sync-user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId: user.id, email: user.emailAddresses[0].emailAddress }),
+        body: JSON.stringify({ 
+          userId: user.id, 
+          email: user.emailAddresses[0].emailAddress,
+          affiliateRef,
+          affiliatorUserId
+        }),
       });
 
       if (response.ok) {

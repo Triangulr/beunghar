@@ -34,7 +34,7 @@ const getLastSeenText = (lastActiveAt) => {
   return diffDays === 0 ? 'Today' : `${diffDays} days ago`;
 };
 
-const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium, onToggleBan }) => {
+const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium, onToggleBan, affiliatorsMap = {} }) => {
   const { user: currentUser } = useUser();
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
@@ -57,6 +57,9 @@ const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium, onToggleBan })
     banned: !!user.banned,
     locked: !!user.locked
   };
+
+  // Get the affiliator's name if available
+  const affiliatorName = user.affiliatorId ? affiliatorsMap[user.affiliatorId] : null;
 
   const handleToggleAdmin = async () => {
     setIsAdminLoading(true);
@@ -141,7 +144,7 @@ const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium, onToggleBan })
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50"
+              className="fixed inset-0 bg-gray-700/60"
               onClick={() => setIsOpen(false)}
             />
             
@@ -150,12 +153,24 @@ const UserActionsModal = ({ user, onToggleAdmin, onTogglePremium, onToggleBan })
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="relative z-50 w-full max-w-lg bg-background p-6 rounded-lg shadow-lg"
+              className="relative z-50 w-full max-w-lg bg-background p-6 rounded-lg shadow-lg border-2 border-border"
             >
               <div className="space-y-4">
                 <div className="border-b pb-4">
                   <h3 className="text-lg font-semibold">User Actions</h3>
                   <p className="text-sm text-muted-foreground">Manage {userData.name}'s account settings</p>
+                  
+                  {user.affiliatorId && (
+                    <div className="mt-2 pt-4 border-t border-border">
+                      <p className="text-sm font-medium">Affiliate Information:</p>
+                      <div className="text-xs text-muted-foreground mt-1">
+                        <p>Referred by: {affiliatorName || user.affiliatorId}</p>
+                        {user.affiliatedAt && (
+                          <p>Date: {new Date(user.affiliatedAt).toLocaleDateString()}</p>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
                 
                 <div className="space-y-4">
@@ -280,6 +295,7 @@ export default function UserManager() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const [affiliatorsMap, setAffiliatorsMap] = useState({});
   
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -304,7 +320,22 @@ export default function UserManager() {
     setFilteredUsers(filtered);
     setTotalPages(Math.ceil(filtered.length / itemsPerPage));
     setCurrentPage(1); // Reset to first page when filter changes
+
+    // Build a map of affiliator IDs to names for quick lookup
+    buildAffiliatorsMap(filtered);
   }, [searchTerm, users, itemsPerPage]);
+
+  // Create a map of affiliator IDs to names
+  const buildAffiliatorsMap = (userList) => {
+    const affiliatorsMap = {};
+    // First pass: collect all user IDs and names
+    userList.forEach(user => {
+      if (user.id) {
+        affiliatorsMap[user.id] = user.name || 'Unknown User';
+      }
+    });
+    setAffiliatorsMap(affiliatorsMap);
+  };
 
   const fetchUsers = async () => {
     try {
@@ -505,6 +536,7 @@ export default function UserManager() {
             <TableHead className="text-muted-foreground">Last Seen</TableHead>
             <TableHead className="text-muted-foreground">Role</TableHead>
             <TableHead className="text-muted-foreground">Membership</TableHead>
+            <TableHead className="text-muted-foreground">Referred By</TableHead>
             <TableHead className="text-muted-foreground">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -549,6 +581,25 @@ export default function UserManager() {
                 </Badge>
               </TableCell>
               <TableCell>
+                {user.affiliatorId ? (
+                  <div className="group relative cursor-help">
+                    <Badge 
+                      variant="outline" 
+                      className="bg-blue-500/10 text-blue-500 hover:bg-blue-500/20"
+                    >
+                      {affiliatorsMap[user.affiliatorId] || 'Unknown Referrer'}
+                    </Badge>
+                    <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-background border border-border px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+                      <div>By: {affiliatorsMap[user.affiliatorId] || 'Unknown'}</div>
+                      <div>ID: {user.affiliatorId}</div>
+                      <div>Date: {user.affiliatedAt ? new Date(user.affiliatedAt).toLocaleDateString() : 'Unknown'}</div>
+                    </span>
+                  </div>
+                ) : (
+                  <span className="text-muted-foreground text-sm">None</span>
+                )}
+              </TableCell>
+              <TableCell>
                 <div className={styles.actionButtons}>
                   <Button
                     variant="ghost"
@@ -563,6 +614,7 @@ export default function UserManager() {
                     onToggleAdmin={() => toggleAdminStatus(user.id, user.isAdmin)}
                     onTogglePremium={() => togglePremiumStatus(user.id, user.membershipStatus === 'premium')}
                     onToggleBan={handleToggleBan}
+                    affiliatorsMap={affiliatorsMap}
                   />
                 </div>
               </TableCell>
