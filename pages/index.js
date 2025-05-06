@@ -679,6 +679,172 @@ export default function Home() {
         </div>
       </motion.section>
 
+      {/* Subscription Comparison Section */}
+      <motion.section 
+        className="py-24 px-6 bg-[#111111] dark:bg-[#111111] relative overflow-hidden"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-[#111111] via-[#1a1a1a] to-[#111111] opacity-50"></div>
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          <h2 className="text-4xl font-bold text-center mb-12 text-white">
+            Choose Your Plan
+          </h2>
+          <p className="text-xl text-white/80 max-w-3xl mx-auto mb-16">
+            Select the subscription that fits your needs and start your entrepreneurial journey today
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Free Plan */}
+            <Card className="bg-[#222222] dark:bg-[#222222] border border-gray-800 overflow-hidden relative h-full">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-blue-600"></div>
+              <CardHeader className="pb-6">
+                <CardTitle className="text-3xl font-bold text-white">Free</CardTitle>
+                <CardDescription className="text-xl text-white/80">Basic access to get started</CardDescription>
+                <div className="mt-6 mb-2">
+                  <span className="text-4xl font-bold text-white">$0</span>
+                  <span className="text-white/70 ml-2">/ month</span>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <ul className="space-y-4 text-left">
+                  <li className="flex items-center text-white">
+                    <svg className="w-5 h-5 mr-2 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Access to beginner modules
+                  </li>
+                  <li className="flex items-center text-white">
+                    <svg className="w-5 h-5 mr-2 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Community forum access
+                  </li>
+                  <li className="flex items-center text-white">
+                    <svg className="w-5 h-5 mr-2 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Basic learning materials
+                  </li>
+                  <li className="flex items-center text-white/50">
+                    <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    Exclusive video content
+                  </li>
+                  <li className="flex items-center text-white/50">
+                    <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    Commission system
+                  </li>
+                  <li className="flex items-center text-white/50">
+                    <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    Advanced strategies
+                  </li>
+                </ul>
+                <Button 
+                  className="w-full bg-blue-900/40 text-white hover:bg-blue-900/60 py-6 rounded-md hover:opacity-90 transition-opacity text-lg"
+                  onClick={handleGetStarted}
+                >
+                  Get Started
+                </Button>
+              </CardContent>
+            </Card>
+            
+            {/* Premium Plan */}
+            <div className="relative transform hover:scale-105 transition-all duration-300">
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+                <span className="bg-gradient-to-r from-orange-400 to-orange-600 text-white px-5 py-1 rounded-full text-sm font-semibold shadow-md border border-orange-300/30">
+                  RECOMMENDED
+                </span>
+              </div>
+              <Card className="bg-gradient-to-b from-[#333333] to-[#222222] border border-orange-500/30 overflow-hidden relative h-full shadow-[0_0_20px_rgba(255,171,64,0.3)] hover:shadow-[0_0_25px_rgba(255,171,64,0.5)]">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-orange-600"></div>
+                <CardHeader className="pb-6 pt-8">
+                  <CardTitle className="text-3xl font-bold text-white">Premium</CardTitle>
+                  <CardDescription className="text-xl text-white/80">Full access to all features</CardDescription>
+                  <div className="mt-6 mb-2">
+                    <span className="text-4xl font-bold text-white">$60</span>
+                    <span className="text-white/70 ml-2">/ month</span>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <ul className="space-y-4 text-left">
+                    <li className="flex items-center text-white">
+                      <svg className="w-5 h-5 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      <span className="font-medium">Everything in Free plan</span>
+                    </li>
+                    <li className="flex items-center text-white">
+                      <svg className="w-5 h-5 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      <span className="font-medium">Exclusive premium video content</span>
+                    </li>
+                    <li className="flex items-center text-white">
+                      <svg className="w-5 h-5 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      <span className="font-medium">Commission system with custom referral links</span>
+                    </li>
+                    <li className="flex items-center text-white">
+                      <svg className="w-5 h-5 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      Advanced business strategies
+                    </li>
+                    <li className="flex items-center text-white">
+                      <svg className="w-5 h-5 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      Priority support
+                    </li>
+                    <li className="flex items-center text-white">
+                      <svg className="w-5 h-5 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      Monthly live Q&A sessions
+                    </li>
+                  </ul>
+                  <Button 
+                    className="relative overflow-hidden bg-gradient-to-r from-orange-400 to-orange-600 
+                    text-white font-semibold px-8 py-6 rounded-md w-full
+                    transform transition-all duration-300 ease-in-out
+                    hover:from-orange-500 hover:to-orange-700
+                    border border-orange-300/30 shadow-[0_0_15px_rgba(255,171,64,0.3)]
+                    hover:shadow-[0_0_25px_rgba(255,171,64,0.5)]
+                    group text-lg"
+                    onClick={() => router.push('/pricing')}
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      Upgrade Now
+                      <svg 
+                        className="w-5 h-5 transform transition-transform duration-300 group-hover:translate-x-1" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                      >
+                        <path 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          strokeWidth={2} 
+                          d="M13 7l5 5m0 0l-5 5m5-5H6"
+                        />
+                      </svg>
+                    </span>
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
       <motion.section 
         className="py-24 px-6 bg-[#111111] dark:bg-[#111111]"
         initial={{ opacity: 0, y: 50 }}
@@ -708,7 +874,7 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <p className="text-white mb-4">
-                was once a serial "boss" owns a textile factory, was a contractor owning many housing complex and was also a restaurant owner. Now by founding beunghar.com he has break free from the hustle life and now are living the freedom lifestyle travelling throughout the world
+                Is a serial entrepreneur, an owner of a villa, restaurant, home developer, and also helped significantly in the building of beunghar.com. He has generated over $500k sales throughout his team and has helped people to break free their 9-5 jobs
                 </p>
               </CardContent>
             </Card>
@@ -721,7 +887,7 @@ export default function Home() {
               <CardHeader>
                 <div className="w-full aspect-square overflow-hidden rounded-lg mb-4">
                   <img 
-                    src="img/paskal.jpg" 
+                    src="img/betrand.jpg" 
                     alt="Paskal" 
                     className="w-full h-full object-cover"
                   />
@@ -731,7 +897,7 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <p className="text-white mb-4">
-                text will appear here
+                Was once a forex trader over three years with 6 figure income, quits trading and pursue entrepreneurial path. Open restaurants and a glamping site, eventually making beunghar.com. He has helped hundreds of people to break free from the rat race and live the life that they want.
                 </p>
               </CardContent>
             </div>
@@ -919,7 +1085,8 @@ export default function Home() {
               <div className="flex space-x-6">
                 <a href="https://x.com/beungharcom" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">Twitter</a>
                 <a href="#linkedin" className="text-slate-400 hover:text-white transition-colors">LinkedIn</a>
-                <a href="#facebook" className="text-slate-400 hover:text-white transition-colors">Facebook</a>
+                <a href="https://www.instagram.com/beungharcom/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">Instagram</a>
+                <a href="https://www.facebook.com/people/BEUNGHARcom/61566606643521/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">Facebook</a>
               </div>
               <p className="text-slate-400">© {new Date().getFullYear()} Beunghar. All rights reserved.</p>
             </div>

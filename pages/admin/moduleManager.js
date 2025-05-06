@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Eye, Pencil, Trash2, X, Upload, Loader2 } from "lucide-react";
+import { Eye, Pencil, Trash2, X, Youtube, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -25,7 +25,7 @@ const ModuleManager = () => {
     _id: null,
     title: '',
     description: '',
-    sections: [{ title: '', description: '', content: '' }],
+    sections: [{ title: '', description: '', content: '', youtubeUrl: '' }],
     status: 'draft',
     isPremium: true,
     lastUpdated: new Date().toISOString().split('T')[0],
@@ -35,7 +35,6 @@ const ModuleManager = () => {
   const [previewTab, setPreviewTab] = useState("edit");
   const [moduleToDelete, setModuleToDelete] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [uploadingVideo, setUploadingVideo] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const { user } = useUser();
 
@@ -88,17 +87,18 @@ const ModuleManager = () => {
       _id: module._id,
       title: module.title || '',
       description: module.description || '',
-      sections: module.sections || [{ title: '', description: '', content: '' }],
+      sections: module.sections && module.sections.length > 0 
+        ? module.sections.map(section => ({
+            ...section,
+            youtubeUrl: section.youtubeUrl || '' // Ensure youtubeUrl is included
+          })) 
+        : [{ title: '', description: '', content: '', youtubeUrl: '' }],
       status: module.status || 'draft',
       isPremium: module.isPremium ?? true,
       lastUpdated: module.lastUpdated || new Date().toISOString().split('T')[0],
       difficulty: module.difficulty || 'Beginner',
     });
     setIsEditing(true);
-    
-    if (module._id) {
-      await fetchModuleVideos(module._id);
-    }
   };
 
   const handleSave = async () => {
@@ -136,40 +136,6 @@ const ModuleManager = () => {
         }
 
         if (response.ok) {
-          // After successful module save, update video chapters and generate VTT
-          if (editingModule._id) {
-            for (let i = 0; i < editingModule.sections.length; i++) {
-              const section = editingModule.sections[i];
-              if (section.videoUrl && section.chapters) {
-                await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/modules/update-video-chapters', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'user-id': user?.id || ''
-                  },
-                  body: JSON.stringify({
-                    moduleId: editingModule._id,
-                    sectionIndex: i,
-                    chapters: section.chapters
-                  }),
-                });
-
-                await fetch('https://beunghar-api-92744157839.asia-south1.run.app/api/modules/generate-vtt', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'user-id': user?.id || ''
-                  },
-                  body: JSON.stringify({
-                    moduleId: editingModule._id,
-                    sectionIndex: i,
-                    chapters: section.chapters
-                  }),
-                });
-              }
-            }
-          }
-
           await fetchModules();
           setIsEditing(false);
           setEditingModule(null);
@@ -220,7 +186,7 @@ const ModuleManager = () => {
   const handleAddSection = () => {
     setEditingModule(prev => ({
       ...prev,
-      sections: [...prev.sections, { title: '', description: '', content: '' }]
+      sections: [...prev.sections, { title: '', description: '', content: '', youtubeUrl: '' }]
     }));
   };
 
@@ -240,114 +206,20 @@ const ModuleManager = () => {
     }));
   };
 
-  const handleVideoUpload = async (moduleId, sectionIndex, file) => {
-    try {
-        if (!moduleId) {
-            alert('Please save the module first before uploading videos');
-            return;
-        }
-
-        if (!user?.id) {
-            alert('You must be logged in to upload videos');
-            return;
-        }
-
-        setUploadingVideo({ moduleId, sectionIndex });
-        
-        // Get signed URL with CORS headers
-        const urlResponse = await fetch(
-            'https://beunghar-api-92744157839.asia-south1.run.app/api/modules/get-upload-url',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'user-id': user.id,
-                },
-                body: JSON.stringify({
-                    moduleId,
-                    sectionIndex,
-                    fileType: file.type,
-                    origin: window.location.origin
-                }),
-            }
-        );
-
-        if (!urlResponse.ok) {
-            throw new Error('Failed to get upload URL');
-        }
-
-        const { uploadUrl, blobName } = await urlResponse.json();
-
-        // Upload directly to Google Cloud Storage with CORS headers
-        const uploadResponse = await fetch(uploadUrl, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': file.type,
-                'Origin': window.location.origin,
-                'Access-Control-Request-Method': 'PUT',
-            },
-            mode: 'cors',
-            body: file,
-        });
-
-        if (!uploadResponse.ok) {
-            throw new Error('Failed to upload video');
-        }
-
-        // Confirm upload
-        const confirmResponse = await fetch(
-            'https://beunghar-api-92744157839.asia-south1.run.app/api/modules/confirm-upload',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'user-id': user.id,
-                },
-                body: JSON.stringify({
-                    moduleId,
-                    sectionIndex,
-                    blobName
-                }),
-            }
-        );
-
-        if (!confirmResponse.ok) {
-            throw new Error('Failed to confirm upload');
-        }
-
-        const data = await confirmResponse.json();
-        
-        // Update the section with the video URL
-        handleSectionChange(sectionIndex, 'videoUrl', data.videoUrl);
-        
-    } catch (error) {
-        console.error('Error uploading video:', error);
-        alert(error.message || 'Failed to upload video');
-    } finally {
-        setUploadingVideo(null);
-    }
+  // Extract YouTube video ID from URL
+  const getYoutubeVideoId = (url) => {
+    if (!url) return null;
+    
+    // Regular expression to match common YouTube URL formats
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    
+    return (match && match[2].length === 11) ? match[2] : null;
   };
 
-  const fetchModuleVideos = async (moduleId) => {
-    try {
-      const response = await fetch(
-        `https://beunghar-api-92744157839.asia-south1.run.app/api/modules/${moduleId}/videos`
-      );
-      
-      if (response.ok) {
-        const videos = await response.json();
-        // Update sections with video URLs
-        setEditingModule(prev => ({
-          ...prev,
-          sections: prev.sections.map((section, index) => ({
-            ...section,
-            videoUrl: videos.find(v => v.sectionIndex === index)?.videoUrl || null
-          }))
-        }));
-      }
-    } catch (error) {
-      console.error('Error fetching module videos:', error);
-    }
+  // Check if YouTube URL is valid
+  const isValidYoutubeUrl = (url) => {
+    return !!getYoutubeVideoId(url);
   };
 
   return (
@@ -361,7 +233,7 @@ const ModuleManager = () => {
                 _id: null,
                 title: '',
                 description: '',
-                sections: [{ title: '', description: '', content: '' }],
+                sections: [{ title: '', description: '', content: '', youtubeUrl: '' }],
                 status: 'draft',
                 isPremium: true,
                 lastUpdated: new Date().toISOString().split('T')[0],
@@ -516,6 +388,39 @@ const ModuleManager = () => {
                       />
                     </div>
 
+                    <div>
+                      <Label>YouTube Video URL</Label>
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1">
+                          <Input
+                            value={section.youtubeUrl || ''}
+                            placeholder="https://www.youtube.com/watch?v=..."
+                            onChange={(e) => handleSectionChange(index, 'youtubeUrl', e.target.value)}
+                            className={isValidYoutubeUrl(section.youtubeUrl) ? 'border-green-500' : (section.youtubeUrl ? 'border-red-500' : '')}
+                          />
+                          {section.youtubeUrl && !isValidYoutubeUrl(section.youtubeUrl) && (
+                            <p className="text-xs text-red-500 mt-1">Invalid YouTube URL</p>
+                          )}
+                        </div>
+                        <Youtube className="h-5 w-5 text-red-500" />
+                      </div>
+                    </div>
+
+                    {section.youtubeUrl && isValidYoutubeUrl(section.youtubeUrl) && (
+                      <div className="mt-2">
+                        <div className="relative w-full aspect-video rounded overflow-hidden">
+                          <iframe 
+                            className="absolute inset-0 w-full h-full"
+                            src={`https://www.youtube.com/embed/${getYoutubeVideoId(section.youtubeUrl)}`}
+                            title={`YouTube video for ${section.title}`}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          ></iframe>
+                        </div>
+                      </div>
+                    )}
+
                     <Tabs defaultValue="edit" className="bg-zinc-800/50 p-4 rounded-lg">
                       <TabsList className="bg-zinc-900">
                         <TabsTrigger value="edit" className="data-[state=active]:bg-zinc-700">Edit</TabsTrigger>
@@ -535,171 +440,6 @@ const ModuleManager = () => {
                         </ReactMarkdown>
                       </TabsContent>
                     </Tabs>
-
-                    <div className="mt-4">
-                      <Label>Section Video</Label>
-                      <div className="flex items-center gap-4 mt-2">
-                        {section.videoUrl ? (
-                          <>
-                            <div className="relative w-64 h-36">
-                              <video
-                                className="w-full h-full rounded bg-zinc-800 object-cover"
-                                src={section.videoUrl}
-                                controls
-                                crossOrigin="anonymous"
-                              />
-                              {uploadingVideo?.sectionIndex === index && (
-                                <div className="absolute inset-0 bg-black/50 rounded flex items-center justify-center">
-                                  <div className="flex flex-col items-center gap-2">
-                                    <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
-                                    <span className="text-sm text-white">Uploading video...</span>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                            <input
-                              type="file"
-                              accept="video/*"
-                              className="hidden"
-                              id={`video-upload-${index}`}
-                              onChange={(e) => {
-                                if (e.target.files?.[0]) {
-                                  handleVideoUpload(editingModule._id, index, e.target.files[0]);
-                                }
-                              }}
-                            />
-                            <Button
-                              variant="outline"
-                              onClick={() => document.getElementById(`video-upload-${index}`).click()}
-                              disabled={uploadingVideo?.sectionIndex === index || !editingModule._id}
-                              title={!editingModule._id ? "Save module first before uploading videos" : ""}
-                              className="min-w-[140px]"
-                            >
-                              {uploadingVideo?.sectionIndex === index ? (
-                                <div className="flex items-center gap-2">
-                                  <Loader2 className="h-4 w-4 animate-spin" />
-                                  <span>Uploading...</span>
-                                </div>
-                              ) : !editingModule._id ? (
-                                "Save module first"
-                              ) : (
-                                <>
-                                  <Upload className="h-4 w-4 mr-2" />
-                                  Change Video
-                                </>
-                              )}
-                            </Button>
-                          </>
-                        ) : (
-                          <>
-                            <div className="relative w-64 h-36">
-                              <div className="w-full h-full rounded bg-zinc-800 flex items-center justify-center">
-                                {uploadingVideo?.sectionIndex === index ? (
-                                  <div className="flex flex-col items-center gap-2">
-                                    <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
-                                    <span className="text-sm text-zinc-400">Uploading video...</span>
-                                  </div>
-                                ) : (
-                                  <p className="text-zinc-500">No video uploaded</p>
-                                )}
-                              </div>
-                            </div>
-                            <input
-                              type="file"
-                              accept="video/*"
-                              className="hidden"
-                              id={`video-upload-${index}`}
-                              onChange={(e) => {
-                                if (e.target.files?.[0]) {
-                                  handleVideoUpload(editingModule._id, index, e.target.files[0]);
-                                }
-                              }}
-                            />
-                            <Button
-                              variant="outline"
-                              onClick={() => document.getElementById(`video-upload-${index}`).click()}
-                              disabled={uploadingVideo?.sectionIndex === index || !editingModule._id}
-                              title={!editingModule._id ? "Save module first before uploading videos" : ""}
-                              className="min-w-[140px]"
-                            >
-                              {uploadingVideo?.sectionIndex === index ? (
-                                <div className="flex items-center gap-2">
-                                  <Loader2 className="h-4 w-4 animate-spin" />
-                                  <span>Uploading...</span>
-                                </div>
-                              ) : !editingModule._id ? (
-                                "Save module first"
-                              ) : (
-                                <>
-                                  <Upload className="h-4 w-4 mr-2" />
-                                  Upload Video
-                                </>
-                              )}
-                            </Button>
-                          </>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="mt-4">
-                      {section.videoUrl && (
-                        <div className="space-y-4">
-                          <Label>Video Chapters</Label>
-                          <div className="space-y-2">
-                            {(section.chapters || []).map((chapter, chapterIndex) => (
-                              <div key={chapterIndex} className="flex items-center gap-2">
-                                <Input
-                                  type="text"
-                                  placeholder="HH:MM:SS"
-                                  className="w-24"
-                                  value={chapter.time}
-                                  onChange={(e) => {
-                                    const newChapters = [...(section.chapters || [])];
-                                    newChapters[chapterIndex] = {
-                                      ...chapter,
-                                      time: e.target.value
-                                    };
-                                    handleSectionChange(index, 'chapters', newChapters);
-                                  }}
-                                />
-                                <Input
-                                  placeholder="Chapter title"
-                                  value={chapter.title}
-                                  onChange={(e) => {
-                                    const newChapters = [...(section.chapters || [])];
-                                    newChapters[chapterIndex] = {
-                                      ...chapter,
-                                      title: e.target.value
-                                    };
-                                    handleSectionChange(index, 'chapters', newChapters);
-                                  }}
-                                />
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  onClick={() => {
-                                    const newChapters = section.chapters.filter((_, i) => i !== chapterIndex);
-                                    handleSectionChange(index, 'chapters', newChapters);
-                                  }}
-                                >
-                                  <X className="h-4 w-4" />
-                                </Button>
-                              </div>
-                            ))}
-                            <Button
-                              variant="outline"
-                              onClick={() => {
-                                const newChapters = [...(section.chapters || []), { time: '', title: '' }];
-                                handleSectionChange(index, 'chapters', newChapters);
-                              }}
-                              className="w-full"
-                            >
-                              Add Chapter
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
                   </div>
                 </div>
               ))}

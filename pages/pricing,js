@@ -1,0 +1,156 @@
+import React, { useState } from 'react';
+
+const PricingPage = () => {
+  const [billingCycle, setBillingCycle] = useState('monthly');
+
+  const pricing = {
+    monthly: {
+      starter: 37,
+      pro: 47,
+      label: 'Per member/month · Billed monthly',
+    },
+    yearly: {
+      starter: 32,
+      pro: 40,
+      label: 'Per member/month · Billed yearly',
+    },
+  };
+
+  const handleMonthlyClick = () => setBillingCycle('monthly');
+  const handleYearlyClick = () => setBillingCycle('yearly');
+
+  const currentPricing = pricing[billingCycle];
+
+  return (
+    <section className="max-w-7xl mx-auto p-8 bg-gray-100 min-h-screen text-gray-800">
+      
+      {/* Toggle */}
+      <div className="flex justify-center mb-8">
+        <div className="flex bg-gray-200 p-2 rounded-full">
+          <button
+            type="button"
+            onClick={handleMonthlyClick}
+            className={`flex items-center justify-center px-6 py-2 rounded-full font-semibold transition ${
+              billingCycle === 'monthly' ? 'bg-white shadow' : 'text-gray-600'
+            }`}
+            aria-pressed={billingCycle === 'monthly'}
+          >
+            Monthly
+          </button>
+
+          <button
+            type="button"
+            onClick={handleYearlyClick}
+            className={`flex items-center justify-center px-6 py-2 rounded-full font-semibold transition ${
+              billingCycle === 'yearly' ? 'bg-white shadow' : 'text-gray-600'
+            }`}
+            aria-pressed={billingCycle === 'yearly'}
+          >
+            Yearly
+            <span className="ml-2 text-xs bg-black text-white rounded px-2 py-0.5">
+              Save 15%
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {/* Pricing Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        {/* Free Plan */}
+        <PricingCard
+          title="Free"
+          price={0}
+          description="For individuals building simple sites."
+          buttonLabel="Join for free"
+          features={[
+            'Access to 30 Webflow components',
+            'Free Figma Kit',
+            '1 Project',
+            'Unlimited AI usage',
+          ]}
+          buttonType="outline"
+          subtext="Free forever"
+        />
+
+        {/* Starter Plan */}
+        <PricingCard
+          title="Starter"
+          price={currentPricing.starter}
+          description="For individuals building advanced sites."
+          buttonLabel="Try it free for 7 days"
+          features={[
+            'Access to 1,000+ Webflow components',
+            'Pro Figma Kit',
+            '3 Projects',
+            'Unlimited AI usage',
+          ]}
+          highlight
+          subtext={currentPricing.label}
+        />
+
+        {/* Pro Plan */}
+        <PricingCard
+          title="Pro"
+          price={currentPricing.pro}
+          description="For teams and professionals building advanced sites."
+          buttonLabel="Try it free for 7 days"
+          features={[
+            'Access to 1,000+ Webflow components',
+            'Pro Figma Kit',
+            'Unlimited Projects',
+            'Unlimited AI usage',
+          ]}
+          subtext={currentPricing.label}
+        />
+      </div>
+    </section>
+  );
+};
+
+const PricingCard = ({
+  title,
+  price,
+  description,
+  buttonLabel,
+  features,
+  highlight = false,
+  buttonType = 'solid',
+  subtext,
+}) => {
+  return (
+    <div
+      className={`bg-white p-8 rounded-xl shadow flex flex-col justify-between text-center ${
+        highlight ? 'border-2 border-orange-500' : ''
+      }`}
+    >
+      <div>
+        <h2 className="text-2xl font-bold mb-4">{title}</h2>
+        <p className="mb-4 text-gray-500">{description}</p>
+        <p className="text-4xl font-bold mb-2">${price.toFixed(2)}</p>
+        <p className="text-gray-400 mb-6">{subtext}</p>
+      </div>
+
+      <div>
+        <button
+          type="button"
+          className={`w-full font-semibold py-2 rounded-lg mb-6 transition ${
+            buttonType === 'outline'
+              ? 'bg-white border-2 border-black text-black hover:bg-gray-100'
+              : 'bg-black text-white hover:bg-gray-900'
+          }`}
+        >
+          {buttonLabel}
+        </button>
+
+        <ul className="text-left space-y-3">
+          {features.map((feature, idx) => (
+            <li key={idx}>✔️ {feature}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    );
+};
+
+export default PricingPage;

@@ -7,15 +7,6 @@ import Script from 'next/script';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {
-  MediaPlayer,
-  MediaProvider,
-  Track,
-  Poster
-} from '@vidstack/react';
-import { defaultLayoutIcons, DefaultVideoLayout } from '@vidstack/react/player/layouts/default';
-import '@vidstack/react/player/styles/default/theme.css';
-import '@vidstack/react/player/styles/default/layouts/video.css';
-import {
   Sheet,
   SheetContent,
   SheetDescription,
@@ -26,11 +17,16 @@ import {
 import { BookOpen } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
-function timeStringToSeconds(timeString) {
-  if (!timeString) return 0;
-  const [hours, minutes, seconds] = timeString.split(':').map(Number);
-  return (hours * 3600) + (minutes * 60) + seconds;
-}
+// Extract YouTube video ID from URL
+const getYoutubeVideoId = (url) => {
+  if (!url) return null;
+  
+  // Regular expression to match common YouTube URL formats
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  
+  return (match && match[2].length === 11) ? match[2] : null;
+};
 
 const formatDate = (dateString) => {
   if (!dateString) return 'Never';
@@ -46,7 +42,7 @@ const formatDate = (dateString) => {
   }).replace(' at ', ', ');
 };
 
-// Add these badge variant styles
+// Badge variant styles
 const difficultyStyles = {
   Beginner: "bg-green-500/10 text-green-500 hover:bg-green-500/20",
   Intermediate: "bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20",
@@ -60,16 +56,11 @@ export default function DynamicModule() {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [module, setModule] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [moduleVideos, setModuleVideos] = useState({});
-  const playerRefs = useRef({});
-  const [currentChapters, setCurrentChapters] = useState({});
-  const [chapterProgress, setChapterProgress] = useState({});
-  const [currentTime, setCurrentTime] = useState({});
-  const [completedChapters, setCompletedChapters] = useState({});
-  const [videoDurations, setVideoDurations] = useState({});
+  const [sectionProgress, setSectionProgress] = useState({});
+  const [sectionLocks, setSectionLocks] = useState({});
   const [modules, setModules] = useState([]);
   const [membershipStatus, setMembershipStatus] = useState(null);
-  const [sectionLocks, setSectionLocks] = useState({});
+  const ytPlayerRefs = useRef({});
 
   useEffect(() => {
     if (module?.sections && module.sections.length > 0) {
@@ -92,19 +83,10 @@ export default function DynamicModule() {
       if (id) {
         fetchMembershipStatus().then((status) => {
           fetchModule(status);
-          fetchModuleVideos(id);
         });
       }
     }
   }, [id, isLoaded, isSignedIn]);
-
-  useEffect(() => {
-    return () => {
-      Object.values(playerRefs.current).forEach(player => {
-        player?.destroy();
-      });
-    };
-  }, []);
 
   const fetchModule = async (currentMembershipStatus) => {
     try {
@@ -126,74 +108,147 @@ export default function DynamicModule() {
     }
   };
 
-  const fetchModuleVideos = async (moduleId) => {
-    try {
-      const response = await fetch(
-        `https://beunghar-api-92744157839.asia-south1.run.app/api/modules/${moduleId}/videos`
-      );
-      if (response.ok) {
-        const videos = await response.json();
-        const videoMap = {};
-        videos.forEach(video => {
-          videoMap[video.sectionIndex] = {
-            videoUrl: video.videoUrl,
-            chapters: video.chapters || [],
-            chaptersVttUrl: `${video.chaptersVttUrl}?t=${Date.now()}`,
-            duration: video.duration
-          };
-        });
-        setModuleVideos(videoMap);
-      }
-    } catch (error) {
-      console.error('Error fetching module videos:', error);
-    }
-  };
-
-  const handleDuration = (index) => (duration) => {
-    setVideoDurations(prev => ({
+  // Function to handle when a section is completed
+  const handleSectionComplete = (index) => {
+    // Update progress for this section
+    setSectionProgress(prev => ({
       ...prev,
-      [index]: duration
+      [index]: 100
     }));
+
+    // Unlock the next section if there is one
+    setSectionLocks(prev => {
+      if (module?.sections && index + 1 < module.sections.length) {
+        const newLocks = { ...prev };
+        newLocks[index + 1] = false;
+        return newLocks;
+      }
+      return prev;
+    });
   };
 
-  const handleTimeUpdate = (index) => (event) => {
-    const time = event.currentTime;
-    const duration = moduleVideos[index]?.duration;
-    const chapters = moduleVideos[index]?.chapters || [];
-    
-    const completed = chapters.filter((chapter, i) => {
-      const currentChapterStart = timeStringToSeconds(chapter.time);
-      if (i === chapters.length - 1) {
-        return duration && time >= (duration - 1);
+  // Function to load the YouTube IFrame API
+  const loadYouTubeAPI = () => {
+    return new Promise((resolve) => {
+      // If it's already loaded, resolve immediately
+      if (window.YT && window.YT.Player) {
+        resolve();
+        return;
+      }
+      
+      // Create API loading flag if it doesn't exist
+      if (!window.isYouTubeIframeAPILoading) {
+        window.isYouTubeIframeAPILoading = true;
+        
+        // Setup callback for when API is ready
+        window.onYouTubeIframeAPIReady = () => {
+          window.isYouTubeIframeAPIReady = true;
+          resolve();
+        };
+        
+        // Load the IFrame API code asynchronously
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
       } else {
-        const nextChapterStart = timeStringToSeconds(chapters[i + 1].time);
-        return time >= nextChapterStart;
+        // If already loading, wait for it to be ready
+        const checkYT = setInterval(() => {
+          if (window.YT && window.YT.Player) {
+            clearInterval(checkYT);
+            resolve();
+          }
+        }, 100);
       }
     });
+  };
 
-    const progress = (completed.length / chapters.length) * 100;
+  // Create YouTube player for a section
+  const createYouTubePlayer = async (index, videoId) => {
+    if (!videoId) return;
+    
+    try {
+      // Ensure API is loaded first
+      await loadYouTubeAPI();
+      
+      // Check if container exists
+      const containerId = `youtube-player-${index}`;
+      const container = document.getElementById(containerId);
+      if (!container) {
+        console.error('Container not found:', containerId);
+        return;
+      }
+      
+      // Check if there's already an iframe within the container
+      if (container.querySelector('iframe')) {
+        console.log('Player already exists for section', index);
+        return;
+      }
 
-    setChapterProgress(prev => ({
-      ...prev,
-      [index]: progress
-    }));
-
-    setCompletedChapters(prev => ({
-      ...prev,
-      [index]: completed.map(c => c.time)
-    }));
-
-    if (duration && time >= (duration - 1)) {
-      setSectionLocks(prev => {
-        if (module?.sections && index + 1 < module.sections.length) {
-          const newLocks = { ...prev };
-          newLocks[index + 1] = false;
-          return newLocks;
+      console.log('Creating YouTube player for section', index, 'with video ID', videoId);
+      
+      const player = new window.YT.Player(containerId, {
+        videoId: videoId,
+        playerVars: {
+          'playsinline': 1,
+          'rel': 0,
+          'modestbranding': 1,
+          'controls': 1,
+          'showinfo': 1,
+          'fs': 1, // Enable fullscreen button
+          'iv_load_policy': 3 // Hide annotations
+        },
+        events: {
+          'onStateChange': (event) => {
+            // Video ended (state = 0)
+            if (event.data === 0) {
+              handleSectionComplete(index);
+            }
+          }
         }
-        return prev;
       });
+      
+      ytPlayerRefs.current[index] = player;
+    } catch (error) {
+      console.error('Error creating YouTube player:', error);
     }
   };
+
+  // Initialize YouTube players when the module is loaded
+  useEffect(() => {
+    if (!module?.sections || typeof window === 'undefined') return;
+    
+    const initPlayers = async () => {
+      await loadYouTubeAPI();
+      
+      // Add a small delay to ensure DOM is fully rendered
+      setTimeout(() => {
+        module.sections.forEach((section, index) => {
+          const videoId = getYoutubeVideoId(section.youtubeUrl);
+          if (videoId && !sectionLocks[index]) {
+            createYouTubePlayer(index, videoId);
+          }
+        });
+      }, 500);
+    };
+    
+    initPlayers();
+    
+    // Cleanup function
+    return () => {
+      // Clean up player references
+      Object.values(ytPlayerRefs.current).forEach(player => {
+        try {
+          if (player && typeof player.destroy === 'function') {
+            player.destroy();
+          }
+        } catch (e) {
+          console.error('Error destroying player:', e);
+        }
+      });
+      ytPlayerRefs.current = {};
+    };
+  }, [module, sectionLocks]);
 
   const fetchModules = async () => {
     try {
@@ -280,17 +335,45 @@ export default function DynamicModule() {
           href="https://assets.calendly.com/assets/external/widget.css" 
           rel="stylesheet"
         />
-        <style>
-          {`
-            :root {
-              --plyr-color-main: #ff6b00;
-              --plyr-range-fill-background: #ff6b00;
-              --plyr-video-control-color-hover: #ff8533;
-              --plyr-badge-background: #ff6b00;
-              --plyr-range-thumb-background: #ff6b00;
-            }
-          `}
-        </style>
+        <style jsx global>{`
+          .video-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            margin-bottom: 16px;
+          }
+          
+          .video-container .aspect-video {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            background-color: #000;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+          }
+          
+          /* Direct styling for the container div */
+          .video-container .aspect-video > div {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+          }
+          
+          /* Styling for the iframe created by YouTube API */
+          .video-container .aspect-video iframe,
+          .video-container .aspect-video > div > iframe {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 8px !important;
+            border: none !important;
+          }
+        `}</style>
       </Head>
 
       <header className={styles.moduleHeader}>
@@ -379,6 +462,7 @@ export default function DynamicModule() {
 
           {module.sections?.map((section, index) => {
             const isLocked = sectionLocks[index] === true;
+            const videoId = getYoutubeVideoId(section.youtubeUrl);
             
             return (
               <div key={index}>
@@ -395,82 +479,34 @@ export default function DynamicModule() {
                   
                   <p className={styles.sectionDescription}>{section.description}</p>
                   
-                  {moduleVideos[index]?.videoUrl && !isLocked && (
+                  {section.youtubeUrl && videoId && !isLocked && (
                     <div className={styles.videoWrapper}>
-                      <div className={styles.videoContainer}>
-                        <MediaPlayer
-                          title={section.title}
-                          src={moduleVideos[index].videoUrl}
-                          crossorigin=""
-                          playsinline
-                          viewType="video"
-                          streamType="on-demand"
-                          onTimeUpdate={handleTimeUpdate(index)}
-                          onDuration={handleDuration(index)}
-                        >
-                          <MediaProvider>
-                            {moduleVideos[index]?.chaptersVttUrl && (
-                              <Track
-                                key={`chapters-${index}`}
-                                src={moduleVideos[index].chaptersVttUrl}
-                                kind="chapters"
-                                default
-                                label={`Chapters for Section ${index + 1}`}
-                                crossOrigin="anonymous"
-                              />
-                            )}
-                          </MediaProvider>
-                          <DefaultVideoLayout 
-                            icons={defaultLayoutIcons}
-                            thumbnails={moduleVideos[index].videoUrl}
-                          />
-                        </MediaPlayer>
-                      </div>
-                      
-                      {moduleVideos[index]?.chapters && moduleVideos[index].chapters.length > 0 && (
-                        <div className={styles.chaptersTracker}>
-                          <div className={styles.overallProgress}>
-                            <div className={styles.mainProgressBar}>
-                              <div 
-                                className={styles.mainProgressFill}
-                                style={{ width: `${chapterProgress[index] || 0}%` }}
-                              />
+                      <div className="video-container">
+                        <div className="aspect-video">
+                          {/* Static fallback iframe that will be replaced by the API */}
+                          <div id={`youtube-player-${index}`} className="youtube-player-container">
+                            <div className="w-full h-full flex items-center justify-center bg-gray-800 text-white text-sm">
+                              Loading video player...
                             </div>
-                            <span className={styles.progressText}>
-                              {Math.round(chapterProgress[index] || 0)}% Complete
-                            </span>
-                          </div>
-                          
-                          <div className={styles.chaptersList}>
-                            {moduleVideos[index].chapters.map((chapter, chapterIndex) => (
-                              <div 
-                                key={chapterIndex}
-                                className={`${styles.chapterItem} ${
-                                  completedChapters[index]?.includes(chapter.time) ? styles.active : ''
-                                }`}
-                              >
-                                <div className={styles.chapterCheckbox}>
-                                  {completedChapters[index]?.includes(chapter.time) && (
-                                    <svg viewBox="0 0 24 24" fill="currentColor" className={styles.checkIcon}>
-                                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                                    </svg>
-                                  )}
-                                </div>
-                                <div className={styles.chapterInfo}>
-                                  <span className={styles.chapterTitle}>{chapter.title}</span>
-                                  <span className={styles.chapterTime}>
-                                    {formatTime(chapter.time)}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
                           </div>
                         </div>
-                      )}
+                      </div>
+                      
+                      <div className="mt-3 mb-6 max-w-[900px] mx-auto w-full">
+                        <div className="h-3 bg-gray-700 rounded-full">
+                          <div 
+                            className="h-full bg-orange-500 rounded-full transition-all duration-300"
+                            style={{ width: `${sectionProgress[index] || 0}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-sm mt-1 font-medium text-gray-300 inline-block">
+                          {sectionProgress[index] === 100 ? 'Completed' : 'In Progress'}
+                        </span>
+                      </div>
                     </div>
                   )}
                   
-                  {moduleVideos[index]?.videoUrl && isLocked && (
+                  {section.youtubeUrl && isLocked && (
                     <div className={styles.videoWrapper}>
                       <div className={styles.lockedVideoMessage}>
                         Complete the previous section to unlock this video
@@ -508,18 +544,4 @@ export default function DynamicModule() {
       />
     </div>
   );
-}
-
-function formatTime(timeString) {
-  if (typeof timeString === 'string') {
-    const [hours, minutes, seconds] = timeString.split(':');
-    if (hours === '00') {
-      return `${minutes}:${seconds}`;
-    }
-    return timeString;
-  }
-  
-  const minutes = Math.floor(timeString / 60);
-  const seconds = Math.floor(timeString % 60);
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
