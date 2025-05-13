@@ -331,7 +331,7 @@ export default function Home() {
           <h2 className="text-2xl">
             How I made $<CountUp
               start={0}
-              end={98786374}
+              end={98786}
               duration={2.5}
               decimals={2}
               decimal="."
@@ -440,39 +440,84 @@ export default function Home() {
             {/* First set of cards */}
             <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
-                <CardTitle className="text-white">John Doe</CardTitle>
-                <CardDescription className="text-gray-100">Business Owner</CardDescription>
+                <CardTitle className="text-white">Janelle Cruz</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
-                  "This course changed my life! The knowledge I gained has been invaluable to my business journey. 
-                  I've seen a 3x increase in my revenue since implementing these strategies."
+                  "beunghar.com helped me build my online store from scratch. I quit my 9–5 within 3 months and now spend more time with my kids while making more than I ever did at the office."
                 </p>
               </CardContent>
             </Card>
 
             <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
-                <CardTitle className="text-white">Jane Smith</CardTitle>
-                <CardDescription className="text-gray-100">Startup Founder</CardDescription>
+                <CardTitle className="text-white">Marcus Lee</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
-                  "I gained practical skills that I use every day. The mentorship and community support made all the difference. 
-                  This was one of the best investments in myself."
+                  "I used to work long hours at a warehouse job. Now, thanks to beunghar.com, I run my own digital service business. I finally paid off my mom’s debt and help with my sister’s tuition."
                 </p>
               </CardContent>
             </Card>
 
             <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
-                <CardTitle className="text-white">Alex Brown</CardTitle>
-                <CardDescription className="text-gray-100">Digital Entrepreneur</CardDescription>
+                <CardTitle className="text-white">Priya Deshmukh</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
-                  "The mentorship provided has been a game changer for me. The step-by-step guidance helped me 
-                  launch my first successful online business."
+                  "What I love most about beunghar.com is the community and resources. I learned how to market my skills, got clients, and now I have total control of my time. It changed my life"
+                </p>
+              </CardContent>
+            </Card>
+
+              <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
+              <CardHeader>
+                <CardTitle className="text-white">Tyrone Black</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white italic">
+                  "I was skeptical at first, but beunghar.com delivered. I replaced my job income in 6 months and now travel while working from my laptop. I’m finally living!"
+                </p>
+              </CardContent>
+            </Card>
+
+              <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
+              <CardHeader>
+                <CardTitle className="text-white">Lucia Fernandez</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white italic">
+                  "beunghar.com gave me the tools and mentorship to scale my side hustle. I now support my siblings through school and don’t have to stress over money anymore"
+                </p>
+              </CardContent>
+            </Card>
+
+              <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
+              <CardHeader>
+                <CardTitle className="text-white">Eric Mensah</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white italic">
+                  "My job used to drain me. After joining beunghar.com, I launched a coaching service and got my first clients in 30 days. I’ve never felt this kind of freedom before"
+                </p>
+              </CardContent>
+            </Card>
+
+              <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
+              <CardHeader>
+                <CardTitle className="text-white">Sandra Okoro</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white italic">
+                  "The mindset shift I got from beunghar.com was everything. Now I run my business, choose my own hours, and I’m actually excited about Mondays!"
                 </p>
               </CardContent>
             </Card>
@@ -480,13 +525,12 @@ export default function Home() {
             {/* Duplicate first set for seamless loop */}
             <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
-                <CardTitle className="text-white">John Doe</CardTitle>
-                <CardDescription className="text-gray-100">Business Owner</CardDescription>
+                <CardTitle className="text-white">Janelle Cruz</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
-                  "This course changed my life! The knowledge I gained has been invaluable to my business journey. 
-                  I've seen a 3x increase in my revenue since implementing these strategies."
+                  "beunghar.com helped me build my online store from scratch. I quit my 9–5 within  3 months and now spend more time with my kids while making more than I ever did at the office."
                 </p>
               </CardContent>
             </Card>
@@ -502,41 +546,98 @@ export default function Home() {
             transition={{ duration: 1, ease: "easeInOut" }}
           >
             {/* Second set of cards */}
-            <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
+               <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
-                <CardTitle className="text-white">Sarah Davis</CardTitle>
-                <CardDescription className="text-gray-100">E-commerce Expert</CardDescription>
+                <CardTitle className="text-white">Kenji Yamato</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
-                  "I appreciated the community support and resources available throughout the course. 
-                  The networking opportunities alone were worth the investment."
+                  "I used beunghar.com’s training to turn my photography into a profitable business. No more working overtime or begging for vacation days!"
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
+              <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
-                <CardTitle className="text-white">Michael Chen</CardTitle>
-                <CardDescription className="text-gray-100">Tech Startup CEO</CardDescription>
+                <CardTitle className="text-white">Leah Mbeki</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
-                  "The course provided actionable insights that helped me scale my business from $0 to $50k 
-                  in just 6 months. The ROI was incredible."
+                  "My sister is now in college because I could finally afford her fees — all thanks to the income I built with help from beunghar.com. This platform is a blessing."
                 </p>
               </CardContent>
             </Card>
-
-            <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
+              
+              <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
-                <CardTitle className="text-white">Emma Wilson</CardTitle>
-                <CardDescription className="text-gray-100">Marketing Consultant</CardDescription>
+                <CardTitle className="text-white">David Ngoma</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
-                  "The strategies taught in this course revolutionized my approach to business. 
-                  I've been able to help my clients achieve amazing results."
+                  "Leaving my 9–5 was the scariest but best decision I ever made. beunghar.com gave me the blueprint and confidence I needed to succeed."
+                </p>
+              </CardContent>
+            </Card>
+    
+              <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
+              <CardHeader>
+                <CardTitle className="text-white">Tamara Jones</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white italic">
+                  "With beunghar.com, I learned how to automate my business and work smarter. I spend more time with my kids now and even started saving for a house."
+                </p>
+              </CardContent>
+            </Card>
+    
+              <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
+              <CardHeader>
+                <CardTitle className="text-white">Mohammed Karim</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white italic">
+                  "I was stuck in a job I hated until I found beunghar.com. Now I freelance full-time and actually enjoy my work. My stress levels are down and my income is up!"
+                </p>
+              </CardContent>
+            </Card>
+    
+              <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
+              <CardHeader>
+                <CardTitle className="text-white">Anika Patel</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white italic">
+                  "Beunghar.com showed me how to monetize my passion for design. I’ve been job-free for a year now, and my business just keeps growing!"
+                </p>
+              </CardContent>
+            </Card>
+   
+              <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
+              <CardHeader>
+                <CardTitle className="text-white">Jason Silva</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white italic">
+                  "The mentorship and step-by-step guides at beunghar.com are gold. I used them to launch my own brand, and I’ve never looked back."
+                </p>
+              </CardContent>
+            </Card>
+    
+              <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
+              <CardHeader>
+                <CardTitle className="text-white">Maya Chan</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white italic">
+                  "I didn’t think freedom was possible for someone like me. But beunghar.com changed that. I now earn more, work less, and live life on my terms."
                 </p>
               </CardContent>
             </Card>
@@ -544,13 +645,12 @@ export default function Home() {
             {/* Duplicate second set for seamless loop */}
             <Card className="min-w-[500px] bg-[#333333] dark:bg-[#333333]">
               <CardHeader>
-                <CardTitle className="text-white">Sarah Davis</CardTitle>
-                <CardDescription className="text-gray-100">E-commerce Expert</CardDescription>
+                <CardTitle className="text-white">Kenji Yamato</CardTitle>
+                <CardDescription className="text-gray-100"></CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-white italic">
-                  "I appreciated the community support and resources available throughout the course. 
-                  The networking opportunities alone were worth the investment."
+                  "I used beunghar.com’s training to turn my photography into a profitable business. No more working overtime or begging for vacation days!"
                 </p>
               </CardContent>
             </Card>
