@@ -1,0 +1,9 @@
+midtransclient
+pymongo
+python-dateutil
+svix
+fastapi
+uvicorn
+python-multipart
+google-cloud-storage
+aiofiles
